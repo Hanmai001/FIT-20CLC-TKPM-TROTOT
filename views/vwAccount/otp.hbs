@@ -1,0 +1,57 @@
+{{#section "css"}}
+    <link rel="stylesheet" type="text/css" href="../../public/assets/css/register.css" />
+    <link rel="stylesheet" type="text/css" href="../../public/assets/css/validation/form.css"/>     
+{{/section}}
+{{#section "js"}}
+    
+    <script src="../../public/assets/js/validator.js"></script>
+    <script>
+        Validator({
+            form: '#frmOTP',
+            rules: [
+                Validator.isRequired('#txtOtp', "Please input OTP"),
+            ]
+        });
+
+        $('#frmOTP').on('submit', function (e) {
+            e.preventDefault();
+
+            const otp = $('#txtOtp').val();
+            const errorMessage = $('#txtOtp').next();
+
+            if (errorMessage.text().length === 0) {
+                $.getJSON(`/account/otp?otp=${otp}`, function (data) {
+                    console.log(data);
+                    if (data === false) {
+                        errorMessage.text('OTP is incorrect.');
+                        errorMessage.parent().addClass('invalid');
+                    } else {
+                        $('#frmOTP').off('submit').submit();
+                    }
+                });
+            }
+            
+        });
+        document.querySelector('footer').style.position = 'fixed';
+    </script>
+{{/section}}
+<div class="container-fluid" style="min-height: 600px;">
+  <div class="row" style="margin-top:130px; justify-content: center;">
+    <div class="card" style="width:400px;">
+        <div class="card-header text-center">
+            <h3 style="margin:0">OTP in your Mailbox</h3>
+        </div>
+        <div class="card-body">
+            <form id="frmOTP" action="/account/register/success">
+                <div class="input-group form-group" style="display:flex; flex-direction: column;">
+                    <input type="text" class="form-control" id="txtOtp" placeholder="Enter OTP in your Mailbox" style="width:100%;"/>
+                    <span class="form-message"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Submit" class="btn login_btn"/>
+                </div>
+            </form>
+        </div>
+    </div>
+  </div>
+</div>

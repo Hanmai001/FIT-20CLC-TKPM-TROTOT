@@ -1,0 +1,97 @@
+{{#section "css"}}
+    <link rel="stylesheet" type="text/css" href="../../public/assets/css/register.css" />
+    <link rel="stylesheet" type="text/css" href="../../public/assets/css/validation/form.css"/>  
+{{/section}}
+{{#section "js"}}
+    <script src="../../public/assets/js/validator.js"></script>
+    <script>
+        Validator({
+            form: '#frmRegister',
+            rules: [
+                Validator.isRequired('#txtFirstName', "Please input first name."),
+                Validator.isRequired('#txtLastName', "Please input last name."), 
+                Validator.isRequired('#txtEmail', "Please input email."), 
+                Validator.checkAvailableEmail('#txtEmail'),
+                Validator.isEmail('#txtEmail'),
+                Validator.minLength('#txtPassword', 6),
+                Validator.isCorrect('#txtConfirm', '#txtPassword'),
+            ],
+        });
+        $('#frmRegister').on('submit', function (e) {
+            e.preventDefault();
+
+            const email = $('#txtEmail').val();
+            const errorMessage = $('#txtEmail').next();
+
+            if (errorMessage.text().length === 0) {
+                $.getJSON(`/account/is-available?email=${email}`, function (data) {
+                    if (data === false) {
+                        errorMessage.text('This email is already used.');
+                        errorMessage.parent().addClass('invalid');
+                    } else {
+                        errorMessage.text('');
+                        errorMessage.parent().removeClass('invalid');
+                        $('#frmRegister').off('submit').submit();
+                    }
+                });
+            }
+            
+        });
+    </script>
+{{/section}}
+<div class="container-fluid" style="min-height: 600px;">
+    <div class="row" style="margin-bottom: 20px;margin-top:100px; justify-content: center">
+        <div class="card" style="width: 400px;">
+            <form method="post" id="frmRegister">
+                <div class="card-header text-center">
+                    <h3 style="margin:0">SIGN UP</h3>
+                </div>
+                
+                <div class="card-body">
+                    <div class="input-group form-group" style="display:flex; flex-direction: column;">
+                        <label class="h6" for="txtFirstName" style="float:left">First Name</label>
+                        <input id="txtFirstName" type="text" class="form-control w-100" placeholder="First name" name="firstName"/>
+                        <span class="form-message"></span>
+                    </div>
+                    <div class="input-group form-group" style="display:flex; flex-direction: column;">
+                        <label class="h6" for="txtLastName" style="float:left">Last Name</label>
+                        <input id="txtLastName" type="text" class="form-control w-100" placeholder="Last name" name="lastName"/>
+                        <span class="form-message"></span>
+                    </div>
+                    <div class="input-group form-group" style="display:flex; flex-direction: column;">
+                        <label class="h6" for="txtEmail" style="float:left">Email</label>
+                        <input id="txtEmail" type="text" class="form-control w-100" placeholder="Email" name="email"/>
+                        <span class="form-message"></span>
+                    </div>
+
+                    <div class="input-group form-group" style="display:flex; flex-direction: column;">
+                        <label class="h6" for="txtPassword" style="float:left">Password</label>
+                        <input id="txtPassword" type="password" class="form-control w-100" placeholder="Password" name="password"/>
+                        <span class="form-message"></span>
+                    </div>
+                    <div class="input-group form-group" style="display:flex; flex-direction: column;">
+                        <label class="h6" for="txtConfirm" style="float:left">Confirm Password</label>
+                        <input id="txtConfirm" type="password" class="form-control w-100" placeholder="Pre type your password" />
+                        <span class="form-message"></span>
+                    </div>
+
+                    <div class="input-group form-group" style="display:flex; flex-direction: column;">
+                        <label class="h6" for="txtGender" style="float:left">Gender</label>
+                        <select name="gender" class="form-control" id="txtGender" style="width:100%;">
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <input type="submit" value="Sign Up" class="btn login_btn"  formaction="/account/register"/>
+                    </div>
+
+                    <div class="d-flex justify-content-center links">
+                        Do have an account?&nbsp;<a href="/account/login">Log in</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

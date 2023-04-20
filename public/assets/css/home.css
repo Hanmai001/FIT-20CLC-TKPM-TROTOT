@@ -1,0 +1,286 @@
+:root {
+  --category-width: 300px;
+  --language-width: 240px;
+  --course-width: 240px;
+  --angle: 45deg;
+}
+
+.swiper {
+  width: 100%;
+  margin-top: 80px;
+}
+.slider-img {
+  width: 100%;
+  height: 400px;
+}
+.swiper-pagination-bullet {
+  color: white;
+}
+.swiper .swiper-pagination-bullet-active {
+  background-color: white;
+}
+.swiper-pagination-bullet:hover {
+  opacity: 0.5;
+  transition: opacity 0.3s;
+}
+.swiper-button-next,
+.swiper-button-prev {
+  color: white;
+}
+.swiper-button-next:hover,
+.swiper-button-prev:hover {
+  opacity: 0.8;
+  transition: opacity 0.3s;
+}
+.info-container {
+  display: flex;
+  justify-content: space-around;
+  background-color: #f7f9fa;
+  padding: 20px;
+  margin: 10px 0;
+  flex-wrap: wrap;
+}
+.info-item {
+  display: flex;
+  flex: 0.22;
+  justify-content: space-between;
+  align-items: center;
+}
+.info-item-icon {
+  font-size: 30px;
+  margin-right: 20px;
+}
+.menu-item-image {
+  width: var(--course-width);
+  height: 150px;
+  object-fit: cover;
+  border-radius: 12px;
+  position: relative;
+  margin-bottom: 5px;
+  box-shadow: 0 0 10px gray;
+}
+
+.parent-image {
+  position: relative;
+}
+
+.bestseller {
+  width: 50px;
+  height: auto;
+  position: absolute;
+  top: 0px;
+  right: 0px;
+}
+
+.menu-container {
+  display: flex;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+}
+
+.menu-item {
+  display: flex;
+  flex-direction: column;
+  transition: opacity 0.2s, transform 0.2s;
+  flex: 0;
+  margin: 10px 3px;
+  /* word-break: break-all; */
+  width: var(--category-width);
+  word-wrap: break-word;
+}
+
+p.language-name {
+  width: var(--language-width);
+  word-wrap: break-word;
+}
+
+b.course-name {
+  width: var(--course-width);
+  word-wrap: break-word;
+}
+
+.menu-item:hover {
+  cursor: pointer;
+  opacity: 0.9;
+  transform: scale(1.05);
+}
+
+.language-name {
+  font-size: 19px;
+  font-weight: bold;
+  margin-right: 10px;
+  margin-bottom: 0;
+  word-wrap: break-word;
+}
+
+.language-student {
+  font-size: 15px;
+  color: gray;
+  font-weight: 100;
+}
+
+.rate {
+  display: inline-block;
+}
+
+.checked {
+  color: orange;
+}
+
+.menu-category-image {
+  width: var(--category-width);
+  height: 190px;
+  object-fit: cover;
+  border-radius: 12px;
+  box-shadow: 0 0 10px gray;
+  margin-bottom: 5px;
+}
+
+.menu-language-image {
+  width: var(--language-width);
+  height: 150px;
+  object-fit: cover;
+  border-radius: 12px;
+  box-shadow: 0 0 10px gray;
+  margin-bottom: 5px;
+}
+
+.star {
+  color: orange;
+}
+
+.category-lable-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.category-lable {
+  font-size: 12px;
+  font-weight: 700;
+  width: fit-content;
+  padding: 3px 5px;
+  margin-right: 5px;
+  border-radius: 3px;
+}
+
+.label1 {
+  background-color: #acd2cc;
+}
+
+.label2 {
+  background-color: #e996fb;
+}
+
+.label3 {
+  background-color: #a0cbf9;
+}
+
+/* .label4 {
+  background-color: #eceb98;
+} */
+
+/* Shine */
+.menu-item:after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.3);
+  -webkit-transition: none;
+  -moz-transition: none;
+  transition: none;
+}
+.menu-item:hover:after {
+  width: 120%;
+  background-color: rgba(255, 255, 255, 0);
+  -webkit-transition: all 0.4s ease-in-out;
+  -moz-transition: all 0.4s ease-in-out;
+  transition: all 0.4s ease-in-out;
+}
+
+.category-name {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+a {
+  display: block;
+  color: black;
+}
+
+a:hover {
+  text-decoration: none;
+  color: black;
+}
+
+.sub-info-container {
+  display: flex;
+  justify-content: left;
+}
+
+.sub-info-item {
+  font-size: 12px;
+  margin: 0 5% 0 0;
+  color: rgb(109, 107, 107);
+}
+
+@media only screen and (max-width: 1000px) {
+  .info-container {
+    display: none;
+  }
+}
+
+.card-title {
+  background-color: #52ab98;
+  color: white;
+  padding: 10px 0;
+  text-indent: 15px;
+  border-radius: 4px;
+}
+
+.moving-border {
+  --border-size: 5px;
+  border: var(--border-size) dotted transparent;
+  background-image: linear-gradient(to right, rgb(255 255 255), rgb(255 255 255)),
+    conic-gradient(
+      from var(--angle),
+      #52ab98 0deg 90deg,
+      transparent 90deg 180deg,
+      #52ab98 180deg 270deg,
+      transparent 270deg 360deg
+    );
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+}
+
+@supports (background: paint(houdini)) {
+  @property --angle {
+    syntax: "<angle>";
+    initial-value: 0deg;
+    inherits: false;
+  }
+
+  @keyframes rotate {
+    to {
+      --angle: 360deg;
+    }
+  }
+
+  .moving-border {
+    animation: rotate 15s linear infinite, glowing 3s infinite;
+  }
+}
+
+@keyframes glowing {
+  0% {
+    box-shadow: 0 0 5px #52ab98;
+  }
+  50% {
+    box-shadow: 0 0 20px #52ab98;
+  }
+  100% {
+    box-shadow: 0 0 5px #52ab98;
+  }
+}
