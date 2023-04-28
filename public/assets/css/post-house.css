@@ -179,3 +179,11 @@ textarea {
 .content__files .span--hidden {
     visibility: hidden;
 }
+.btn-submit input {
+    line-height: auto;
+    width: 100%;
+    padding: 10px 0;
+    color: #fff;
+    background-color: #002ffe;
+    border: none;
+}
