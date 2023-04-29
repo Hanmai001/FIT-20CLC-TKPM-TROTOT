@@ -4,7 +4,7 @@
             <img src="../../public/assets/pictures/icon.png" alt="" width="100px">
         </a>
 
-        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="" id="navbarNavAltMarkup">
             <div class="navbar-nav">
                 <a class="nav-link header__item mx-4" href="/">Trang chủ</a>
                 <a class="nav-link header__item mx-4" href="#">Phòng trọ nổi bật</a>
@@ -12,7 +12,6 @@
             </div>
         </div>
         <div class="text-end user-option">
-
             <ul class="text-white ms-2 nav-profile">
                 <li class="js-option-profile" onmouseover="hoverAva()">
                     <div class="text-center">
@@ -32,11 +31,14 @@
                 </li>
             </ul>
         </div>
+        <div class="btn-post-house px-2">
+            <a href="/landlord/post-house"><button>Đăng tin<i class="fas fa-plus"></i></button></a>
+        </div>
     </div>
 </nav>
 {{#section "js"}}
 <script>
-    
+
     function hoverAva() {
         let modalProfile = document.querySelector('.js-option-profile');
         let subnav = document.querySelector('.js-subnav');
