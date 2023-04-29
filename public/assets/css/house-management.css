@@ -33,3 +33,8 @@ h5 {
     border: none;
     border-radius: 5px;
 }
+.day-posted {
+    font-size: 14px;
+    font-style: italic;
+    color: #002ffe;
+}

@@ -27,9 +27,15 @@ h5 {
 }
 
 .item .item__btns button {
+    width: 200px;
     background-color: #002ffe;
     padding: 10px 15px;
     color: #fff;
     border: none;
     border-radius: 5px;
+}
+.day-appointment {
+    font-size: 14px;
+    font-style: italic;
+    color: #002ffe;
 }
