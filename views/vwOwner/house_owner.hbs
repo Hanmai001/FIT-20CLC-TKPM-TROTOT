@@ -1,0 +1,196 @@
+{{#section "css"}}
+<link rel="stylesheet" href="../../public/assets/css/fill_search.css" />
+<link rel="stylesheet" href="../../public/assets/css/house_owner.css" />
+<link rel="stylesheet" href="../../public/assets/css/header_landlord.css" />
+{{/section}}
+{{>header_landlord}}
+<div class="row justify-content-center">
+    <div class="col-8" style="flex:1">
+        <div class="container-fluid text-center d-flex justify-content-center">
+            <form class="d-flex " style="margin-bottom: 7px;">
+                <button class="btn btn-outline-secondary me-1" type="submit">
+                    <i class="fas fa-filter"></i> Lọc
+                </button>
+                <div class="location me-2">
+                    <select class="form-select" name="wards" id="ward-select">
+                        <option value="">&#x1F3E0; --Chọn Quận--</option>
+                        <option value="1">&#x1F3E0; Quận 1</option>
+                        <option value="2">&#x1F3E0; Quận 2</option>
+                        <option value="3">&#x1F3E0; Quận 3</option>
+                        <option value="4">&#x1F3E0; Quận 4</option>
+                        <option value="5">&#x1F3E0; Quận 5</option>
+                        <option value="6">&#x1F3E0; Quận 6</option>
+                    </select>
+                </div>
+                <div class="prices me-2">
+                    <select class="form-select" name="prices" id="price-select">
+                        <option value="">&#x1F4B0; --Chọn Giá--</option>
+                        <option value="1">&#x1F4B0; Dưới 10 triệu đồng</option>
+                        <option value="2">&#x1F4B0; Từ 20-40 triệu đồng</option>
+                        <option value="3">&#x1F4B0; Từ 40-60 triệu đồng</option>
+                        <option value="4">&#x1F4B0; Trên 60 triệu đồng</option>
+                    </select>
+                </div>
+                <div class="square me-2">
+                    <select class="form-select" name="squares" id="square-select">
+                        <option value="">&#x25A0; --Chọn Diện Tích--</option>
+                        <option value="1">&#x25A0; Dưới 10m2</option>
+                        <option value="2">&#x25A0; Từ 10m2-20m2</option>
+                        <option value="3">&#x25A0; Từ 20m2-30m2</option>
+                        <option value="4">&#x25A0; Trên 30m2</option>
+                    </select>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="col-3" style="flex:1; margin-right: 20px">
+        <form class="search-container">
+            <input class="form-control me-2" type="text" placeholder="Search &#x1F50D;" aria-label="Search"
+                style="flex: 1" name="q">
+            <button class="btn btn-primary" type="submit">Search </button>
+        </form>
+    </div>
+</div>
+<div class="row mx-0 justify-content-between" style="margin-top: px;background-color:#e9ecef">
+    <!-- LEFT CONTENT -->
+    <div class="col-10" style="">
+        <div class="rounded-bg" style="margin-left: 2px; margin-top :20px;">
+            <div class="row">
+                <div class="container">
+                    <h1>Sản phẩm nổi bật trong tháng</h1>
+                    <br>
+                    <div class="product#1">
+                        <div class="row">
+                            <img src="https://pt123.cdn.static123.com/images/thumbs/450x300/fit/2021/03/10/z2372635816674-545794dbbc111cba4b6b0b4ed0d7d184_1615391076.jpg"
+                                alt="Featured Product" class="product-img">
+                            <div class="col-8">
+                                <h2>Phòng trọ sleepbox ngay chợ Gò Vấp Lê Quang Định</h2>
+                                <div class="row">
+                                    <div class="col-4">
+                                        &#x1F4B0; Giá: 1.8 triệu/tháng
+                                    </div>
+                                    <div class="col-4">
+                                        &#x25A0; 242 m2
+                                    </div>
+                                    <div class="col-4">
+                                        &#x1F3E0; Quận Gò Vấp
+                                    </div>
+                                </div>
+                                <div class="row" style="margin-top: 10px;">
+                                    <div class="col-4">
+                                        &#x1F464; Người đăng: Hồ Văn Duy
+                                    </div>
+                                    <div class="col-4" style="margin-left: -5px;">
+                                        &#x1F4F1; Liên hệ: 19001009
+                                    </div>
+                                </div>
+                                <a href="product-details.html" class="btn btn-primary" style="margin-top: 58px;">Xem chi
+                                    tiết</a>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <hr>
+                    <br>
+                    <div class="product#2">
+                        <div class="row">
+                            <img src="https://pt123.cdn.static123.com/images/thumbs/450x300/fit/2023/04/26/839248a0-02aa-4aa1-b984-f86f68d9abf4_1682492374.jpg"
+                                alt="Featured Product" class="product-img">
+                            <div class="col-8">
+                                <h2>PHÒNG TRỌ MỚI RẤT ĐẸP SỐ 373/1/2A ĐƯỜNG ...
+                                </h2>
+                                <div class="row">
+                                    <div class="col-4">
+                                        &#x1F4B0; Giá: 2 triệu/tháng
+                                    </div>
+                                    <div class="col-4">
+                                        &#x25A0; 300 m2
+                                    </div>
+                                    <div class="col-4">
+                                        &#x1F3E0; Quận 1
+                                    </div>
+                                </div>
+                                <div class="row" style="margin-top: 10px;">
+                                    <div class="col-4">
+                                        &#x1F464; Người đăng: Trần Xuân Quang
+                                    </div>
+                                    <div class="col-4" style="margin-left: -5px;">
+                                        &#x1F4F1; Liên hệ: 243144
+                                    </div>
+                                </div>
+                                <a href="product-details.html" class="btn btn-primary" style="margin-top: 58px;">Xem chi
+                                    tiết</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-2 filter ">
+        <div class="rounded-bg" style="margin-top :20px;">
+            <div class="ms-4">
+                <i class="fa-solid fa-filter"></i>
+                <h6 class="d-inline-block">LỌC NHANH</h6>
+            </div>
+            <div class="ms-4 mt-2 filter-item">
+                <p>Theo tên</p>
+                <!-- <form action="/"> -->
+                <input type="checkbox" id="" name="type" value="">
+                <label for="">
+                    SAMPLE 1
+                </label><br>
+                <input type="checkbox" id="" name="type" value="">
+                <label for="">
+                    SAMPLE 2
+                </label><br>
+                <!-- </form> -->
+            </div>
+            <div class="ms-4 mt-2 filter-item">
+                <p>Theo quận</p>
+                <!-- <form action="/"> -->
+                <input type="checkbox" id="" name="brand" value="">
+                <label for="">
+                    SAMPLE 1
+                </label><br>
+                <input type="checkbox" id="" name="brand" value="">
+                <label for="">
+                    SAMPLE 2
+                </label><br>
+                <!-- </form> -->
+            </div>
+            <div class="ms-4 mt-2 filter-item">
+                <p>Nhà sản xuất</p>
+                <!-- <form action="/"> -->
+                <input type="checkbox" id="" name="type" value="">
+                <label for="">
+                    SAMPLE 1
+                </label><br>
+                <input type="checkbox" id="" name="type" value="">
+                <label for="">
+                    SAMPLE 2
+                </label><br>
+                <!-- </form> -->
+            </div>
+            <div class="ms-4 mt-2 filter-price">
+                <p>Theo khoảng giá</p>
+                <!-- <form action=""> -->
+                <input type="text" placeholder="TỪ" id="price-from" name="priceFrom">
+                <i class="fa-solid fa-arrow-right-long"></i>
+                <input type="text" placeholder="ĐẾN" id="price-to" name="priceTo">
+                <input class="mt-2 text-white rounded" type="submit" value="ÁP DỤNG" style="background-color:#0d6efd">
+                <!-- </form> -->
+            </div>
+            <div class="ms-4 mt-2 filter-price">
+                <p>Diện tích</p>
+                <!-- <form action=""> -->
+                <input type="text" placeholder="TỪ" id="price-from" name="priceFrom">
+                <i class="fa-solid fa-arrow-right-long"></i>
+                <input type="text" placeholder="ĐẾN" id="price-to" name="priceTo">
+                <input class="mt-2 text-white rounded" type="submit" value="ÁP DỤNG" style="background-color:#0d6efd">
+                <!-- </form> -->
+            </div>
+        </div>
+    </div>
+</div>
