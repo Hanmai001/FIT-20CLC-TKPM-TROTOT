@@ -1,181 +1,11 @@
-{{#section "css"}}
+{{#section 'css'}}
 <link rel="stylesheet" href="../../public/assets/css/post-house.css" />
+<link rel="stylesheet" href="../../public/assets/css/header_landlord.css" />
+<link rel="stylesheet" href="../../public/assets/css/sidebar_landlord.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/bbbootstrap/libraries@main/choices.min.css">
 {{/section}}
-<div class="container-fluid post-house">
-    {{> header_landlord}}
-
-    {{> sidebar_landlord}}
-
-    <div class="content">
-        <div class="content__header mt-4 pb-3 border-bottom">
-            <h5>ĐĂNG TIN NHÀ TRỌ</h5>
-        </div>
-        <form action="/house/add-house" method="post" enctype="multipart/form-data">
-            <div class="mt-4 pb-2">
-                <h6>ĐỊA CHỈ CHO THUÊ</h6>
-            </div>
-            <div class="d-flex justify-content-between content__address">
-                <div class="address-item">
-                    <div class="text-center mb-2">
-                        <label for="city-select">Tỉnh/Thành phố<span style="color:red">*</span></label>
-                    </div>
-                    <select required name="cities" id="city-select" onfocus='this.size=5;' onblur='this.size=1;'
-                        onchange='this.size=1; this.blur();'>
-                        <option class="text-center" value="">--Chọn Tỉnh/TP--</option>
-                        <option value="dog">Hồ Chí Minh</option>
-                        <option value="cat">Đà Nẵng</option>
-                        <option value="hamster">Huế</option>
-                        <option value="parrot">Hà Nội</option>
-                        <option value="spider">Thái Nguyên</option>
-                        <option value="goldfish">Kiên Giang</option>
-                    </select>
-                    <div class="text-center text-danger content__note" id="note1">
-                        Vui lòng chọn
-                    </div>
-                </div>
-                <div class="address-item">
-                    <div class="text-center mb-2">
-                        <label for="district-select">Quận/Huyện<span style="color:red">*</span></label>
-                    </div>
-                    <select required name="districts" id="district-select" onfocus='this.size=5;' onblur='this.size=1;'
-                        onchange='this.size=1; this.blur();'>
-                        <option class="text-center" value="">--Chọn Quận/Huyện--</option>
-                        <option value="dog">Quận 1</option>
-                        <option value="cat">Quận 2</option>
-                        <option value="hamster">Quận 3</option>
-                        <option value="parrot">Quận 4</option>
-                        <option value="spider">Quận 5</option>
-                        <option value="goldfish">Quận 6</option>
-                    </select>
-                    <div class="text-center text-danger content__note" id="note2">
-                        Vui lòng chọn
-                    </div>
-                </div>
-                <div class="address-item">
-                    <div class="text-center mb-2">
-                        <label for="ward-select">Phường/Xã<span style="color:red">*</span></label>
-                    </div>
-                    <select required name="wards" id="ward-select" onfocus='this.size=5;' onblur='this.size=1;'
-                        onchange='this.size=1; this.blur();'>
-                        <option class="text-center" value="">--Chọn Phường/Xã--</option>
-                        <option value="dog">Phường 1</option>
-                        <option value="cat">Phường 2</option>
-                        <option value="hamster">Phường 3</option>
-                        <option value="parrot">Phường 4</option>
-                        <option value="spider">Phường 5</option>
-                        <option value="goldfish">Phường 6</option>
-                    </select>
-                    <div class="text-center text-danger content__note" id="note3">
-                        Vui lòng chọn
-                    </div>
-                </div>
-            </div>
-            <div class="mt-4">
-                <label class="d-block mb-2" for="detailed-address">Địa chỉ cụ thể<span
-                        style="color:red">*</span></label>
-                <input type="text" id="detailed-address" name="detailed_address" placeholder="Nhập số nhà, tên đường"
-                    value="" required>
-                <div class="text-center text-danger content__note" id="detailed-address-note">
-                    Vui lòng chọn
-                </div>
-            </div>
-            <div class="mt-4 pb-2">
-                <h6>THÔNG TIN NHÀ TRỌ</h6>
-            </div>
-            <div>
-                <label class="d-block mb-2" for="title">Tiêu đề<span style="color:red">*</span></label>
-                <input type="text" id="title" name="title" placeholder="Nhập tiêu đề tin đăng nhà trọ" value=""
-                    required>
-                <div class="text-center text-danger content__note" id="title-note">
-                    Vui lòng chọn
-                </div>
-            </div>
-            <div class="mt-4 pb-2">
-                <label class="d-block mb-2" for="description">Nội dung mô tả<span style="color:red">*</span></label>
-                <textarea id="description" name="description" rows="6"></textarea>
-                <div class="text-center text-danger content__note" id="description-note">
-                    Vui lòng chọn
-                </div>
-            </div>
-            <div class="content__utility">
-                <div class="mt-4">
-                    <div class="mb-2 ">
-                        <label for="utility-select">Tiện ích (Ít nhất 1 tiện ích)<span
-                                style="color:red">*</span></label>
-                    </div>
-                    <select required name="utilities" id="utility-select" placeholder="Bấm vào để chọn tiện ích"
-                        multiple>
-                        {{!-- <option class="text-center" value="">--Chọn Tiện ích--</option> --}}
-                        <option value="dog">Wifi</option>
-                        <option value="cat">Tivi</option>
-                        <option value="hamster">Tủ lạnh</option>
-                        <option value="parrot">Bếp</option>
-                        <option value="spider">Bãi xe</option>
-                        <option value="goldfish">Thú cưng</option>
-                    </select>
-                    <div class="text-center text-danger content__note" id="note4">
-                        Vui lòng chọn
-                    </div>
-                </div>
-
-            </div>
-            <div class="d-flex justify-content-between">
-                <div class="mt-4 content__area">
-                    <label class="d-block mb-2" for="area">Diện tích<span style="color:red">*</span></label>
-                    <input type="number" id="area" name="are" placeholder="Nhập diện tích trọ" value="" required>
-                    <div class="text-center text-danger content__note" id="area-note">
-                        Vui lòng chọn
-                    </div>
-                </div>
-                <div class="mt-4 content__people">
-                    <label class="d-block mb-2" for="num_people">Số người<span style="color:red">*</span></label>
-                    <input type="number" min="1" id="num_people" name="num_people" placeholder="Số người ở" value=""
-                        required>
-                    <div class="text-center text-danger content__note" id="note5">
-                        Vui lòng chọn
-                    </div>
-                </div>
-            </div>
-
-            <div class="d-flex justify-content-between content__prices">
-                <div class="mt-4">
-                    <label class="d-block mb-2" for="price">Giá cho thuê<span style="color:red">*</span></label>
-                    <input type="number" id="price" name="price" placeholder="Nhập giá nhà trọ" value="" required>
-                    <div class="text-center text-danger content__note" id="price-note">
-                        Vui lòng chọn
-                    </div>
-                </div>
-                <div class="mt-4">
-                    <label class="d-block mb-2" for="water">Tiền nước (Nếu có)</label>
-                    <input type="number" id="water" name="water" placeholder="Nhập tiền nước" value="">
-                </div>
-                <div class="mt-4">
-                    <label class="d-block mb-2" for="electricity">Tiền điện (Nếu có)</label>
-                    <input type="number" id="electricity" name="electricity" placeholder="Nhập tiền điện" value="">
-                </div>
-            </div>
-            <div class="mt-4 pb-2">
-                <h6>HÌNH ẢNH/VIDEO</h6>
-            </div>
-            <div class="content__files d-flex flex-wrap" id="drop_zone" ondrop="dropHandler(event);"
-                ondragover="dragOverHandler(event);">
-                <div>Kéo thả ảnh/video vào đây</div>
-            </div>
-            <div class="content__btn-add-file text-center">
-                <input type="file" id="house-file" name="upload-house-file" hidden multiple>
-                <div class="mt-3 d-flex justify-content-center align-items-center">
-                    <label for="house-file">Upload Ảnh/Video</label>
-                    <i class="fas fa-upload mx-2"></i>
-                </div>
-            </div>
-            <div class="btn-submit mt-4">
-                <input id="js-btn-submit" type="submit" value="XÁC NHẬN">
-            </div>
-
-        </form>
-    </div>
-</div>
-{{#section 'script'}}
+{{#section "js"}}
+<script src="https://cdn.jsdelivr.net/gh/bbbootstrap/libraries@main/choices.min.js"></script>
 <script>
     let imagesArray = [];
     const fileUploader = document.getElementById('house-file');
@@ -384,3 +214,175 @@
     }
 </script>
 {{/section}}
+<div class="container-fluid post-house">
+    {{> header_landlord}}
+    {{> sidebar_landlord}}
+    <div class="content">
+        <div class="content__header mt-4 pb-3 border-bottom">
+            <h5>ĐĂNG TIN NHÀ TRỌ</h5>
+        </div>
+        <form action="/house/add-house" method="post" enctype="multipart/form-data">
+            <div class="mt-4 pb-2">
+                <h6>ĐỊA CHỈ CHO THUÊ</h6>
+            </div>
+            <div class="d-flex justify-content-between content__address">
+                <div class="address-item">
+                    <div class="text-center mb-2">
+                        <label for="city-select">Tỉnh/Thành phố<span style="color:red">*</span></label>
+                    </div>
+                    <select required name="cities" id="city-select" onfocus='this.size=5;' onblur='this.size=1;'
+                        onchange='this.size=1; this.blur();'>
+                        <option class="text-center" value="">--Chọn Tỉnh/TP--</option>
+                        <option value="dog">Hồ Chí Minh</option>
+                        <option value="cat">Đà Nẵng</option>
+                        <option value="hamster">Huế</option>
+                        <option value="parrot">Hà Nội</option>
+                        <option value="spider">Thái Nguyên</option>
+                        <option value="goldfish">Kiên Giang</option>
+                    </select>
+                    <div class="text-center text-danger content__note" id="note1">
+                        Vui lòng chọn
+                    </div>
+                </div>
+                <div class="address-item">
+                    <div class="text-center mb-2">
+                        <label for="district-select">Quận/Huyện<span style="color:red">*</span></label>
+                    </div>
+                    <select required name="districts" id="district-select" onfocus='this.size=5;' onblur='this.size=1;'
+                        onchange='this.size=1; this.blur();'>
+                        <option class="text-center" value="">--Chọn Quận/Huyện--</option>
+                        <option value="dog">Quận 1</option>
+                        <option value="cat">Quận 2</option>
+                        <option value="hamster">Quận 3</option>
+                        <option value="parrot">Quận 4</option>
+                        <option value="spider">Quận 5</option>
+                        <option value="goldfish">Quận 6</option>
+                    </select>
+                    <div class="text-center text-danger content__note" id="note2">
+                        Vui lòng chọn
+                    </div>
+                </div>
+                <div class="address-item">
+                    <div class="text-center mb-2">
+                        <label for="ward-select">Phường/Xã<span style="color:red">*</span></label>
+                    </div>
+                    <select required name="wards" id="ward-select" onfocus='this.size=5;' onblur='this.size=1;'
+                        onchange='this.size=1; this.blur();'>
+                        <option class="text-center" value="">--Chọn Phường/Xã--</option>
+                        <option value="dog">Phường 1</option>
+                        <option value="cat">Phường 2</option>
+                        <option value="hamster">Phường 3</option>
+                        <option value="parrot">Phường 4</option>
+                        <option value="spider">Phường 5</option>
+                        <option value="goldfish">Phường 6</option>
+                    </select>
+                    <div class="text-center text-danger content__note" id="note3">
+                        Vui lòng chọn
+                    </div>
+                </div>
+            </div>
+            <div class="mt-4">
+                <label class="d-block mb-2" for="detailed-address">Địa chỉ cụ thể<span
+                        style="color:red">*</span></label>
+                <input type="text" id="detailed-address" name="detailed_address" placeholder="Nhập số nhà, tên đường"
+                    value="" required>
+                <div class="text-center text-danger content__note" id="detailed-address-note">
+                    Vui lòng chọn
+                </div>
+            </div>
+            <div class="mt-4 pb-2">
+                <h6>THÔNG TIN NHÀ TRỌ</h6>
+            </div>
+            <div>
+                <label class="d-block mb-2" for="title">Tiêu đề<span style="color:red">*</span></label>
+                <input type="text" id="title" name="title" placeholder="Nhập tiêu đề tin đăng nhà trọ" value=""
+                    required>
+                <div class="text-center text-danger content__note" id="title-note">
+                    Vui lòng chọn
+                </div>
+            </div>
+            <div class="mt-4 pb-2">
+                <label class="d-block mb-2" for="description">Nội dung mô tả<span style="color:red">*</span></label>
+                <textarea id="description" name="description" rows="6"></textarea>
+                <div class="text-center text-danger content__note" id="description-note">
+                    Vui lòng chọn
+                </div>
+            </div>
+            <div class="content__utility">
+                <div class="mt-4">
+                    <div class="mb-2 ">
+                        <label for="utility-select">Tiện ích (Ít nhất 1 tiện ích)<span
+                                style="color:red">*</span></label>
+                    </div>
+                    <select required name="utilities" id="utility-select" placeholder="Bấm vào để chọn tiện ích"
+                        multiple>
+                        {{!-- <option class="text-center" value="">--Chọn Tiện ích--</option> --}}
+                        <option value="dog">Wifi</option>
+                        <option value="cat">Tivi</option>
+                        <option value="hamster">Tủ lạnh</option>
+                        <option value="parrot">Bếp</option>
+                        <option value="spider">Bãi xe</option>
+                        <option value="goldfish">Thú cưng</option>
+                    </select>
+                    <div class="text-center text-danger content__note" id="note4">
+                        Vui lòng chọn
+                    </div>
+                </div>
+
+            </div>
+            <div class="d-flex justify-content-between">
+                <div class="mt-4 content__area">
+                    <label class="d-block mb-2" for="area">Diện tích<span style="color:red">*</span></label>
+                    <input type="number" id="area" name="are" placeholder="Nhập diện tích trọ" value="" required>
+                    <div class="text-center text-danger content__note" id="area-note">
+                        Vui lòng chọn
+                    </div>
+                </div>
+                <div class="mt-4 content__people">
+                    <label class="d-block mb-2" for="num_people">Số người<span style="color:red">*</span></label>
+                    <input type="number" min="1" id="num_people" name="num_people" placeholder="Số người ở" value=""
+                        required>
+                    <div class="text-center text-danger content__note" id="note5">
+                        Vui lòng chọn
+                    </div>
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-between content__prices">
+                <div class="mt-4">
+                    <label class="d-block mb-2" for="price">Giá cho thuê<span style="color:red">*</span></label>
+                    <input type="number" id="price" name="price" placeholder="Nhập giá nhà trọ" value="" required>
+                    <div class="text-center text-danger content__note" id="price-note">
+                        Vui lòng chọn
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <label class="d-block mb-2" for="water">Tiền nước (Nếu có)</label>
+                    <input type="number" id="water" name="water" placeholder="Nhập tiền nước" value="">
+                </div>
+                <div class="mt-4">
+                    <label class="d-block mb-2" for="electricity">Tiền điện (Nếu có)</label>
+                    <input type="number" id="electricity" name="electricity" placeholder="Nhập tiền điện" value="">
+                </div>
+            </div>
+            <div class="mt-4 pb-2">
+                <h6>HÌNH ẢNH/VIDEO</h6>
+            </div>
+            <div class="content__files d-flex flex-wrap" id="drop_zone" ondrop="dropHandler(event);"
+                ondragover="dragOverHandler(event);">
+                <div>Kéo thả ảnh/video vào đây</div>
+            </div>
+            <div class="content__btn-add-file text-center">
+                <input type="file" id="house-file" name="upload-house-file" hidden multiple>
+                <div class="mt-3 d-flex justify-content-center align-items-center">
+                    <label for="house-file">Upload Ảnh/Video</label>
+                    <i class="fas fa-upload mx-2"></i>
+                </div>
+            </div>
+            <div class="btn-submit mt-4">
+                <input id="js-btn-submit" type="submit" value="XÁC NHẬN">
+            </div>
+
+        </form>
+    </div>
+</div>
