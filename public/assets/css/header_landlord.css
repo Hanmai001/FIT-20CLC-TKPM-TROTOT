@@ -1,0 +1,71 @@
+.header {
+    position: fixed;
+    background-color: #fff;
+    z-index: 900;
+    width: 100%;
+    height: 95px;
+    top: 0;
+}
+.header ul {
+    list-style-type: none;
+    padding-left: 0 !important;
+    display: inline-block;
+}
+
+.header .user-option img {
+    border-radius: 50%;
+    width: 46px;
+    height: 46x;
+    margin: auto;
+}
+
+.header .nav-profile>li {
+    position: relative;
+    color: #000;
+    font-size: 12px;
+}
+
+.header .nav-profile i {
+    font-size: 15px;
+}
+
+.header .nav-profile {
+    margin: 0 !important;
+}
+
+.header ul li:hover {
+    cursor: pointer;
+}
+
+/* SUBNAV */
+.header .subnav {
+    display: none;
+    z-index: 1;
+    width: 150px;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background-color: #fff;
+    /*Bóng đổ cho subnav*/
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.header .subnav.open {
+    display: block;
+}
+
+.header .subnav>li {
+    width: 100%;
+    text-align: left;
+    padding: 10px;
+    font-size: 0.9rem;
+}
+
+.header .subnav>li a {
+    text-decoration: none;
+    color: #000;
+}
+
+.header .subnav>li:hover {
+    background-color: #d5d5d5;
+}

@@ -1,0 +1,36 @@
+.post-house {}
+.content {
+    margin-top: 120px;
+    margin-left: 280px;
+    margin-right: 50px;
+}
+
+h5 {
+    color: #002ffe;
+}
+
+.list-group-active {
+    color: #002ffe;
+}
+
+/* CARD PROFILE */
+.item .item__price {
+    color: #002ffe;
+}
+
+.item .item__name .item__name-last {
+    font-weight: 450;
+}
+
+.item .item__type,
+.item .item__area {
+    font-size: 14px;
+}
+
+.item .item__btns button {
+    background-color: #002ffe;
+    padding: 10px 15px;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+}

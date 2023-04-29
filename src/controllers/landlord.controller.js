@@ -4,5 +4,8 @@ const getPostHousePage = async (req, res) => {
 const getHouseManagementPage = async (req, res) => {
     return res.render("vwLandlord/house-management", { layout: false })
 }
+const getManageAppointmentPage = async (req, res) => {
+    return res.render("vwLandlord/manage-appointment", { layout: false })
+}
 
-export {getPostHousePage, getHouseManagementPage}
+export {getPostHousePage, getHouseManagementPage, getManageAppointmentPage}

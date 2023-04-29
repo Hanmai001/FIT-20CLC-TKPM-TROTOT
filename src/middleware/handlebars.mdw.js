@@ -5,7 +5,7 @@ export default function (app) {
     app.engine(
         "hbs",
         engine({
-        // defaultLayout: 'main.hbs'
+        // defaultLayout: 'main',
         extname: "hbs",
         helpers: {
             // Function to do basic mathematical operation in handlebar
