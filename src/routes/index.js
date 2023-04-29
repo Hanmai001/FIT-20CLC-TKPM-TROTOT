@@ -1,6 +1,8 @@
 import initHouseRoute from './house';
+import initLandlordRoute from './landlord';
 
 export default function (app) {
+  app.use("/landlord", initLandlordRoute);
   app.use("/house", initHouseRoute);
   app.use("/", (req, res, next) => {
     res.send("hello");

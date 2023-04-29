@@ -3,7 +3,7 @@ import multer from 'multer';
 import appRoot from 'app-root-path';
 import path from 'path';
 const initHouseRoute = express.Router();
-import {getPostHousePage, addHouse} from '../controllers/house.controller';
+import {addHouse} from '../controllers/house.controller';
 //Middleware
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -17,7 +17,6 @@ const storage = multer.diskStorage({
 });
 
 let upload = multer({ storage: storage});
-initHouseRoute.route("/post-house").get(getPostHousePage);
 initHouseRoute.route("/add-house").post(upload.array('upload-house-file', 10), addHouse);
 
 export default initHouseRoute;

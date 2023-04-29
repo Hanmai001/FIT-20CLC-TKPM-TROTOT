@@ -113,11 +113,22 @@
 }
 
 .content__utility>div {
-    width: 26%;
+    width: 100%;
 }
 
 .content__utility select,
 .content__utility input {
+    width: 100%;
+    padding: 5px 10px;
+}
+
+.content__area,
+.content__people {
+    width: 26%;
+}
+
+.content__area input,
+.content__people input {
     width: 100%;
     padding: 5px 10px;
 }
@@ -132,18 +143,12 @@ textarea {
     width: 100%;
     padding: 5px 10px;
 }
-.content__files {
-    width: 100%;
-    height: 300px;
-    border: 1px dashed #002ffe;
-}
 
-.content__btn-add-file > div {
+.content__btn-add-file>div {
     line-height: auto;
     width: 100%;
     padding: 10px 0;
-    color: #fff;
-    background-color: #002ffe;
+    background-color: #cacbcf;
 }
 
 .content__files .image {
@@ -158,6 +163,7 @@ textarea {
     height: 100%;
     width: 100%;
 }
+
 .content__files .image video {
     height: 100%;
     width: 100%;
@@ -179,6 +185,7 @@ textarea {
 .content__files .span--hidden {
     visibility: hidden;
 }
+
 .btn-submit input {
     line-height: auto;
     width: 100%;
@@ -186,4 +193,38 @@ textarea {
     color: #fff;
     background-color: #002ffe;
     border: none;
+}
+
+.content__note {
+    font-size: 12px;
+    text-align: start !important;
+}
+
+#drop_zone {
+    width: 100%;
+    margin: 20px 0;
+    height: 300px;
+    position: relative;
+    background: white;
+}
+
+#drop_zone::before {
+
+    content: "";
+    position: absolute;
+    top: -0.5rem;
+    left: -0.5rem;
+    display: block;
+    background-color: #ffffff;
+    background-image: linear-gradient(45deg, transparent 49%, #5959fb 50%, transparent 51%);
+    background-size: 5px 5px;
+    right: -0.5rem;
+    bottom: -0.5rem;
+    z-index: -1;
+}
+
+#drop_zone>div {
+    margin: auto;
+    color: #002ffe;
+    font-size: 18px;
 }
