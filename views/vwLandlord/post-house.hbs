@@ -31,7 +31,86 @@
             searchResultLimit: 5,
             renderChoiceLimit: 5
         });
+        $.ajax({
+            url: "https://provinces.open-api.vn/api/p",
+            type: "get",
+            dateType: "json",
+
+            success: function (result) {
+                console.log(result)
+                $.each(result, function (key, value) {
+                    let item = $('<option value=' + value.code + '>' + value.name + '</option>');
+                    $("#city-select").append(item);
+                });
+            }
+        });
     });
+    $("#city-select").change(function () {
+        let selectedVal = $("#city-select option:selected").val();
+        $("#district-select").empty();
+        let item = $("<option class='text-center' value=''>--Chọn Quận/Huyện--</option>");
+        $("#district-select").append(item);
+        $("#ward-select").empty();
+        item = $("<option class='text-center' value=''>--Chọn Phường/Xã--</option>");
+        $("#ward-select").append(item);
+        if (selectedVal == "") {
+            $('#note1').show()
+        }
+        else {
+            $('#note1').hide()
+            $.ajax({
+                url: "https://provinces.open-api.vn/api/d/",
+                type: "get",
+                dateType: "json",
+                success: function (result) {
+                    console.log(result)
+                    $.each(result, function (key, value) {
+                        if (value.province_code == selectedVal) {
+                            item = $('<option value=' + value.code + '>' + value.name + '</option>');
+                            $("#district-select").append(item);
+                        }
+                    });
+                }
+            });
+        }
+
+    })
+    $("#district-select").change(function () {
+        let selectedVal = $("#district-select option:selected").val();
+        $("#ward-select").empty();
+        let item = $("<option class='text-center' value=''>--Chọn Phường/Xã--</option>");
+        $("#ward-select").append(item);
+        if (selectedVal == "") {
+            $('#note2').show()
+        }
+        else {
+            $('#note2').hide()
+            $.ajax({
+                url: "https://provinces.open-api.vn/api/w/",
+                type: "get",
+                dateType: "json",
+                success: function (result) {
+                    console.log(result)
+                    $.each(result, function (key, value) {
+                        if (value.district_code == selectedVal) {
+                            item = $('<option value=' + value.code + '>' + value.name + '</option>');
+                            $("#ward-select").append(item);
+                        }
+                    });
+                }
+            });
+        }
+    })
+    $("#ward-select").change(function (e) {
+        let selectedVal = $("#district-select option:selected").val();
+        if (selectedVal == "") {
+            $('#note3').show()
+        }
+        else {
+            $('#note3').hide()
+
+        }
+    })
     function dropHandler(event) {
         event.preventDefault();
 
@@ -133,7 +212,7 @@
             note.style.display = 'none';
         }
     })
-    citySelect.addEventListener('change', function (event) {
+    {{!-- citySelect.addEventListener('change', function (event) {
         const val = citySelect.options[citySelect.selectedIndex].value;
 
         if (val == "") {
@@ -144,31 +223,8 @@
             let note = document.getElementById('note1');
             note.style.display = 'none';
         }
-    })
-    districtSelect.addEventListener('change', function (event) {
-        const val = districtSelect.options[districtSelect.selectedIndex].value;
-
-        if (val == "") {
-            let note = document.getElementById('note2');
-            note.style.display = 'block';
-        }
-        else {
-            let note = document.getElementById('note2');
-            note.style.display = 'none';
-        }
-    })
-    wardSelect.addEventListener('change', function (event) {
-        const val = wardSelect.options[wardSelect.selectedIndex].value;
-
-        if (val == "") {
-            let note = document.getElementById('note3');
-            note.style.display = 'block';
-        }
-        else {
-            let note = document.getElementById('note3');
-            note.style.display = 'none';
-        }
-    })
+    }) --}}
+    
     fileUploader.addEventListener('change', function (event) {
         console.log(event.target.files)
         const files = event.target.files;
@@ -233,15 +289,9 @@
                     <select required name="cities" id="city-select" onfocus='this.size=5;' onblur='this.size=1;'
                         onchange='this.size=1; this.blur();'>
                         <option class="text-center" value="">--Chọn Tỉnh/TP--</option>
-                        <option value="dog">Hồ Chí Minh</option>
-                        <option value="cat">Đà Nẵng</option>
-                        <option value="hamster">Huế</option>
-                        <option value="parrot">Hà Nội</option>
-                        <option value="spider">Thái Nguyên</option>
-                        <option value="goldfish">Kiên Giang</option>
                     </select>
                     <div class="text-center text-danger content__note" id="note1">
-                        Vui lòng chọn
+                        Vui lòng chọn Tỉnh/Thành phố
                     </div>
                 </div>
                 <div class="address-item">
@@ -251,15 +301,9 @@
                     <select required name="districts" id="district-select" onfocus='this.size=5;' onblur='this.size=1;'
                         onchange='this.size=1; this.blur();'>
                         <option class="text-center" value="">--Chọn Quận/Huyện--</option>
-                        <option value="dog">Quận 1</option>
-                        <option value="cat">Quận 2</option>
-                        <option value="hamster">Quận 3</option>
-                        <option value="parrot">Quận 4</option>
-                        <option value="spider">Quận 5</option>
-                        <option value="goldfish">Quận 6</option>
                     </select>
                     <div class="text-center text-danger content__note" id="note2">
-                        Vui lòng chọn
+                        Vui lòng chọn Quận/Huyện
                     </div>
                 </div>
                 <div class="address-item">
@@ -277,7 +321,7 @@
                         <option value="goldfish">Phường 6</option>
                     </select>
                     <div class="text-center text-danger content__note" id="note3">
-                        Vui lòng chọn
+                        Vui lòng chọn Phường/Xã
                     </div>
                 </div>
             </div>
@@ -287,7 +331,7 @@
                 <input type="text" id="detailed-address" name="detailed_address" placeholder="Nhập số nhà, tên đường"
                     value="" required>
                 <div class="text-center text-danger content__note" id="detailed-address-note">
-                    Vui lòng chọn
+                    Vui lòng nhập địa chỉ cụ thể
                 </div>
             </div>
             <div class="mt-4 pb-2">
@@ -298,14 +342,14 @@
                 <input type="text" id="title" name="title" placeholder="Nhập tiêu đề tin đăng nhà trọ" value=""
                     required>
                 <div class="text-center text-danger content__note" id="title-note">
-                    Vui lòng chọn
+                    Vui lòng nhập tiêu đề cho bài viết
                 </div>
             </div>
             <div class="mt-4 pb-2">
                 <label class="d-block mb-2" for="description">Nội dung mô tả<span style="color:red">*</span></label>
                 <textarea id="description" name="description" rows="6"></textarea>
                 <div class="text-center text-danger content__note" id="description-note">
-                    Vui lòng chọn
+                    Vui lòng nhập mô tả nhà cho thuê
                 </div>
             </div>
             <div class="content__utility">
@@ -316,7 +360,6 @@
                     </div>
                     <select required name="utilities" id="utility-select" placeholder="Bấm vào để chọn tiện ích"
                         multiple>
-                        {{!-- <option class="text-center" value="">--Chọn Tiện ích--</option> --}}
                         <option value="dog">Wifi</option>
                         <option value="cat">Tivi</option>
                         <option value="hamster">Tủ lạnh</option>
@@ -324,9 +367,6 @@
                         <option value="spider">Bãi xe</option>
                         <option value="goldfish">Thú cưng</option>
                     </select>
-                    <div class="text-center text-danger content__note" id="note4">
-                        Vui lòng chọn
-                    </div>
                 </div>
 
             </div>
@@ -335,7 +375,7 @@
                     <label class="d-block mb-2" for="area">Diện tích<span style="color:red">*</span></label>
                     <input type="number" id="area" name="are" placeholder="Nhập diện tích trọ" value="" required>
                     <div class="text-center text-danger content__note" id="area-note">
-                        Vui lòng chọn
+                        Vui lòng nhập diện tích
                     </div>
                 </div>
                 <div class="mt-4 content__people">
@@ -343,7 +383,7 @@
                     <input type="number" min="1" id="num_people" name="num_people" placeholder="Số người ở" value=""
                         required>
                     <div class="text-center text-danger content__note" id="note5">
-                        Vui lòng chọn
+                        Vui lòng chọn nhập số người ở
                     </div>
                 </div>
             </div>
@@ -353,7 +393,7 @@
                     <label class="d-block mb-2" for="price">Giá cho thuê<span style="color:red">*</span></label>
                     <input type="number" id="price" name="price" placeholder="Nhập giá nhà trọ" value="" required>
                     <div class="text-center text-danger content__note" id="price-note">
-                        Vui lòng chọn
+                        Vui lòng nhập giá cho thuê
                     </div>
                 </div>
                 <div class="mt-4">
@@ -366,14 +406,14 @@
                 </div>
             </div>
             <div class="mt-4 pb-2">
-                <h6>HÌNH ẢNH/VIDEO</h6>
+                <h6>HÌNH ẢNH/VIDEO<span style="color:red">*</span></h6>
             </div>
             <div class="content__files d-flex flex-wrap" id="drop_zone" ondrop="dropHandler(event);"
                 ondragover="dragOverHandler(event);">
                 <div>Kéo thả ảnh/video vào đây</div>
             </div>
             <div class="content__btn-add-file text-center">
-                <input type="file" id="house-file" name="upload-house-file" hidden multiple>
+                <input type="file" id="house-file" name="upload-house-file" hidden multiple required>
                 <div class="mt-3 d-flex justify-content-center align-items-center">
                     <label for="house-file">Upload Ảnh/Video</label>
                     <i class="fas fa-upload mx-2"></i>
