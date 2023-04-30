@@ -13,4 +13,7 @@ const getOwnerPage = async (req, res) => {
 const getProfilePage = async (req, res) => {
     res.render("vwLandlord/landlord-profile")
 }
-export { getPostHousePage, getHouseManagementPage, getManageAppointmentPage, getOwnerPage, getProfilePage }
+const getChangePassPage = async (req, res) => {
+    res.render("vwLandlord/change-password")
+}
+export { getPostHousePage, getHouseManagementPage, getManageAppointmentPage, getOwnerPage, getProfilePage, getChangePassPage }
