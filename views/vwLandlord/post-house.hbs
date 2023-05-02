@@ -178,7 +178,6 @@
     })
     price.addEventListener('change', function (event) {
         const val = price.value;
-
         if (val == "") {
             let note = document.getElementById('price-note');
             note.style.display = 'block';
@@ -204,27 +203,14 @@
         const val = area.value;
 
         if (val == "") {
-            let note = document.getElementById('area');
+            let note = document.getElementById('area-note');
             note.style.display = 'block';
         }
         else {
-            let note = document.getElementById('area');
+            let note = document.getElementById('area-note');
             note.style.display = 'none';
         }
     })
-    {{!-- citySelect.addEventListener('change', function (event) {
-        const val = citySelect.options[citySelect.selectedIndex].value;
-
-        if (val == "") {
-            let note = document.getElementById('note1');
-            note.style.display = 'block';
-        }
-        else {
-            let note = document.getElementById('note1');
-            note.style.display = 'none';
-        }
-    }) --}}
-    
     fileUploader.addEventListener('change', function (event) {
         console.log(event.target.files)
         const files = event.target.files;
