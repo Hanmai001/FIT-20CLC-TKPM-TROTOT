@@ -3,29 +3,67 @@
 <link rel="stylesheet" href="../../public/assets/css/header_landlord.css" />
 <link rel="stylesheet" href="../../public/assets/css/detaills_house.css" />
 {{/section}}
+{{#section "js"}}
+<script>
+    function initMap() {
+        // Tạo một đối tượng bản đồ Google
+        var map = new google.maps.Map(document.getElementById('map'), {
+            center: { lat: 10.123, lng: 106.456 }, // Tọa độ trung tâm của bản đồ
+            zoom: 12 // Mức độ thu phóng của bản đồ
+        });
+
+        // Tạo một đánh địa điểm trên bản đồ
+        var marker = new google.maps.Marker({
+            position: { lat: 10.123, lng: 106.456 }, // Tọa độ của đánh dấu
+            map: map, // Bản đồ để đặt đánh dấu
+            title: 'Địa điểm' // Tiêu đề của đánh dấu
+        });
+    }
+</script>
+<script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBmEdqT8OpC-7GmBrsYCy9KFJYg7NAqeRs&callback=initMap"></script>
+{{/section}}
 {{>header_landlord}}
-<h1>Chi tiết Phòng Trọ</h1>
+<div class="content">
+    <h1>Chi tiết Phòng Trọ</h1>
 
-<img class="room-image" src="path_to_image.jpg" alt="Hình ảnh phòng trọ">
+    <div class="col-5 pic-product p-3" style="overflow: hidden;">
+        <img src="https://pt123.cdn.static123.com/images/thumbs/900x600/fit/2023/04/04/z4237382852854-ed72464cadbd4c61b8ebe2acb970694e_1680602688.jpg"
+            alt="">
+        <div class="extra-pics mt-2">
+            <i class="fa-solid fa-angle-left"></i>
+            <img src="https://pt123.cdn.static123.com/images/thumbs/900x600/fit/2023/04/04/z4237382846029-84e0315a368c7ef490aa2a770edd8615_1680602688.jpg"
+                alt="">
+            <img src="https://pt123.cdn.static123.com/images/thumbs/900x600/fit/2023/04/04/z4237382843978-8512bc8537f757f03964bec36d061966_1680602689.jpg"
+                alt="">
+            <img src="https://pt123.cdn.static123.com/images/thumbs/900x600/fit/2023/04/04/z4237382845459-b2579c3c30203c2d1d28143c5889f8a4_1680602689.jpg"
+                alt="">
+            <i class="fa-solid fa-angle-right"></i>
+        </div>
+    </div>
 
-<h2>Thông tin chung</h2>
-<p><strong>Địa chỉ:</strong> 123 Đường ABC, Quận XYZ, Thành phố ABC</p>
-<p><strong>Diện tích:</strong> 30m²</p>
-<p><strong>Giá thuê:</strong> 5.000.000 VNĐ/tháng</p>
+    <h2>Thông tin chung</h2>
+    <p><strong>Địa chỉ:</strong> 123 Đường ABC, Quận XYZ, Thành phố ABC</p>
+    <p><strong>Diện tích:</strong> 30m²</p>
+    <p><strong>Giá thuê:</strong> 5.000.000 VNĐ/tháng</p>
 
-<h2>Tiện nghi và mô tả</h2>
-<ul>
-    <li>Phòng có điều hòa nhiệt độ</li>
-    <li>Phòng tắm riêng</li>
-    <li>Wifi miễn phí</li>
-    <li>Bếp chung</li>
-    <li>Camera an ninh</li>
-</ul>
+    <h2>Tiện nghi và mô tả</h2>
+    <ul>
+        <li>Phòng có điều hòa nhiệt độ</li>
+        <li>Phòng tắm riêng</li>
+        <li>Wifi miễn phí</li>
+        <li>Bếp chung</li>
+        <li>Camera an ninh</li>
+    </ul>
 
-<h2>Thông tin liên hệ</h2>
-<p><strong>SĐT liên hệ:</strong> 0123456789</p>
-<p><strong>Email:</strong> example@example.com</p>
+    <h2>Thông tin liên hệ</h2>
+    <p><strong>SĐT liên hệ:</strong> 0123456789</p>
+    <p><strong>Email:</strong> example@example.com</p>
 
-<h2>Đánh giá</h2>
-<p>Phòng trọ này được đánh giá rất tốt với đầy đủ các tiện nghi cần thiết, không gian thoáng mát và vị trí thuận lợi.
-</p>
+    <h2>Đánh giá</h2>
+    <p>Phòng trọ này được đánh giá rất tốt với đầy đủ các tiện nghi cần thiết, không gian thoáng mát và vị trí thuận
+        lợi.
+    </p>
+    <div id="map"> TESTING</div>
+</div>
+<br>

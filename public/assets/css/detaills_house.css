@@ -1,8 +1,12 @@
 body {
     font-family: Arial, sans-serif;
     margin: 0;
-    padding: 20px;
+
     padding-top: 100px;
+}
+
+.content {
+    padding: 20px;
 }
 
 h1 {
@@ -16,4 +20,36 @@ p {
 .room-image {
     max-width: 400px;
     margin-bottom: 20px;
+}
+
+.pic-product {
+    width: 80% !important;
+
+}
+
+.pic-product img {
+    width: 80%;
+    height: 400px;
+    object-fit: contain;
+    background-color: black;
+    margin-left: 14px;
+}
+
+.extra-pics .left {
+    height: 90px;
+}
+
+.extra-pics img {
+    width: 90px;
+    height: 90px;
+    margin: 0.3rem 0;
+}
+
+.extra-pics img:nth-child(4n+0) {
+    margin-right: 0 !important;
+}
+
+#map {
+    height: 400px;
+    width: 100%;
 }
