@@ -8,7 +8,7 @@
 }
 
 #navbarNavAltMarkup {
-    width: 65%;
+    width: 70%;
 }
 
 .header ul {
@@ -18,9 +18,9 @@
 }
 
 .header .user-option {
-    width: 15%;
+    width: 30%;
+    margin-right: 20px;
 }
-
 .header .user-option img {
     border-radius: 50%;
     width: 46px;
@@ -77,21 +77,4 @@
 
 .header .subnav>li:hover {
     background-color: #d5d5d5;
-}
-
-.header .btn-post-house {
-    width: 10%;
-}
-
-.header .btn-post-house button {
-    width: 95%;
-    border-radius: 5px;
-    background-color: #ff0000;
-    border: none;
-    color: #fff;
-    padding: 10px 15px;
-}
-
-.header .btn-post-house i {
-    margin-left: 3px;
 }

@@ -7,21 +7,23 @@
 h5 {
     color: #002ffe;
 }
-.content__header > div {
+
+.content__header>div {
     font-size: 14px;
     color: #002ffe;
     font-style: italic;
 }
+
 /* CARD PROFILE */
-.landlord-profile .content .card-profile {
+.content .card-profile {
     background-color: #fff;
 }
 
-.landlord-profile .content .card-profile .header-card h6 {
+.content .card-profile .header-card h6 {
     font-weight: 400;
 }
 
-.landlord-profile .content .card-profile .body-card .avatar img {
+.content .card-profile .body-card .avatar img {
     width: 200px;
     height: 200px;
     border-radius: 50%;
@@ -30,57 +32,58 @@ h5 {
     margin: auto;
 }
 
-.landlord-profile .content .card-profile .body-card .avatar label {
+.content .card-profile .body-card .avatar label {
     border: 1px solid #d5d5d5;
     width: 120px;
     padding: 10px 0;
     color: rgb(124, 138, 154);
 }
 
-.landlord-profile .content .card-profile .body-card .avatar label:hover {
+.content .card-profile .body-card .avatar label:hover {
     cursor: pointer;
 }
 
-.landlord-profile .card-profile .body-card .details label {
+.card-profile .body-card .details label {
     color: rgb(124, 138, 154);
     width: 120px;
     text-align: right;
     margin-right: 1rem;
 }
 
-.landlord-profile .card-profile .body-card .details input, 
-.landlord-profile .card-profile .body-card .details textarea,
+.card-profile .body-card .details input,
+.card-profile .body-card .details textarea,
 #city-select {
     padding: 0.5rem;
     width: 75%;
     border: 1px solid #d5d5d5;
 }
 
-.landlord-profile .card-profile .body-card .details input:focus,
-.landlord-profile .card-profile .body-card .details textarea:focus {
+.card-profile .body-card .details input:focus,
+.card-profile .body-card .details textarea:focus {
     outline: none;
 }
 
-.landlord-profile .card-profile .body-card .details .sex-profile input {
+.card-profile .body-card .details .sex-profile input {
     width: 20px;
 }
 
-.landlord-profile .card-profile .body-card .details .sex-profile label {
+.card-profile .body-card .details .sex-profile label {
     width: 50px;
     color: #000;
 }
 
-.landlord-profile .card-profile .body-card .details .sex-profile label:first-child {
+.card-profile .body-card .details .sex-profile label:first-child {
     width: 120px;
     color: rgb(124, 138, 154);
 }
 
-.landlord-profile .card-profile .body-card input[type="submit"] {
+.card-profile .body-card input[type="submit"] {
     color: #ffff;
     border: none;
     background-color: #002ffe;
     border-radius: 3px;
 }
+
 #username-profile {
     color: #454545;
 }
