@@ -6,15 +6,14 @@
 {{#section "js"}}
 <script>
     function initMap() {
-        // Tạo một đối tượng bản đồ Google
         var map = new google.maps.Map(document.getElementById('map'), {
-            center: { lat: 10.123, lng: 106.456 }, // Tọa độ trung tâm của bản đồ
+            center: { lat: 10.762536872673731, lng: 106.68232551166415 }, // Tọa độ trung tâm của bản đồ
             zoom: 12 // Mức độ thu phóng của bản đồ
         });
 
         // Tạo một đánh địa điểm trên bản đồ
         var marker = new google.maps.Marker({
-            position: { lat: 10.123, lng: 106.456 }, // Tọa độ của đánh dấu
+            position: { lat: 10.762536872673731, lng: 106.68232551166415 }, // Tọa độ của đánh dấu
             map: map, // Bản đồ để đặt đánh dấu
             title: 'Địa điểm' // Tiêu đề của đánh dấu
         });
@@ -26,44 +25,119 @@
 {{>header_landlord}}
 <div class="content">
     <h1>Chi tiết Phòng Trọ</h1>
-
-    <div class="col-5 pic-product p-3" style="overflow: hidden;">
-        <img src="https://pt123.cdn.static123.com/images/thumbs/900x600/fit/2023/04/04/z4237382852854-ed72464cadbd4c61b8ebe2acb970694e_1680602688.jpg"
-            alt="">
-        <div class="extra-pics mt-2">
-            <i class="fa-solid fa-angle-left"></i>
-            <img src="https://pt123.cdn.static123.com/images/thumbs/900x600/fit/2023/04/04/z4237382846029-84e0315a368c7ef490aa2a770edd8615_1680602688.jpg"
-                alt="">
-            <img src="https://pt123.cdn.static123.com/images/thumbs/900x600/fit/2023/04/04/z4237382843978-8512bc8537f757f03964bec36d061966_1680602689.jpg"
-                alt="">
-            <img src="https://pt123.cdn.static123.com/images/thumbs/900x600/fit/2023/04/04/z4237382845459-b2579c3c30203c2d1d28143c5889f8a4_1680602689.jpg"
-                alt="">
-            <i class="fa-solid fa-angle-right"></i>
+    <hr>
+    <div class="infor" style="background-color: white; padding:20px; box-shadow: 4px 2px 10px rgba(0, 0, 0, 0.2);">
+        <div class="row">
+            <div class="col-10">
+                {{!-- image --}}
+                <div class="col-5 pic-product p-3" style="overflow: hidden;">
+                    <img src="https://pt123.cdn.static123.com/images/thumbs/900x600/fit/2023/04/04/z4237382852854-ed72464cadbd4c61b8ebe2acb970694e_1680602688.jpg"
+                        alt="">
+                    <div class="extra-pics mt-2">
+                        <i class="fa-solid fa-angle-left"></i>
+                        <img src="https://pt123.cdn.static123.com/images/thumbs/900x600/fit/2023/04/04/z4237382846029-84e0315a368c7ef490aa2a770edd8615_1680602688.jpg"
+                            alt="">
+                        <img src="https://pt123.cdn.static123.com/images/thumbs/900x600/fit/2023/04/04/z4237382843978-8512bc8537f757f03964bec36d061966_1680602689.jpg"
+                            alt="">
+                        <img src="https://pt123.cdn.static123.com/images/thumbs/900x600/fit/2023/04/04/z4237382845459-b2579c3c30203c2d1d28143c5889f8a4_1680602689.jpg"
+                            alt="">
+                        <i class="fa-solid fa-angle-right"></i>
+                    </div>
+                </div>
+            </div>
+            {{!-- landllord info --}}
+            <div class="col-3 " style="margin-left: -250px; margin-top:15px;">
+                <div class="author-aside">
+                    <figure class="author-avatar"><img src="https://phongtro123.com/images/default-user.png"></figure>
+                    <span class="author-name">kenshin8522</span>
+                    <div style="min-height: 16px; margin-bottom: 10px;">
+                        <div class="author-online-status online" author_id="">
+                            <i class="fa-solid fa-circle" style="color: #45fd21;"></i>
+                            <span>
+                                Đang hoạt động
+                            </span>
+                        </div>
+                    </div>
+                    <a class="btn author-phone" rel="nofollow" href="tel:0906878018">
+                        <i></i> 0906878018</a>
+                    <span class="btn favorite" data-post-id="58962" title="Lưu tin này">
+                        <i class="fa-light fa-heart"></i>
+                        &nbspYêu thích
+                    </span>
+                </div>
+            </div>
         </div>
     </div>
+    {{!-- info --}}
+    <hr>
+    <div class="description" style="background-color:white; padding:20px; box-shadow:4px 2px 10px rgba(0, 0, 0, 0.2);">
+        <h2>Thông tin chung</h2>
+        <p><strong>Địa chỉ:</strong> 123 Đường ABC, Quận XYZ, Thành phố ABC</p>
+        <p><strong>Diện tích:</strong> 30m²</p>
+        <p><strong>Giá thuê:</strong> 5.000.000 VNĐ/tháng</p>
 
-    <h2>Thông tin chung</h2>
-    <p><strong>Địa chỉ:</strong> 123 Đường ABC, Quận XYZ, Thành phố ABC</p>
-    <p><strong>Diện tích:</strong> 30m²</p>
-    <p><strong>Giá thuê:</strong> 5.000.000 VNĐ/tháng</p>
+        <h2>Tiện nghi và mô tả</h2>
+        <ul>
+            <li>Phòng có điều hòa nhiệt độ</li>
+            <li>Phòng tắm riêng</li>
+            <li>Wifi miễn phí</li>
+            <li>Bếp chung</li>
+            <li>Camera an ninh</li>
+        </ul>
 
-    <h2>Tiện nghi và mô tả</h2>
-    <ul>
-        <li>Phòng có điều hòa nhiệt độ</li>
-        <li>Phòng tắm riêng</li>
-        <li>Wifi miễn phí</li>
-        <li>Bếp chung</li>
-        <li>Camera an ninh</li>
-    </ul>
+        <h2>Thông tin liên hệ</h2>
+        <p><strong>SĐT liên hệ:</strong> 0123456789</p>
+        <p><strong>Email:</strong> example@example.com</p>
 
-    <h2>Thông tin liên hệ</h2>
-    <p><strong>SĐT liên hệ:</strong> 0123456789</p>
-    <p><strong>Email:</strong> example@example.com</p>
-
-    <h2>Đánh giá</h2>
-    <p>Phòng trọ này được đánh giá rất tốt với đầy đủ các tiện nghi cần thiết, không gian thoáng mát và vị trí thuận
-        lợi.
-    </p>
-    <div id="map"> TESTING</div>
+        <h2>Bản đồ vị trí</h2>
+        <div id="map">TESTING</div>
+    </div>
+    {{!-- related --}}
+    <br>
+    <h2>Các phòng trọ liên quan</h2>
+    <hr>
+    <div class="related-rooms">
+        <a href="product-c.html" class="room">
+            <img src="https://pt123.cdn.static123.com/images/thumbs/900x600/fit/2023/04/04/z4237382852854-ed72464cadbd4c61b8ebe2acb970694e_1680602688.jpg"
+                alt="">
+            <h3>Phòng trọ A</h3>
+            <p>Địa chỉ: 456 Đường DEF...</p>
+            <p>Diện tích: 25m²</p>
+            <p style="color:red">Giá thuê: 4.000.000 VNĐ/tháng</p>
+        </a>
+        <a href="product-c.html" class="room">
+            <img src="https://pt123.cdn.static123.com/images/thumbs/900x600/fit/2023/04/04/z4237382846029-84e0315a368c7ef490aa2a770edd8615_1680602688.jpg"
+                alt="">
+            <h3>Phòng trọ B</h3>
+            <p>Địa chỉ: 789 Đường GHI,...</p>
+            <p>Diện tích: 35m²</p>
+            <p style="color:red">Giá thuê: 6.000.000 VNĐ/tháng</p>
+        </a>
+        <a href="product-c.html" class="room">
+            <img src="https://pt123.cdn.static123.com/images/thumbs/900x600/fit/2023/04/04/z4237382843978-8512bc8537f757f03964bec36d061966_1680602689.jpg"
+                alt="">
+            <h3>Phòng trọ C</h3>
+            <p>Địa chỉ: 101 Đường JKL,...</p>
+            <p>Diện tích: 28m²</p>
+            <p style="color:red">Giá thuê: 4.500.000 VNĐ/tháng</p>
+        </a>
+        <a href="product-c.html" class="room">
+            <img src="https://pt123.cdn.static123.com/images/thumbs/900x600/fit/2023/04/04/z4237382843978-8512bc8537f757f03964bec36d061966_1680602689.jpg"
+                alt="">
+            <h3>Phòng trọ C</h3>
+            <p>Địa chỉ: 101 Đường JKL,...</p>
+            <p>Diện tích: 28m²</p>
+            <p style="color:red">Giá thuê: 4.500.000 VNĐ/tháng</p>
+        </a>
+        <a href="product-c.html" class="room">
+            <img src="https://pt123.cdn.static123.com/images/thumbs/900x600/fit/2023/04/04/z4237382843978-8512bc8537f757f03964bec36d061966_1680602689.jpg"
+                alt="">
+            <h3>Phòng trọ C</h3>
+            <p>Địa chỉ: 101 Đường JKL,...</p>
+            <p>Diện tích: 28m²</p>
+            <p style="color:red">Giá thuê: 4.500.000 VNĐ/tháng</p>
+        </a>
+    </div>
+    <hr>
 </div>
 <br>

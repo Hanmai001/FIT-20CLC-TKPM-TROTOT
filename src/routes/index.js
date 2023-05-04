@@ -9,7 +9,7 @@ export default function (app) {
   app.use("/house", initHouseRoute);
   app.use("/details/:id", initDetailsRoute);
   app.use("/", (req, res, next) => {
-    res.render("home");
+    res.render("vwAccount/register");
   });
   app.use(function (req, res, next) {
     res.render("404", { layout: false });
