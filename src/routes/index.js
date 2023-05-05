@@ -2,14 +2,16 @@ import initHouseRoute from './house';
 import initLandlordRoute from './landlord';
 import initTenantRoute from './tenant';
 import initDetailsRoute from './details_house';
+import initListRoute from './list-houses';
 
 export default function (app) {
   app.use("/landlord", initLandlordRoute);
   app.use("/tenant", initTenantRoute);
   app.use("/house", initHouseRoute);
   app.use("/details/:id", initDetailsRoute);
+  app.use("/list", initListRoute);
   app.use("/", (req, res, next) => {
-    res.render("vwAccount/register");
+    res.render("vwGuest/guest-main");
   });
   app.use(function (req, res, next) {
     res.render("404", { layout: false });

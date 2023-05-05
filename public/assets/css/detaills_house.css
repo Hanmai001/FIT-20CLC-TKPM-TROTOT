@@ -1,12 +1,12 @@
 body {
     font-family: Arial, sans-serif;
     margin: 0;
-    background-color: #F4F4F4;
     padding-top: 100px;
 }
 
 .content {
     padding: 20px;
+    background-color: #F4F4F4;
 }
 
 h1 {
@@ -82,7 +82,7 @@ p {
 .room {
     width: 20%;
     margin-bottom: 20px;
-    text-align: center;
+    text-align: start;
     border: 1px solid #ececec;
     padding: 10px;
     transition: transform 0.3s ease-in-out;

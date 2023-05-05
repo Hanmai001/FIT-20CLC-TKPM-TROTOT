@@ -1,0 +1,284 @@
+{{#section "css"}}
+<link rel="stylesheet" href="../../public/assets/css/home-page.css" />
+<link rel="stylesheet" href="../../public/assets/css/fill_search.css" />
+<link rel="stylesheet" href="../../public/assets/css/header_landlord.css" />
+<link rel="stylesheet" href="../../public/assets/css/list.css" />
+{{/section}}
+{{#section "js"}}
+<script src="../../public/assets/js/header_landlors.js"></script>
+<script>
+    var Pagination = {
+
+        code: '',
+
+        // --------------------
+        // Utility
+        // --------------------
+
+        // converting initialize data
+        Extend: function (data) {
+            data = data || {};
+            Pagination.size = data.size || 300;
+            Pagination.page = data.page || 1;
+            Pagination.step = data.step || 3;
+        },
+
+        // add pages by number (from [s] to [f])
+        Add: function (s, f) {
+            for (var i = s; i < f; i++) {
+                Pagination.code += '<a>' + i + '</a>';
+            }
+        },
+        // add last page with separator
+        Last: function () {
+            Pagination.code += '<i>...</i><a>' + Pagination.size + '</a>';
+        },
+
+        // add first page with separator
+        First: function () {
+            Pagination.code += '<a>1</a><i>...</i>';
+        },
+        // --------------------
+        // Handlers
+        // --------------------
+
+        // change page
+        Click: function () {
+            // window.location.href = "http://localhost:3000/tenant/profile"
+            Pagination.page = +this.innerHTML;
+            Pagination.Start();
+        },
+
+        // previous page
+        Prev: function () {
+            Pagination.page--;
+            if (Pagination.page < 1) {
+                Pagination.page = 1;
+            }
+            Pagination.Start();
+        },
+
+        // next page
+        Next: function () {
+            Pagination.page++;
+            if (Pagination.page > Pagination.size) {
+                Pagination.page = Pagination.size;
+            }
+            Pagination.Start();
+        },
+
+
+
+        // --------------------
+        // Script
+        // --------------------
+
+        // binding pages
+        Bind: function () {
+            var a = Pagination.e.getElementsByTagName('a');
+            for (var i = 0; i < a.length; i++) {
+                if (+a[i].innerHTML === Pagination.page) a[i].className = 'current';
+                a[i].addEventListener('click', Pagination.Click, false);
+            }
+        },
+
+        // write pagination
+        Finish: function () {
+            Pagination.e.innerHTML = Pagination.code;
+            Pagination.code = '';
+            Pagination.Bind();
+        },
+
+        // find pagination type
+        Start: function () {
+            if (Pagination.size < Pagination.step * 2 + 6) {
+                Pagination.Add(1, Pagination.size + 1);
+            }
+            else if (Pagination.page < Pagination.step * 2 + 1) {
+                Pagination.Add(1, Pagination.step * 2 + 4);
+                Pagination.Last();
+            }
+            else if (Pagination.page > Pagination.size - Pagination.step * 2) {
+                Pagination.First();
+                Pagination.Add(Pagination.size - Pagination.step * 2 - 2, Pagination.size + 1);
+            }
+            else {
+                Pagination.First();
+                Pagination.Add(Pagination.page - Pagination.step, Pagination.page + Pagination.step + 1);
+                Pagination.Last();
+            }
+            Pagination.Finish();
+        },
+
+
+
+        // --------------------
+        // Initialization
+        // --------------------
+
+        // binding buttons
+        Buttons: function (e) {
+            var nav = e.getElementsByTagName('a');
+            nav[0].addEventListener('click', Pagination.Prev, false); //nếu bấm vào nút prev thì xử lý event
+            nav[1].addEventListener('click', Pagination.Next, false); //nếu bấm vào nút prev thì xử lý event
+        },
+
+        // create skeleton
+        Create: function (e) {
+
+            var html = [
+                '<a>&#9668;</a>', // previous button
+                '<span></span>',  // pagination container
+                '<a>&#9658;</a>'  // next button
+            ];
+
+            e.innerHTML = html.join(''); //thêm html vào element e
+            Pagination.e = e.getElementsByTagName('span')[0]; //Lấy a đtien
+            Pagination.Buttons(e);
+        },
+
+        // init
+        Init: function (e, data) {
+            Pagination.Extend(data);
+            Pagination.Create(e);
+            Pagination.Start();
+        }
+    };
+
+
+
+    /* * * * * * * * * * * * * * * * *
+    * Initialization
+    * * * * * * * * * * * * * * * * */
+
+    var init = function () {
+        Pagination.Init(document.getElementById('pagination'), {
+            size: 30, // pages size
+            page: 1,  // selected page
+            step: 3   // pages before and after current
+        });
+    };
+    document.addEventListener('DOMContentLoaded', init, false);
+</script>
+{{/section}}
+{{>header_landlord}}
+{{!-- fillter bar --}}
+<div class="row justify-content-center" style="">
+    <div class="col-8" style="flex:1">
+        <div class="container-fluid text-center d-flex justify-content-center">
+            <form class="d-flex " style="margin-bottom: 7px;">
+                <button class="btn btn-outline-secondary me-1" type="submit">
+                    <i class="fas fa-filter"></i> Lọc
+                </button>
+                <div class="location me-2">
+                    <select class="form-select" name="wards" id="ward-select">
+                        <option value="">&#x1F3E0; --Chọn Quận--</option>
+                        <option value="1">&#x1F3E0; Quận 1</option>
+                        <option value="2">&#x1F3E0; Quận 2</option>
+                        <option value="3">&#x1F3E0; Quận 3</option>
+                        <option value="4">&#x1F3E0; Quận 4</option>
+                        <option value="5">&#x1F3E0; Quận 5</option>
+                        <option value="6">&#x1F3E0; Quận 6</option>
+                    </select>
+                </div>
+                <div class="prices me-2">
+                    <select class="form-select" name="prices" id="price-select">
+                        <option value="">&#x1F4B0; --Chọn Giá--</option>
+                        <option value="1">&#x1F4B0; Dưới 10 triệu đồng</option>
+                        <option value="2">&#x1F4B0; Từ 20-40 triệu đồng</option>
+                        <option value="3">&#x1F4B0; Từ 40-60 triệu đồng</option>
+                        <option value="4">&#x1F4B0; Trên 60 triệu đồng</option>
+                    </select>
+                </div>
+                <div class="square me-2">
+                    <select class="form-select" name="squares" id="square-select">
+                        <option value="">&#x25A0; --Chọn Diện Tích--</option>
+                        <option value="1">&#x25A0; Dưới 10m2</option>
+                        <option value="2">&#x25A0; Từ 10m2-20m2</option>
+                        <option value="3">&#x25A0; Từ 20m2-30m2</option>
+                        <option value="4">&#x25A0; Trên 30m2</option>
+                    </select>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="col-3" style="flex:1; margin-right: 20px">
+        <form class="search-container">
+            <input class="form-control me-2" type="text" placeholder="Search &#x1F50D;" aria-label="Search"
+                style="flex: 1" name="q">
+            <button class="btn btn-primary" type="submit">Search </button>
+        </form>
+    </div>
+</div>
+<div class="content">
+    <h1>Danh Sách Phòng Trọ</h1>
+    <hr>
+    <div class="list-rooms">
+        <a href="product-c.html" class="room">
+            <img src="https://pt123.cdn.static123.com/images/thumbs/900x600/fit/2023/04/04/z4237382852854-ed72464cadbd4c61b8ebe2acb970694e_1680602688.jpg"
+                alt="">
+            <h3>Phòng trọ A</h3>
+            <p>Địa chỉ: 456 Đường DEF...</p>
+            <p>Diện tích: 25m²</p>
+            <p style="color:red">Giá thuê: 4.000.000 VNĐ/tháng</p>
+            <p style="color:rgb(139, 139, 139)">8 phút trước</p>
+        </a>
+        <a href="product-c.html" class="room">
+            <img src="https://pt123.cdn.static123.com/images/thumbs/900x600/fit/2023/04/04/z4237382846029-84e0315a368c7ef490aa2a770edd8615_1680602688.jpg"
+                alt="">
+            <h3>Phòng trọ B</h3>
+            <p>Địa chỉ: 789 Đường GHI,...</p>
+            <p>Diện tích: 35m²</p>
+            <p style="color:red">Giá thuê: 6.000.000 VNĐ/tháng</p>
+            <p style="color:rgb(139, 139, 139)">8 phút trước</p>
+        </a>
+        <a href="product-c.html" class="room">
+            <img src="https://pt123.cdn.static123.com/images/thumbs/900x600/fit/2023/04/04/z4237382843978-8512bc8537f757f03964bec36d061966_1680602689.jpg"
+                alt="">
+            <h3>Phòng trọ C</h3>
+            <p>Địa chỉ: 101 Đường JKL,...</p>
+            <p>Diện tích: 28m²</p>
+            <p style="color:red">Giá thuê: 4.500.000 VNĐ/tháng</p>
+            <p style="color:rgb(139, 139, 139)">8 phút trước</p>
+        </a>
+        <a href="product-c.html" class="room">
+            <img src="https://pt123.cdn.static123.com/images/thumbs/900x600/fit/2023/04/04/z4237382843978-8512bc8537f757f03964bec36d061966_1680602689.jpg"
+                alt="">
+            <h3>Phòng trọ C</h3>
+            <p>Địa chỉ: 101 Đường JKL,...</p>
+            <p>Diện tích: 28m²</p>
+            <p style="color:red">Giá thuê: 4.500.000 VNĐ/tháng</p>
+            <p style="color:rgb(139, 139, 139)">8 phút trước</p>
+        </a>
+        <a href="product-c.html" class="room">
+            <img src="https://pt123.cdn.static123.com/images/thumbs/900x600/fit/2023/04/04/z4237382843978-8512bc8537f757f03964bec36d061966_1680602689.jpg"
+                alt="">
+            <h3>Phòng trọ C</h3>
+            <p>Địa chỉ: 101 Đường JKL,...</p>
+            <p>Diện tích: 28m²</p>
+            <p style="color:red">Giá thuê: 4.500.000 VNĐ/tháng</p>
+            <p style="color:rgb(139, 139, 139)">8 phút trước</p>
+        </a>
+        <a href="product-c.html" class="room">
+            <img src="https://pt123.cdn.static123.com/images/thumbs/900x600/fit/2023/04/04/z4237382843978-8512bc8537f757f03964bec36d061966_1680602689.jpg"
+                alt="">
+            <h3>Phòng trọ C</h3>
+            <p>Địa chỉ: 101 Đường JKL,...</p>
+            <p>Diện tích: 28m²</p>
+            <p style="color:red">Giá thuê: 4.500.000 VNĐ/tháng</p>
+            <p style="color:rgb(139, 139, 139)">8 phút trước</p>
+        </a>
+        <a href="product-c.html" class="room">
+            <img src="https://pt123.cdn.static123.com/images/thumbs/900x600/fit/2023/04/04/z4237382843978-8512bc8537f757f03964bec36d061966_1680602689.jpg"
+                alt="">
+            <h3>Phòng trọ C</h3>
+            <p>Địa chỉ: 101 Đường JKL,...</p>
+            <p>Diện tích: 28m²</p>
+            <p style="color:red">Giá thuê: 4.500.000 VNĐ/tháng</p>
+            <p style="color:rgb(139, 139, 139)">8 phút trước</p>
+        </a>
+    </div>
+    <div class="d-flex justify-content-center my-4 container-pagination" style="margin-left: -15px;">
+        <div id="pagination"></div>
+    </div>
+</div>

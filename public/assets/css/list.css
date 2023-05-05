@@ -1,0 +1,49 @@
+.content {
+    background-color: #F4F4F4;
+    padding: 20px;
+}
+
+.list-rooms {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 20px;
+
+}
+
+.room {
+    width: 20%;
+    margin-bottom: 20px;
+    text-align: start;
+    border: 1px solid #ececec;
+    padding: 10px;
+    transition: transform 0.3s ease-in-out;
+    box-shadow: 4px 2px 10px rgba(0, 0, 0, 0.2);
+    background-color: white;
+
+}
+
+.room:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.room img {
+    position: relative;
+    background-size: cover !important;
+    width: 250px;
+    height: 175px;
+    display: inline-block;
+}
+
+.room h3 {
+    margin-top: 10px;
+}
+
+.room p {
+    margin-bottom: 5px;
+}
+
+a {
+    text-decoration: none;
+    color: black
+}

@@ -1,9 +1,9 @@
 {{#section "css"}}
-<link rel="stylesheet" href="../../public/assets/css/house_owner.css" />
 <link rel="stylesheet" href="../../public/assets/css/header_landlord.css" />
 <link rel="stylesheet" href="../../public/assets/css/detaills_house.css" />
 {{/section}}
 {{#section "js"}}
+<script src="../../public/assets/js/header_landlors.js"></script>
 <script>
     function initMap() {
         var map = new google.maps.Map(document.getElementById('map'), {
@@ -17,15 +17,15 @@
             map: map, // Bản đồ để đặt đánh dấu
             title: 'Địa điểm' // Tiêu đề của đánh dấu
         });
+        //Paging
     }
 </script>
 <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBmEdqT8OpC-7GmBrsYCy9KFJYg7NAqeRs&callback=initMap"></script>
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAeOS7IcZeQdZrFqQOWnddYHwki4xDCCBI&callback=initMap"></script>
 {{/section}}
 {{>header_landlord}}
 <div class="content">
     <h1>Chi tiết Phòng Trọ</h1>
-    <hr>
     <div class="infor" style="background-color: white; padding:20px; box-shadow: 4px 2px 10px rgba(0, 0, 0, 0.2);">
         <div class="row">
             <div class="col-10">
@@ -46,7 +46,7 @@
                 </div>
             </div>
             {{!-- landllord info --}}
-            <div class="col-3 " style="margin-left: -250px; margin-top:15px;">
+            <div class="col" style="margin-left: -425px; margin-top:15px;">
                 <div class="author-aside">
                     <figure class="author-avatar"><img src="https://phongtro123.com/images/default-user.png"></figure>
                     <span class="author-name">kenshin8522</span>
@@ -104,6 +104,7 @@
             <p>Địa chỉ: 456 Đường DEF...</p>
             <p>Diện tích: 25m²</p>
             <p style="color:red">Giá thuê: 4.000.000 VNĐ/tháng</p>
+            <p style="color:rgb(139, 139, 139)">8 phút trước</p>
         </a>
         <a href="product-c.html" class="room">
             <img src="https://pt123.cdn.static123.com/images/thumbs/900x600/fit/2023/04/04/z4237382846029-84e0315a368c7ef490aa2a770edd8615_1680602688.jpg"
@@ -112,6 +113,7 @@
             <p>Địa chỉ: 789 Đường GHI,...</p>
             <p>Diện tích: 35m²</p>
             <p style="color:red">Giá thuê: 6.000.000 VNĐ/tháng</p>
+            <p style="color:rgb(139, 139, 139)">8 phút trước</p>
         </a>
         <a href="product-c.html" class="room">
             <img src="https://pt123.cdn.static123.com/images/thumbs/900x600/fit/2023/04/04/z4237382843978-8512bc8537f757f03964bec36d061966_1680602689.jpg"
@@ -120,6 +122,7 @@
             <p>Địa chỉ: 101 Đường JKL,...</p>
             <p>Diện tích: 28m²</p>
             <p style="color:red">Giá thuê: 4.500.000 VNĐ/tháng</p>
+            <p style="color:rgb(139, 139, 139)">8 phút trước</p>
         </a>
         <a href="product-c.html" class="room">
             <img src="https://pt123.cdn.static123.com/images/thumbs/900x600/fit/2023/04/04/z4237382843978-8512bc8537f757f03964bec36d061966_1680602689.jpg"
@@ -128,6 +131,7 @@
             <p>Địa chỉ: 101 Đường JKL,...</p>
             <p>Diện tích: 28m²</p>
             <p style="color:red">Giá thuê: 4.500.000 VNĐ/tháng</p>
+            <p style="color:rgb(139, 139, 139)">8 phút trước</p>
         </a>
         <a href="product-c.html" class="room">
             <img src="https://pt123.cdn.static123.com/images/thumbs/900x600/fit/2023/04/04/z4237382843978-8512bc8537f757f03964bec36d061966_1680602689.jpg"
@@ -136,8 +140,35 @@
             <p>Địa chỉ: 101 Đường JKL,...</p>
             <p>Diện tích: 28m²</p>
             <p style="color:red">Giá thuê: 4.500.000 VNĐ/tháng</p>
+            <p style="color:rgb(139, 139, 139)">8 phút trước</p>
         </a>
     </div>
     <hr>
+    <h2>Đánh giá</h2>
+    <div class="text-center pb-5 border-bottom">
+        <form action="post-review" method="post">
+            <label for="review"></label>
+            <textarea id="review" rows="6" maxLength="1000" name="myreview"
+                placeholder="Viết review sản phẩm của bạn tại đây" style="width:100%"></textarea>
+            <div class="d-block text-end mt-2">
+                <input class="me-4" type="submit" value="ĐĂNG">
+            </div>
+        </form>
+        <div class="list-review">
+            <div class="review row py-4 border-bottom">
+                <div class="col-2 text-center">
+                    <img src="../../public/assets/pictures/icon.png" alt="">
+                </div>
+                <div class="col-10 text-start">
+                    <span class="name">
+                        QuangTran
+                    </span>
+                    <p class="comment">
+                        Tuyet voi
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 <br>
