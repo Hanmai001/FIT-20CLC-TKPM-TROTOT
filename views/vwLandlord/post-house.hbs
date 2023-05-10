@@ -302,6 +302,25 @@
         })
         outputFiles.innerHTML = images
     }
+    function deleteImage(index) {
+        imagesArray.splice(index, 1);
+        const files = fileUploader.files;
+        const dt = new DataTransfer();
+
+        console.log(files)
+        if (imagesArray.length >= 10) {
+            alert("Bạn chỉ có thể tải tối đa 10 files:(");
+        }
+        else {
+            for (let i = 0; i < imagesArray.length; i++) {
+                const file = imagesArray[i]
+                dt.items.add(file) // here you exclude the file. thus removing it.
+            }
+            fileUploader.files = dt.files;
+            console.log(fileUploader.files)
+            displayImages()
+        }
+    }
 </script>
 {{/section}}
 <div class="container-fluid post-house">

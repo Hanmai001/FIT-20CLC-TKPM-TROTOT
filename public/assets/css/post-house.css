@@ -90,8 +90,8 @@ textarea {
     top: -4px;
     right: 4px;
     cursor: pointer;
-    font-size: 22px;
-    color: white;
+    font-size: 26px;
+    color: black;
 }
 
 .content__files .image span:hover {
