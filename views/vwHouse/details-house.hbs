@@ -25,10 +25,10 @@
 {{/section}}
 {{>header_landlord}}
 <div class="content">
-    <h1>Chi tiết Phòng Trọ</h1>
+    <h1 style="font-size:xx-large">Chi tiết Phòng Trọ</h1>
     <div class="infor" style="background-color: white; padding:20px; box-shadow: 4px 2px 10px rgba(0, 0, 0, 0.2);">
         <div class="row">
-            <div class="col-10">
+            <div class="col-10 picture">
                 {{!-- image --}}
                 <div class="col-5 pic-product p-3" style="overflow: hidden;">
                     <img src="https://pt123.cdn.static123.com/images/thumbs/900x600/fit/2023/04/04/z4237382852854-ed72464cadbd4c61b8ebe2acb970694e_1680602688.jpg"
@@ -46,9 +46,10 @@
                 </div>
             </div>
             {{!-- landllord info --}}
-            <div class="col" style="margin-left: -425px; margin-top:15px;">
+            <div class="col-3" style="margin-left: -175px; margin-top:15px;">
                 <div class="author-aside">
                     <figure class="author-avatar"><img src="https://phongtro123.com/images/default-user.png"></figure>
+                    <span class="author-post">Được đăng bởi</span>
                     <span class="author-name">kenshin8522</span>
                     <div style="min-height: 16px; margin-bottom: 10px;">
                         <div class="author-online-status online" author_id="">
@@ -69,7 +70,7 @@
         </div>
     </div>
     {{!-- info --}}
-    <hr>
+    <br>
     <div class="description" style="background-color:white; padding:20px; box-shadow:4px 2px 10px rgba(0, 0, 0, 0.2);">
         <h2>Thông tin chung</h2>
         <p><strong>Địa chỉ:</strong> 123 Đường ABC, Quận XYZ, Thành phố ABC</p>
@@ -94,78 +95,73 @@
     </div>
     {{!-- related --}}
     <br>
-    <h2>Các phòng trọ liên quan</h2>
-    <hr>
-    <div class="related-rooms">
-        <a href="product-c.html" class="room">
-            <img src="https://pt123.cdn.static123.com/images/thumbs/900x600/fit/2023/04/04/z4237382852854-ed72464cadbd4c61b8ebe2acb970694e_1680602688.jpg"
-                alt="">
-            <h3>Phòng trọ A</h3>
-            <p>Địa chỉ: 456 Đường DEF...</p>
-            <p>Diện tích: 25m²</p>
-            <p style="color:red">Giá thuê: 4.000.000 VNĐ/tháng</p>
-            <p style="color:rgb(139, 139, 139)">8 phút trước</p>
-        </a>
-        <a href="product-c.html" class="room">
-            <img src="https://pt123.cdn.static123.com/images/thumbs/900x600/fit/2023/04/04/z4237382846029-84e0315a368c7ef490aa2a770edd8615_1680602688.jpg"
-                alt="">
-            <h3>Phòng trọ B</h3>
-            <p>Địa chỉ: 789 Đường GHI,...</p>
-            <p>Diện tích: 35m²</p>
-            <p style="color:red">Giá thuê: 6.000.000 VNĐ/tháng</p>
-            <p style="color:rgb(139, 139, 139)">8 phút trước</p>
-        </a>
-        <a href="product-c.html" class="room">
-            <img src="https://pt123.cdn.static123.com/images/thumbs/900x600/fit/2023/04/04/z4237382843978-8512bc8537f757f03964bec36d061966_1680602689.jpg"
-                alt="">
-            <h3>Phòng trọ C</h3>
-            <p>Địa chỉ: 101 Đường JKL,...</p>
-            <p>Diện tích: 28m²</p>
-            <p style="color:red">Giá thuê: 4.500.000 VNĐ/tháng</p>
-            <p style="color:rgb(139, 139, 139)">8 phút trước</p>
-        </a>
-        <a href="product-c.html" class="room">
-            <img src="https://pt123.cdn.static123.com/images/thumbs/900x600/fit/2023/04/04/z4237382843978-8512bc8537f757f03964bec36d061966_1680602689.jpg"
-                alt="">
-            <h3>Phòng trọ C</h3>
-            <p>Địa chỉ: 101 Đường JKL,...</p>
-            <p>Diện tích: 28m²</p>
-            <p style="color:red">Giá thuê: 4.500.000 VNĐ/tháng</p>
-            <p style="color:rgb(139, 139, 139)">8 phút trước</p>
-        </a>
-        <a href="product-c.html" class="room">
-            <img src="https://pt123.cdn.static123.com/images/thumbs/900x600/fit/2023/04/04/z4237382843978-8512bc8537f757f03964bec36d061966_1680602689.jpg"
-                alt="">
-            <h3>Phòng trọ C</h3>
-            <p>Địa chỉ: 101 Đường JKL,...</p>
-            <p>Diện tích: 28m²</p>
-            <p style="color:red">Giá thuê: 4.500.000 VNĐ/tháng</p>
-            <p style="color:rgb(139, 139, 139)">8 phút trước</p>
-        </a>
+    <div class="description" style="background-color:white; padding:20px; box-shadow:4px 2px 10px rgba(0, 0, 0, 0.2);">
+        <h2>Các phòng trọ liên quan</h2>
+        <div class="related-rooms">
+            <a href="product-c.html" class="room">
+                <img src="https://pt123.cdn.static123.com/images/thumbs/900x600/fit/2023/04/04/z4237382852854-ed72464cadbd4c61b8ebe2acb970694e_1680602688.jpg"
+                    alt="">
+                <h3>Phòng trọ A</h3>
+                <p>Địa chỉ: 456 Đường DEF...</p>
+                <p>Diện tích: 25m²</p>
+                <p style="color:red">Giá thuê: 4.000.000 VNĐ/tháng</p>
+                <p style="color:rgb(139, 139, 139)">8 phút trước</p>
+            </a>
+            <a href="product-c.html" class="room">
+                <img src="https://pt123.cdn.static123.com/images/thumbs/900x600/fit/2023/04/04/z4237382846029-84e0315a368c7ef490aa2a770edd8615_1680602688.jpg"
+                    alt="">
+                <h3>Phòng trọ B</h3>
+                <p>Địa chỉ: 789 Đường GHI,...</p>
+                <p>Diện tích: 35m²</p>
+                <p style="color:red">Giá thuê: 6.000.000 VNĐ/tháng</p>
+                <p style="color:rgb(139, 139, 139)">8 phút trước</p>
+            </a>
+            <a href="product-c.html" class="room">
+                <img src="https://pt123.cdn.static123.com/images/thumbs/900x600/fit/2023/04/04/z4237382843978-8512bc8537f757f03964bec36d061966_1680602689.jpg"
+                    alt="">
+                <h3>Phòng trọ C</h3>
+                <p>Địa chỉ: 101 Đường JKL,...</p>
+                <p>Diện tích: 28m²</p>
+                <p style="color:red">Giá thuê: 4.500.000 VNĐ/tháng</p>
+                <p style="color:rgb(139, 139, 139)">8 phút trước</p>
+            </a>
+            <a href="product-c.html" class="room">
+                <img src="https://pt123.cdn.static123.com/images/thumbs/900x600/fit/2023/04/04/z4237382843978-8512bc8537f757f03964bec36d061966_1680602689.jpg"
+                    alt="">
+                <h3>Phòng trọ C</h3>
+                <p>Địa chỉ: 101 Đường JKL,...</p>
+                <p>Diện tích: 28m²</p>
+                <p style="color:red">Giá thuê: 4.500.000 VNĐ/tháng</p>
+                <p style="color:rgb(139, 139, 139)">8 phút trước</p>
+            </a>
+            <a href="product-c.html" class="room">
+                <img src="https://pt123.cdn.static123.com/images/thumbs/900x600/fit/2023/04/04/z4237382843978-8512bc8537f757f03964bec36d061966_1680602689.jpg"
+                    alt="">
+                <h3>Phòng trọ C</h3>
+                <p>Địa chỉ: 101 Đường JKL,...</p>
+                <p>Diện tích: 28m²</p>
+                <p style="color:red">Giá thuê: 4.500.000 VNĐ/tháng</p>
+                <p style="color:rgb(139, 139, 139)">8 phút trước</p>
+            </a>
+        </div>
     </div>
-    <hr>
-    <h2>Đánh giá</h2>
-    <div class="text-center pb-5 border-bottom">
-        <form action="post-review" method="post">
-            <label for="review"></label>
-            <textarea id="review" rows="6" maxLength="1000" name="myreview"
-                placeholder="Viết review sản phẩm của bạn tại đây" style="width:100%"></textarea>
-            <div class="d-block text-end mt-2">
-                <input class="me-4" type="submit" value="ĐĂNG">
-            </div>
-        </form>
-        <div class="list-review">
-            <div class="review row py-4 border-bottom">
-                <div class="col-2 text-center">
-                    <img src="../../public/assets/pictures/icon.png" alt="">
-                </div>
-                <div class="col-10 text-start">
-                    <span class="name">
-                        QuangTran
-                    </span>
-                    <p class="comment">
-                        Tuyet voi
-                    </p>
+    <br>
+    <div class="description" style="background-color:white; padding:20px; box-shadow:4px 2px 10px rgba(0, 0, 0, 0.2);">
+        <h2>Đánh giá</h2>
+        <div class="text-center pb-5">
+            <div class="list-review">
+                <div class="review row py-4 border-bottom">
+                    <div class="col-2 text-center">
+                        <img src="../../public/assets/pictures/icon.png" alt="">
+                    </div>
+                    <div class="col-10 text-start">
+                        <span class="name">
+                            QuangTran
+                        </span>
+                        <p class="comment">
+                            Tuyet voi
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>

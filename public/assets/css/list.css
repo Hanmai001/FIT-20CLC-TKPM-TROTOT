@@ -1,5 +1,5 @@
 .content {
-    background-color: #F4F4F4;
+    background-color: #ffffff;
     padding: 20px;
 }
 
@@ -33,6 +33,7 @@
     width: 250px;
     height: 175px;
     display: inline-block;
+    margin-left: 8px;
 }
 
 .room h3 {

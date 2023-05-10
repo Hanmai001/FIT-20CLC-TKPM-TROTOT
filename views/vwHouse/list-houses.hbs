@@ -163,55 +163,9 @@
 {{/section}}
 {{>header_landlord}}
 {{!-- fillter bar --}}
-<div class="row justify-content-center" style="">
-    <div class="col-8" style="flex:1">
-        <div class="container-fluid text-center d-flex justify-content-center">
-            <form class="d-flex " style="margin-bottom: 7px;">
-                <button class="btn btn-outline-secondary me-1" type="submit">
-                    <i class="fas fa-filter"></i> Lọc
-                </button>
-                <div class="location me-2">
-                    <select class="form-select" name="wards" id="ward-select">
-                        <option value="">&#x1F3E0; --Chọn Quận--</option>
-                        <option value="1">&#x1F3E0; Quận 1</option>
-                        <option value="2">&#x1F3E0; Quận 2</option>
-                        <option value="3">&#x1F3E0; Quận 3</option>
-                        <option value="4">&#x1F3E0; Quận 4</option>
-                        <option value="5">&#x1F3E0; Quận 5</option>
-                        <option value="6">&#x1F3E0; Quận 6</option>
-                    </select>
-                </div>
-                <div class="prices me-2">
-                    <select class="form-select" name="prices" id="price-select">
-                        <option value="">&#x1F4B0; --Chọn Giá--</option>
-                        <option value="1">&#x1F4B0; Dưới 10 triệu đồng</option>
-                        <option value="2">&#x1F4B0; Từ 20-40 triệu đồng</option>
-                        <option value="3">&#x1F4B0; Từ 40-60 triệu đồng</option>
-                        <option value="4">&#x1F4B0; Trên 60 triệu đồng</option>
-                    </select>
-                </div>
-                <div class="square me-2">
-                    <select class="form-select" name="squares" id="square-select">
-                        <option value="">&#x25A0; --Chọn Diện Tích--</option>
-                        <option value="1">&#x25A0; Dưới 10m2</option>
-                        <option value="2">&#x25A0; Từ 10m2-20m2</option>
-                        <option value="3">&#x25A0; Từ 20m2-30m2</option>
-                        <option value="4">&#x25A0; Trên 30m2</option>
-                    </select>
-                </div>
-            </form>
-        </div>
-    </div>
-    <div class="col-3" style="flex:1; margin-right: 20px">
-        <form class="search-container">
-            <input class="form-control me-2" type="text" placeholder="Search &#x1F50D;" aria-label="Search"
-                style="flex: 1" name="q">
-            <button class="btn btn-primary" type="submit">Search </button>
-        </form>
-    </div>
-</div>
+{{>search_bar}}
 <div class="content">
-    <h1>Danh Sách Phòng Trọ</h1>
+    <h1 style="font-size:xx-large">Danh Sách Phòng Trọ</h1>
     <hr>
     <div class="list-rooms">
         <a href="product-c.html" class="room">

@@ -1,0 +1,120 @@
+{{#section "js"}}
+<script>
+    $(document).ready(function () {
+        let utilitySelect = new Choices('#utility-select', {
+            removeItemButton: true,
+            maxItemCount: 20,
+            searchResultLimit: 5,
+        });
+        $.ajax({
+            url: "https://provinces.open-api.vn/api/p",
+            type: "get",
+            dateType: "json",
+
+            success: function (result) {
+                console.log(result)
+                $.each(result, function (key, value) {
+                    let item = $('<option value=' + value.code + '>' + value.name + '</option>');
+                    $("#city-select").append(item);
+                });
+            }
+        });
+    });
+    $("#city-select").change(function () {
+        let selectedVal = $("#city-select option:selected").val();
+        $("#district-select").empty();
+        let item = $("<option value="">&#x1F3E0; --Chọn Quận--</option>");
+        $("#district-select").append(item);
+        if (selectedVal == "") {
+            $('#note1').show()
+        }
+        else {
+            $('#note1').hide()
+            $.ajax({
+                url: "https://provinces.open-api.vn/api/d/",
+                type: "get",
+                dateType: "json",
+                success: function (result) {
+                    console.log(result)
+                    $.each(result, function (key, value) {
+                        if (value.province_code == selectedVal) {
+                            item = $('<option value=' + value.code + '>' + value.name + '</option>');
+                            $("#district-select").append(item);
+                        }
+                    });
+                }
+            });
+        }
+    })
+    $("#district-select").change(function () {
+        let selectedVal = $("#district-select option:selected").val();
+        if (selectedVal == "") {
+            $('#note2').show()
+        }
+        else {
+            $('#note2').hide()
+            $.ajax({
+                url: "https://provinces.open-api.vn/api/w/",
+                type: "get",
+                dateType: "json",
+                success: function (result) {
+                    console.log(result)
+                    $.each(result, function (key, value) {
+                        if (value.district_code == selectedVal) {
+                            item = $('<option value=' + value.code + '>' + value.name + '</option>');
+                        }
+                    });
+                }
+            });
+        }
+    })
+</script>
+{{/section}}
+<div class="row justify-content-center" style="box-shadow: 0px 4px 10px rgba(182,182,182,0.18) !important;">
+    <div class="col-8" style="">
+        <div class="container-fluid text-center d-flex justify-content-start">
+            <form class="d-flex " style="margin-bottom: 7px;">
+                <button class="btn btn-outline-secondary me-1" type="submit">
+                    <i class="fas fa-filter"></i> Lọc
+                </button>
+                <div class="cities me-2">
+                    <select class="form-select" name="cities" id="city-select" onfocus='this.size=5;'
+                        onblur='this.size=1;' onchange='this.size=1; this.blur();'>
+                        <option value="">&#x1F3D9; --Chọn Tỉnh--</option>
+                    </select>
+                </div>
+                <div class="district  me-2">
+                    <select class="form-select" name="district" id="district-select" onfocus='this.size=5;'
+                        onblur='this.size=1;' onchange='this.size=1; this.blur();'>
+                        <option value="">&#x1F3E0; --Chọn Quận--</option>
+                    </select>
+                </div>
+                <div class="prices me-2">
+                    <select class="form-select" name="prices" id="price-select">
+                        <option value="">&#x1F4B0; --Chọn Giá--</option>
+                        <option value="1">&#x1F4B0; Dưới 10 triệu đồng</option>
+                        <option value="2">&#x1F4B0; Từ 20-40 triệu đồng</option>
+                        <option value="3">&#x1F4B0; Từ 40-60 triệu đồng</option>
+                        <option value="4">&#x1F4B0; Trên 60 triệu đồng</option>
+                    </select>
+                </div>
+                <div class="square me-2">
+                    <select class="form-select" name="squares" id="square-select">
+                        <option value="">&#x25A0; --Chọn Diện Tích--</option>
+                        <option value="1">&#x25A0; Dưới 10m2</option>
+                        <option value="2">&#x25A0; Từ 10m2-20m2</option>
+                        <option value="3">&#x25A0; Từ 20m2-30m2</option>
+                        <option value="4">&#x25A0; Trên 30m2</option>
+                    </select>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="col-3" style="flex:1; margin-right: 20px; margin-left: -125px">
+        <form class="search-container">
+            <input class="form-control me-2" type="text" placeholder="Search &#x1F50D;" aria-label="Search"
+                style="flex: 1" name="q">
+            <button class="btn btn-primary" type="submit">Search </button>
+        </form>
+    </div>
+</div>

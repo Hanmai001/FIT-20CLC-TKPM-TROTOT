@@ -7,13 +7,10 @@ const getHouseManagementPage = async (req, res) => {
 const getManageAppointmentPage = async (req, res) => {
     return res.render("vwLandlord/manage-appointment")
 }
-const getOwnerPage = async (req, res) => {
-    res.render("vwLandLord/main_page")
-}
 const getProfilePage = async (req, res) => {
     res.render("vwLandlord/landlord-profile")
 }
 const getChangePassPage = async (req, res) => {
     res.render("vwLandlord/change-password")
 }
-export { getPostHousePage, getHouseManagementPage, getManageAppointmentPage, getOwnerPage, getProfilePage, getChangePassPage }
+export { getPostHousePage, getHouseManagementPage, getManageAppointmentPage, getProfilePage, getChangePassPage }
