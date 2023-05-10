@@ -52,19 +52,20 @@
             success: function (result) {
                 console.log(result)
                 $.each(result, function (key, value) {
-                    let item = $('<option value=' + value.code + '>' + value.name + '</option>');
+                    const valueName = value.name;
+                    let item = $(`<option key='${value.code}' value='${valueName}'>${valueName}</option>`);
                     $("#city-select").append(item);
                 });
             }
         });
     });
     $("#city-select").change(function () {
-        let selectedVal = $("#city-select option:selected").val();
+        let selectedVal = $("#city-select option:selected").attr('key');
         $("#district-select").empty();
-        let item = $("<option class='text-center' value=''>--Chọn Quận/Huyện--</option>");
+        let item = $("<option key='' class='text-center' value=''>--Chọn Quận/Huyện--</option>");
         $("#district-select").append(item);
         $("#ward-select").empty();
-        item = $("<option class='text-center' value=''>--Chọn Phường/Xã--</option>");
+        item = $("<option key='' class='text-center' value=''>--Chọn Phường/Xã--</option>");
         $("#ward-select").append(item);
         if (selectedVal == "") {
             $('#note1').show()
@@ -79,7 +80,8 @@
                     console.log(result)
                     $.each(result, function (key, value) {
                         if (value.province_code == selectedVal) {
-                            item = $('<option value=' + value.code + '>' + value.name + '</option>');
+                            const valueName = value.name;
+                            item = $(`<option key='${value.code}' value='${valueName}'>${valueName}</option>`);
                             $("#district-select").append(item);
                         }
                     });
@@ -89,9 +91,9 @@
 
     })
     $("#district-select").change(function () {
-        let selectedVal = $("#district-select option:selected").val();
+        let selectedVal = $("#district-select option:selected").attr('key');
         $("#ward-select").empty();
-        let item = $("<option class='text-center' value=''>--Chọn Phường/Xã--</option>");
+        let item = $("<option key='' class='text-center' value=''>--Chọn Phường/Xã--</option>");
         $("#ward-select").append(item);
         if (selectedVal == "") {
             $('#note2').show()
@@ -106,7 +108,8 @@
                     console.log(result)
                     $.each(result, function (key, value) {
                         if (value.district_code == selectedVal) {
-                            item = $('<option value=' + value.code + '>' + value.name + '</option>');
+                            const valueName = value.name;
+                            item = $(`<option key='${value.code}' value='${valueName}'>${valueName}</option>`);
                             $("#ward-select").append(item);
                         }
                     });
@@ -115,7 +118,7 @@
         }
     })
     $("#ward-select").change(function (e) {
-        let selectedVal = $("#district-select option:selected").val();
+        let selectedVal = $("#district-select option:selected").attr('key');
         if (selectedVal == "") {
             $('#note3').show()
         }

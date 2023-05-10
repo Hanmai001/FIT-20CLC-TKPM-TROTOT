@@ -1,11 +1,13 @@
+import { response } from "express";
 import db from "../config/db.config";
 
 const addHouseModel = async (data) => {
-    const { cities, district, wards, type_house, status, detailed_address, title, description, utilities, area, num_people, price, water, electricity } = data;
+    const { cities, districts, wards, type_house, status, detailed_address, title, description, utilities, area, num_people, price, water, electricity } = data;
+    console.log(cities, districts, wards)
     const [id] = await db('tindangtro').insert(
         {
             Ten: title,
-            DiaChi: detailed_address + ', ' + wards + ', ' + district + ', ' + cities,
+            DiaChi: detailed_address + ', ' + wards + ', ' + districts + ', ' + cities,
             TrangThaiKiemDuyet: 1,
             Gia: price,
             MoTa: description,
@@ -18,5 +20,16 @@ const addHouseModel = async (data) => {
         }, 'TinID').returning('TinID')
     return id;
 }
+const getAllHousesOfLandlord = async (idUser) => {
+    const res =  await db('tindangtro').select('*');
+    return {houses: res, pages: Math.ceil(res.length / 5)};
+}
+const getLandlordHouseListModel = async (idUser, limit, offset) => {
+    const result = await db('tindangtro')
+        .select('*')
+        .limit(limit)
+        .offset(offset);
+    return result;
+}
 
-export { addHouseModel }
+export { addHouseModel, getAllHousesOfLandlord, getLandlordHouseListModel }
