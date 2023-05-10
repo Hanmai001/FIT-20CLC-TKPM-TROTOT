@@ -6,6 +6,15 @@
 {{#section "js"}}
 <script src="../../public/assets/js/header_landlors.js"></script>
 <script>
+     $("#filter-select").change(function () {
+        let selectedVal = $("#filter-select option:selected").val();
+        if (selectedVal != "") {
+            const currentUrl = new URL(window.location.href);
+            currentUrl.searchParams.set('filter', selectedVal);
+            const updatedUrl = currentUrl.toString();
+            window.location.href = updatedUrl;
+        }
+     })
     var Pagination = {
 
         code: '',
@@ -43,9 +52,12 @@
 
         // change page
         Click: function () {
-            //window.location.href = "http://localhost:3000/landlord/house-management/?page=" + this.innerHTML;
-            Pagination.page = +this.innerHTML;
-            Pagination.Start();
+            const currentUrl = new URL(window.location.href);
+            currentUrl.searchParams.set('page', this.innerHTML);
+            const updatedUrl = currentUrl.toString();
+            window.location.href = updatedUrl;
+            //Pagination.page = +this.innerHTML;
+            //Pagination.Start();
         },
 
         // previous page
@@ -54,7 +66,10 @@
             if (Pagination.page < 1) {
                 Pagination.page = 1;
             }
-            Pagination.Start();
+            const currentUrl = new URL(window.location.href);
+            currentUrl.searchParams.set('page', Pagination.page);
+            const updatedUrl = currentUrl.toString();
+            window.location.href = updatedUrl;
         },
 
         // next page
@@ -63,7 +78,11 @@
             if (Pagination.page > Pagination.size) {
                 Pagination.page = Pagination.size;
             }
-            Pagination.Start();
+            //Pagination.Start();
+             const currentUrl = new URL(window.location.href);
+            currentUrl.searchParams.set('page', Pagination.page);
+            const updatedUrl = currentUrl.toString();
+            window.location.href = updatedUrl;
         },
 
 
@@ -130,7 +149,6 @@
                 '<span></span>',  // pagination container
                 '<a>&#9658;</a>'  // next button
             ];
-
             e.innerHTML = html.join(''); //thêm html vào element e
             Pagination.e = e.getElementsByTagName('span')[0]; //Lấy a đtien
             Pagination.Buttons(e);
@@ -143,16 +161,12 @@
             Pagination.Start();
         }
     };
-
-
     /* * * * * * * * * * * * * * * * *
     * Initialization
     * * * * * * * * * * * * * * * * */
-
     var init = function () {
         const pageSize = '{{pages}}';
         const pageCurr = '{{page}}';
-
         Pagination.Init(document.getElementById('pagination'), {
             size: parseInt(pageSize), // pages size
             page: parseInt(pageCurr),  // selected page
@@ -165,21 +179,35 @@
     const btnConfDel = document.getElementById("btn-confirm-del");
     const delBtns = document.getElementsByClassName("del-btn");
     const showBtns = document.getElementsByClassName("show-btn");
+    let idHouse = "";
     for (let btn of delBtns) {
         btn.addEventListener('click', openConfirm);
     }
     btnConfCancel.addEventListener('click', closeConfirm);
+    btnConfDel.addEventListener('click', delHouse);
     iconConfCancel.addEventListener('click', closeConfirm);
     function openConfirm(e) {
+        idHouse = e.target.id;
         let modal = document.querySelector(".modal-cancel-confirm");
         modal.style.display = 'flex';
     }
     function closeConfirm(e) {
+        idHouse = "";
         let modal = document.querySelector(".modal-cancel-confirm");
         modal.style.display = 'none';
     }
     function delHouse(e) {
-
+        fetch(`/house/delete-house/${idHouse}`, {
+            method: 'DELETE'
+        })
+            .then(response => {
+                if (response.ok) {
+                    window.location.reload();
+                } else {
+                    console.log('Error deleting item');
+                }
+            })
+            .catch(error => console.log(error));
     }
 </script>
 {{/section}}
@@ -189,7 +217,25 @@
 
     <div class="content">
         <div class="content__header mt-4 pb-3 border-bottom">
-            <h5>QUẢN LÝ TIN ĐĂNG NHÀ TRỌ</h5>
+            <div class="row">
+                <div class="col-6">
+                    <h5>QUẢN LÝ TIN ĐĂNG NHÀ TRỌ</h5>
+                </div>
+                <div class="content__header-filter col-6">
+
+                    <label for="filter-select"></label>
+                    <select required name="filter" id="filter-select" onfocus='this.size=5;' onblur='this.size=1;'
+                        onchange='this.size=1; this.blur();'>
+                        <option class="text-center" value="">--Sắp xếp theo--</option>
+                        <option value="Cũ nhất">Cũ nhất</option>
+                        <option value="Mới nhất">Mới nhất</option>
+                        <option value="Chờ xác nhận">Chờ xác nhận</option>
+                        <option value="Đã duyệt">Đã duyệt</option>
+                    </select>
+
+                </div>
+            </div>
+
         </div>
 
         {{#each houses}}
@@ -237,8 +283,8 @@
                     Ngày đăng: {{this.NgayDang}}
                 </div>
                 <div class="col-5 text-end">
-                    <button class="edit-btn">Chỉnh sửa</button>
-                    <button class="del-btn">Xóa bài</button>
+                    <button id={{this.TinID}} class="edit-btn">Chỉnh sửa</button>
+                    <button id={{this.TinID}} class="del-btn">Xóa bài</button>
                 </div>
 
             </div>

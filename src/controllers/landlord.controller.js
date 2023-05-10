@@ -3,16 +3,17 @@ const getPostHousePage = async (req, res) => {
     res.render("vwLandlord/post-house")
 }
 const getHouseManagementPage = async (req, res) => {
-    let { page } = req.query;
+    let { page, filter } = req.query;
     if (!page) page = 1;
-    const { houses, pages } = await getAllHousesOfLandlord(1);
-    //console.log(pages, page)
-    const result = await getLandlordHouseListModel(1, 5, page - 1);
+    const { houses, pages } = await getAllHousesOfLandlord(1, filter);
+    console.log(filter, page)
+    const result = await getLandlordHouseListModel(1, 5, (page - 1) * 5, filter);
     for (let house of result) {
         const date = new Date(house.NgayDang);
         const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
         const vietnameseDate = date.toLocaleDateString('vi-VN', options);
-        house.NgayDang = vietnameseDate;
+        const vietnameseTime = date.toLocaleTimeString('vi-VN');
+        house.NgayDang = vietnameseDate + ' ' + vietnameseTime;
         let str = house.Gia.toString();
         let result = '';
         while (str.length > 3) {

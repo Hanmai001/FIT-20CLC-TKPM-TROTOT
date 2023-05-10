@@ -40,7 +40,7 @@
             success: function (result) {
                 $.each(result, function (key, value) {
                     //utilitySelect.setChoiceByValue(value);
-                    utilitySelect.setChoices([{ value: value.Ten + '-' + value.TienIchID, label: value.Ten }], "value", "label", false);
+                    utilitySelect.setChoices([{ value: value.TienIchID, label: value.Ten }], "value", "label", false);
                 });
             }
         });

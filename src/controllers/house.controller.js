@@ -1,4 +1,4 @@
-import { addHouseModel } from "../models/house.model";
+import { addHouseModel, deleteLandlordHouseModel } from "../models/house.model";
 import { addPhotoModel } from "../models/photo.model";
 import { addUtilityHouseModel } from "../models/utility.model";
 import { addVideoModel } from "../models/video.model";
@@ -16,9 +16,15 @@ const addHouse = async (req, res) => {
 
     }
     for (let utility of utilities) {
-        await addUtilityHouseModel(utility.split('-').pop(), id);
+        await addUtilityHouseModel(utility, id);
     }
     return res.redirect('/landlord/house-management');
 }
+const deleteLandlordHouse = async (req, res) => {
+    const id = req.params.id;
+    console.log(id)
+    await deleteLandlordHouseModel(id);
+    return res.redirect('/landlord/house-management');
+}
 
-export { addHouse }
+export { addHouse, deleteLandlordHouse }

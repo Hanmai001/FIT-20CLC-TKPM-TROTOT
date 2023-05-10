@@ -7,4 +7,7 @@ const getUtilityListModel = async() => {
 const addUtilityHouseModel = async (idUtility, idHouse) => {
     await db('tienich_tindangtro').insert({ TienIchID: idUtility, TinID: idHouse });
 }
-export {getUtilityListModel, addUtilityHouseModel}
+const deleteUtilityModel = async (idHouse) => {
+    await db('tienich_tindangtro').where('TinID', '=', idHouse).del();
+}
+export {getUtilityListModel, addUtilityHouseModel, deleteUtilityModel}
