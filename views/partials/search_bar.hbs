@@ -1,73 +1,44 @@
 {{#section "js"}}
 <script>
-    $(document).ready(function () {
-        let utilitySelect = new Choices('#utility-select', {
-            removeItemButton: true,
-            maxItemCount: 20,
-            searchResultLimit: 5,
-        });
-        $.ajax({
-            url: "https://provinces.open-api.vn/api/p",
-            type: "get",
-            dateType: "json",
+    // Get references to the city and district select elements
+    const citySelect = document.querySelector('#city-select');
+    const districtSelect = document.querySelector('#district-select');
 
-            success: function (result) {
-                console.log(result)
-                $.each(result, function (key, value) {
-                    let item = $('<option value=' + value.code + '>' + value.name + '</option>');
-                    $("#city-select").append(item);
+    // Make an AJAX request to the provinces API to get the list of provinces
+    fetch('https://provinces.open-api.vn/api/p/')
+        .then(response => response.json())
+        .then(provinces => {
+            // Loop through the list of provinces and add them to the city select element
+            provinces.forEach(province => {
+                const option = document.createElement('option');
+                option.value = province.code;
+                option.textContent = province.name;
+                citySelect.appendChild(option);
+            });
+        })
+        .catch(error => console.error(error));
+
+    // Add an event listener to the city select element to populate the district select element when a city is selected
+    citySelect.addEventListener('change', event => {
+        const cityCode = event.target.value;
+
+        // Make an AJAX request to the provinces API to get the list of districts for the selected city
+        fetch(`https://provinces.open-api.vn/api/p/${cityCode}?depth=2`)
+            .then(response => response.json())
+            .then(city => {
+                // Clear the current options from the district select element
+                districtSelect.innerHTML = '';
+
+                // Loop through the list of districts for the selected city and add them to the district select element
+                city.districts.forEach(district => {
+                    const option = document.createElement('option');
+                    option.value = district.code;
+                    option.textContent = district.name;
+                    districtSelect.appendChild(option);
                 });
-            }
-        });
+            })
+            .catch(error => console.error(error));
     });
-    $("#city-select").change(function () {
-        let selectedVal = $("#city-select option:selected").val();
-        $("#district-select").empty();
-        let item = $("<option value="">&#x1F3E0; --Chọn Quận--</option>");
-        $("#district-select").append(item);
-        if (selectedVal == "") {
-            $('#note1').show()
-        }
-        else {
-            $('#note1').hide()
-            $.ajax({
-                url: "https://provinces.open-api.vn/api/d/",
-                type: "get",
-                dateType: "json",
-                success: function (result) {
-                    console.log(result)
-                    $.each(result, function (key, value) {
-                        if (value.province_code == selectedVal) {
-                            item = $('<option value=' + value.code + '>' + value.name + '</option>');
-                            $("#district-select").append(item);
-                        }
-                    });
-                }
-            });
-        }
-    })
-    $("#district-select").change(function () {
-        let selectedVal = $("#district-select option:selected").val();
-        if (selectedVal == "") {
-            $('#note2').show()
-        }
-        else {
-            $('#note2').hide()
-            $.ajax({
-                url: "https://provinces.open-api.vn/api/w/",
-                type: "get",
-                dateType: "json",
-                success: function (result) {
-                    console.log(result)
-                    $.each(result, function (key, value) {
-                        if (value.district_code == selectedVal) {
-                            item = $('<option value=' + value.code + '>' + value.name + '</option>');
-                        }
-                    });
-                }
-            });
-        }
-    })
 </script>
 {{/section}}
 <div class="row justify-content-center" style="box-shadow: 0px 4px 10px rgba(182,182,182,0.18) !important;">
@@ -78,14 +49,12 @@
                     <i class="fas fa-filter"></i> Lọc
                 </button>
                 <div class="cities me-2">
-                    <select class="form-select" name="cities" id="city-select" onfocus='this.size=5;'
-                        onblur='this.size=1;' onchange='this.size=1; this.blur();'>
+                    <select class="form-select" name="cities" id="city-select">
                         <option value="">&#x1F3D9; --Chọn Tỉnh--</option>
                     </select>
                 </div>
-                <div class="district  me-2">
-                    <select class="form-select" name="district" id="district-select" onfocus='this.size=5;'
-                        onblur='this.size=1;' onchange='this.size=1; this.blur();'>
+                <div class="district me-2">
+                    <select class="form-select" name="district" id="district-select">
                         <option value="">&#x1F3E0; --Chọn Quận--</option>
                     </select>
                 </div>
@@ -110,7 +79,7 @@
             </form>
         </div>
     </div>
-    <div class="col-3" style="flex:1; margin-right: 20px; margin-left: -125px">
+    <div class="col-3" style="flex:1; margin-right: 20px; margin-left:-90px">
         <form class="search-container">
             <input class="form-control me-2" type="text" placeholder="Search &#x1F50D;" aria-label="Search"
                 style="flex: 1" name="q">
