@@ -12,7 +12,9 @@ const addPhoTo_House = async (idPhoto, idHouse) => {
     await db('hinhanh_tindangtro').insert({ HinhAnhID: idPhoto, TinID: idHouse });
 }
 const findPhotosOfHouse = async (idHouse) => {
-    const res = await db('hinhanh_tindangtro').where('TinID', '=', idHouse).select('HinhAnhID');
+    const res = await db('hinhanh_tindangtro')
+        .join('hinh_anh', 'hinh_anh.HinhAnhID', '=', 'hinhanh_tindangtro.HinhAnhID')
+        .where('TinID', '=', idHouse).select('hinhanh_tindangtro.HinhAnhID', 'ChiTietHinhAnh');
     return res;
 
 }
@@ -24,4 +26,4 @@ const deletePhotoModel = async (idHouse) => {
     await db('hinhanh_tindangtro').where('TinID', '=', idHouse).del();
 }
 
-export { addPhotoModel, deletePhotoModel }
+export { addPhotoModel, deletePhotoModel, findPhotosOfHouse }

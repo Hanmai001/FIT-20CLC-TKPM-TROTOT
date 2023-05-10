@@ -1,4 +1,5 @@
 import { getAllHousesOfLandlord, getLandlordHouseListModel } from "../models/house.model";
+import { findPhotosOfHouse } from "../models/photo.model";
 const getPostHousePage = async (req, res) => {
     res.render("vwLandlord/post-house")
 }
@@ -9,6 +10,8 @@ const getHouseManagementPage = async (req, res) => {
     console.log(filter, page)
     const result = await getLandlordHouseListModel(1, 5, (page - 1) * 5, filter);
     for (let house of result) {
+        const temp = await findPhotosOfHouse(house.TinID);
+        house.photo = temp[0].ChiTietHinhAnh;
         const date = new Date(house.NgayDang);
         const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
         const vietnameseDate = date.toLocaleDateString('vi-VN', options);

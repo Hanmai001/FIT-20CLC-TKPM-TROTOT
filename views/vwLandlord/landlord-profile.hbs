@@ -16,7 +16,6 @@
             dateType: "json",
 
             success: function (result) {
-                console.log(result);
                 $.each(result, (key, value) => {
                     var item = $('<option value=' + value.code + '>' + value.name + '</option>');
                     $("#city-select").append(item);
