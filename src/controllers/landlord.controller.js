@@ -1,5 +1,7 @@
 import { getAllHousesOfLandlord, getLandlordHouseListModel } from "../models/house.model";
 import { findPhotosOfHouse } from "../models/photo.model";
+import { getInfoProfile, updateProfileModel } from "../models/landlord.model";
+
 const getPostHousePage = async (req, res) => {
     res.render("vwLandlord/post-house")
 }
@@ -32,9 +34,26 @@ const getManageAppointmentPage = async (req, res) => {
     return res.render("vwLandlord/manage-appointment")
 }
 const getProfilePage = async (req, res) => {
-    res.render("vwLandlord/landlord-profile")
+    const idUser = 1;
+    const user = await getInfoProfile(idUser);
+    const date = new Date(user.NgaySinh);
+    let time = date.toISOString().substring(0, 10);
+    const newDate = new Date(time);
+    newDate.setDate(newDate.getDate() + 1);
+    const newDateStr = newDate.toISOString().slice(0, 10);
+    user.NgaySinh = newDateStr;
+    res.render("vwLandlord/landlord-profile", { idUser: 1, user })
 }
 const getChangePassPage = async (req, res) => {
     res.render("vwLandlord/change-password")
 }
-export { getPostHousePage, getHouseManagementPage, getManageAppointmentPage, getProfilePage, getChangePassPage }
+const updateProfile = async (req, res) => {
+    const idUser = 1;
+    let ava = '';
+    console.log(req.body, req.file);
+    if (req.file)
+        ava = '../.' + req.file.destination + req.file.filename;
+    await updateProfileModel(idUser, req.body, ava);
+    res.redirect('/landlord/profile')
+}
+export { getPostHousePage, getHouseManagementPage, getManageAppointmentPage, getProfilePage, getChangePassPage, updateProfile }
