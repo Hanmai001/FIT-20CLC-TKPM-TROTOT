@@ -1,6 +1,7 @@
-import { getAllHousesOfLandlord, getLandlordHouseListModel } from "../models/house.model";
+import { getAllHousesOfLandlord, getLandlordHouseListModel, getAllHouseAppointmentLandlord, getLandlordHouseAppointmentListModel } from "../models/house.model";
 import { findPhotosOfHouse } from "../models/photo.model";
 import { getInfoProfile, updateProfileModel } from "../models/landlord.model";
+import { getInfoProfileTenant } from "../models/tenant.model";
 
 const getPostHousePage = async (req, res) => {
     res.render("vwLandlord/post-house")
@@ -31,7 +32,36 @@ const getHouseManagementPage = async (req, res) => {
     return res.render("vwLandlord/house-management", { page: page ? parseInt(page) : 1, pages: parseInt(pages), houses: result })
 }
 const getManageAppointmentPage = async (req, res) => {
-    return res.render("vwLandlord/manage-appointment")
+    let { page, filter } = req.query;
+    if (!page) page = 1;
+    const { houses, pages } = await getAllHouseAppointmentLandlord(1, filter);
+    console.log(filter, page)
+    const result = await getLandlordHouseAppointmentListModel(1, 5, (page - 1) * 5, filter);
+    for (let house of result) {
+        const temp = await findPhotosOfHouse(house.TinID);
+        house.photo = temp[0].ChiTietHinhAnh;
+        let date = new Date(house.NgayDatHen);
+        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        let vietnameseDate = date.toLocaleDateString('vi-VN', options);
+        let vietnameseTime = date.toLocaleTimeString('vi-VN');
+        house.NgayDatHen = vietnameseDate + ' ' + vietnameseTime;
+        date = new Date(house.NgayGap);
+        vietnameseDate = date.toLocaleDateString('vi-VN', options);
+        vietnameseTime = date.toLocaleTimeString('vi-VN');
+        house.NgayGap = vietnameseDate + ' ' + vietnameseTime;
+        let str = house.Gia.toString();
+        let result = '';
+        while (str.length > 3) {
+            result = '.' + str.slice(-3) + result;
+            str = str.slice(0, -3);
+        }
+        result = str + result;
+        house.Gia = result;
+        const user = await getInfoProfileTenant(house.NguoiDatHen);
+        house.TenNguoiDatHen = user.HoTen;
+        house.SDTNguoiDatHen = user.SDT;
+    }
+    return res.render("vwLandlord/manage-appointment", { page: page ? parseInt(page) : 1, pages: parseInt(pages), houses: result })
 }
 const getProfilePage = async (req, res) => {
     const idUser = 1;

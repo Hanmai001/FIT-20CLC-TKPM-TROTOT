@@ -21,6 +21,36 @@ const addHouseModel = async (data) => {
         }, 'TinID').returning('TinID')
     return id;
 }
+const getAllHouseAppointmentLandlord = async (idUser, filter) => {
+    let result = db('dondathen').select('*').where('ChuTro', '=', idUser);
+    if (filter) {
+        if (filter === "Chưa xác nhận" || filter === "Đã xác nhận" || filter === "Đã hủy")
+            result = result.where('TrangThaiLichHen', filter);
+        else if (filter === "Cũ nhất")
+            result = result.orderBy('NgayDatHen', 'asc');
+        else if (filter === "Mới nhất")
+            result = result.orderBy('NgayDatHen', 'desc')
+    }
+    result = await result;
+    return { houses: result, pages: Math.ceil(result.length / 5) };
+}
+const getLandlordHouseAppointmentListModel = async (idUser, limit, offset, filter) => {
+    let result = db('dondathen')
+        .join('tindangtro', 'dondathen.TinID', '=', 'tindangtro.TinID')
+        .where('ChuTro', '=', idUser)
+        .select('*')
+        .limit(limit)
+        .offset(offset);
+    if (filter) {
+        if (filter === "Chưa xác nhận" || filter === "Đã xác nhận" || filter === "Đã hủy")
+            result = result.where('TrangThaiLichHen', filter);
+        else if (filter === "Cũ nhất")
+            result = result.orderBy('NgayDatHen', 'asc');
+        else if (filter === "Mới nhất")
+            result = result.orderBy('NgayDatHen', 'desc')
+    }
+    return await result;
+}
 const getAllHousesOfLandlord = async (idUser, filter) => {
     let result = db('tindangtro').select('*');
     if (filter) {
@@ -60,4 +90,4 @@ const deleteLandlordHouseModel = async (idHouse) => {
         })
 }
 
-export { addHouseModel, getAllHousesOfLandlord, getLandlordHouseListModel, deleteLandlordHouseModel }
+export { addHouseModel, getAllHousesOfLandlord, getLandlordHouseListModel, deleteLandlordHouseModel, getAllHouseAppointmentLandlord, getLandlordHouseAppointmentListModel }

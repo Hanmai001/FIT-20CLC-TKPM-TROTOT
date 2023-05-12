@@ -7,7 +7,25 @@
 h5 {
     color: #002ffe;
 }
+.content__header-filter {
+    position: relative;
+}
 
+.content__header-filter select {
+    position: absolute;
+    z-index: 1;
+    padding: 8px 15px;
+    right: 0;
+}
+
+.content__header-filter select option {
+    color: #666;
+    padding: 8px 15px;
+}
+
+.content__header-filter select:focus {
+    outline: none;
+}
 .list-group-active {
     color: #002ffe;
 }
@@ -50,14 +68,13 @@ h5 {
 }
 
 .item button {
-    width: 180px;
     background-color: #002ffe;
-    padding: 12px 10px;
-    margin-right: 10px;
+    padding: 12px 15px;
     color: #fff;
     border: none;
     border-radius: 5px;
     opacity: 0.8;
+    display: inline-block;
 }
 
 .item button:hover {
