@@ -1,9 +1,9 @@
 import dotenv from "dotenv";
 import express from "express";
-import morgan from "morgan";
-import activate_route from "./src/routes";
+// import morgan from "morgan";
 import activate_hbs from "./src/middleware/handlebars.mdw";
-import hbs from 'hbs';
+import activate_route from "./src/routes";
+// import hbs from 'hbs';
 dotenv.config();
 
 const app = express();
