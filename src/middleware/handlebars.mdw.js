@@ -37,6 +37,13 @@ export default function (app) {
                     return opts.inverse(this);
                 }
             },
+            ifNotEqualString: function (a, b, opts) {
+                if (a !== b) {
+                    return opts.fn(this);
+                } else {
+                    return opts.inverse(this);
+                }
+            },
             star: function (numberRate) {
             let tagStar = "";
             for (let i = 1; i <= 5; i++) {

@@ -2,6 +2,7 @@ import { getAllHousesOfLandlord, getLandlordHouseListModel, getAllHouseAppointme
 import { findPhotosOfHouse } from "../models/photo.model";
 import { getInfoProfile, updateProfileModel } from "../models/landlord.model";
 import { getInfoProfileTenant } from "../models/tenant.model";
+import { confirmAppointmenLandlord, cancelAppointmentModel } from "../models/appointment.model";
 
 const getPostHousePage = async (req, res) => {
     res.render("vwLandlord/post-house")
@@ -86,4 +87,23 @@ const updateProfile = async (req, res) => {
     await updateProfileModel(idUser, req.body, ava);
     res.redirect('/landlord/profile')
 }
-export { getPostHousePage, getHouseManagementPage, getManageAppointmentPage, getProfilePage, getChangePassPage, updateProfile }
+const confirmAppointment = async (req, res) => {
+    const { id } = req.params;
+    await confirmAppointmenLandlord(id);
+    return res.redirect('/landlord/manage-appointment');
+}
+const deleteAppointment = async (req, res) => {
+    const { id } = req.params;
+    await cancelAppointmentModel(id);
+    return res.redirect('/landlord/manage-appointment');
+}
+export {
+    getPostHousePage,
+    getHouseManagementPage,
+    getManageAppointmentPage,
+    getProfilePage,
+    getChangePassPage,
+    updateProfile,
+    confirmAppointment,
+    deleteAppointment
+}

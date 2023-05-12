@@ -2,7 +2,7 @@ import express from 'express';
 import multer from 'multer';
 import appRoot from 'app-root-path';
 import path from 'path';
-import { getPostHousePage, getHouseManagementPage, getManageAppointmentPage, getProfilePage, getChangePassPage, updateProfile } from '../controllers/landlord.controller';
+import { getPostHousePage, getHouseManagementPage, getManageAppointmentPage, getProfilePage, getChangePassPage, updateProfile, confirmAppointment, deleteAppointment } from '../controllers/landlord.controller';
 
 const initLandlordRoute = express.Router();
 //Middleware
@@ -24,6 +24,8 @@ initLandlordRoute.route("/manage-appointment").get(getManageAppointmentPage);
 initLandlordRoute.route("/profile").get(getProfilePage);
 initLandlordRoute.route("/change-password").get(getChangePassPage);
 initLandlordRoute.route("/profile/update/:id").post(upload.single('update-ava'), updateProfile);
+initLandlordRoute.route("/confirm-appointment/:id").patch(confirmAppointment);
+initLandlordRoute.route("/cancel-appointment/:id").patch(deleteAppointment);
 initLandlordRoute.route("/").get();
 
 export default initLandlordRoute;

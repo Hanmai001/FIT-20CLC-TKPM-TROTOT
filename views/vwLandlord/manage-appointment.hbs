@@ -179,21 +179,55 @@
     const btnConfDel = document.getElementById("btn-confirm-del");
     const delBtns = document.getElementsByClassName("cancel-btn");
     const showBtns = document.getElementsByClassName("show-btn");
+    const confBtns = document.getElementsByClassName("confirm-btn");
+    let id = '';
     for (let btn of delBtns) {
         btn.addEventListener('click', openConfirm);
     }
+    for (let btn of confBtns) {
+        btn.addEventListener('click', confirmAppointment);
+    }
     btnConfCancel.addEventListener('click', closeConfirm);
     iconConfCancel.addEventListener('click', closeConfirm);
+    btnConfDel.addEventListener('click', delAppointment);
     function openConfirm(e) {
+        id = e.target.id;
         let modal = document.querySelector(".modal-cancel-confirm");
         modal.style.display = 'flex';
     }
     function closeConfirm(e) {
+        id = '';
         let modal = document.querySelector(".modal-cancel-confirm");
         modal.style.display = 'none';
     }
     function delAppointment(e) {
-
+        const idAppointment = id;
+        fetch(`/landlord/cancel-appointment/${idAppointment}`, {
+            method: 'PATCH'
+        })
+            .then(response => {
+                if (response.ok) {
+                    window.location.reload();
+                } else {
+                    console.log('Error deleting item');
+                }
+            })
+            .catch(error => console.log(error));
+    }
+    function confirmAppointment(e) {
+        const idAppointment = e.target.id;
+        console.log(idAppointment)
+        fetch(`/landlord/confirm-appointment/${idAppointment}`, {
+            method: 'PATCH',
+        })
+            .then(response => {
+                if (response.ok) {
+                    window.location.reload();
+                } else {
+                    console.log('Error deleting item');
+                }
+            })
+            .catch(error => console.log(error));
     }
 </script>
 {{/section}}
@@ -292,13 +326,21 @@
                     Ngày hẹn: {{this.NgayGap}}
                     <br>Đã đặt hẹn vào ngày {{this.NgayDatHen}}
                 </div>
+                {{#ifNotEqualString this.TrangThaiLichHen "Đã hủy"}}
                 <div class="col-5 text-end">
                     {{#ifEqualString this.TrangThaiLichHen "Chưa xác nhận"}}
-                        <button class="confirm-btn">Xác nhận</button>
+                    <button id={{this.DdhID}} class="confirm-btn">Xác nhận</button>
                     {{else}}
                     {{/ifEqualString}}
-                    <button class="cancel-btn">Hủy hẹn</button>
+                    <button id={{this.DdhID}} class="cancel-btn">
+                        {{#ifEqualString this.TrangThaiLichHen "Chưa xác nhận"}}
+                        Từ chối
+                        {{else}}
+                        Hủy hẹn
+                        {{/ifEqualString}}
+                    </button>
                 </div>
+                {{/ifNotEqualString}}
 
             </div>
 

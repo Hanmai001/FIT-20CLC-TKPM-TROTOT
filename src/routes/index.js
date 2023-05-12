@@ -2,11 +2,11 @@ import initHouseRoute from './house';
 import initTenantRoute from './tenant';
 import initDetailsRoute from './details_house';
 import initListRoute from './list-houses';
-import initUtilityRoute from './utility';
-import initLandlordRoute from './landlord'
+import apiRoute from './api';
+import initLandlordRoute from './landlord';
 
 export default function (app) {
-  app.use("/api", initUtilityRoute);
+  app.use("/api", apiRoute);
   app.use("/tenant", initTenantRoute);
   app.use("/landlord", initLandlordRoute);
   app.use("/house", initHouseRoute);
