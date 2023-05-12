@@ -22,7 +22,7 @@ const addHouse = async (req, res) => {
 }
 const deleteLandlordHouse = async (req, res) => {
     const id = req.params.id;
-    console.log(id)
+    //console.log(id)
     await deleteLandlordHouseModel(id);
     return res.redirect('/landlord/house-management');
 }

@@ -21,7 +21,7 @@ const findPhotosOfHouse = async (idHouse) => {
 const deletePhotoModel = async (idHouse) => {
     const res = await findPhotosOfHouse(idHouse);
     const ids = res.map(item => item.HinhAnhID);
-    console.log(res);
+    //console.log(res);
     await db('hinh_anh').whereIn('HinhAnhID', ids).delete();
     await db('hinhanh_tindangtro').where('TinID', '=', idHouse).del();
 }

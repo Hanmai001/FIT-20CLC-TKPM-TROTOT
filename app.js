@@ -16,7 +16,6 @@ app.use(express.json());
 
 activate_hbs(app);
 activate_route(app);
-
 const PORT = process.env.PORT || 3000;
 
 const start = async () => {

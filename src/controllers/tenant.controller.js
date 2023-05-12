@@ -7,4 +7,7 @@ const getProfilePage = async (req, res) => {
 const getChangePassPage = async (req, res) => {
     res.render("vwTenant/change-password")
 }
-export { getManageAppointmentPage, getProfilePage, getChangePassPage }
+const updateProfile = async (req, res) => {
+    console.log(req.body);
+}
+export { getManageAppointmentPage, getProfilePage, getChangePassPage, updateProfile }

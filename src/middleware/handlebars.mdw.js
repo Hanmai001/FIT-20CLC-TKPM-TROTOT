@@ -30,8 +30,19 @@ export default function (app) {
             checkTeacher: function (value) {
             return value === "Teacher";
             },
-            ifEqualString: function (obj, value) {
-            return String(obj) === String(value);
+            ifEqualString: function (a, b, opts) {
+                if (a === b) {
+                    return opts.fn(this);
+                } else {
+                    return opts.inverse(this);
+                }
+            },
+            ifNotEqualString: function (a, b, opts) {
+                if (a !== b) {
+                    return opts.fn(this);
+                } else {
+                    return opts.inverse(this);
+                }
             },
             star: function (numberRate) {
             let tagStar = "";
