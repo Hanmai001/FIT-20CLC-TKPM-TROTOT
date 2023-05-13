@@ -8,6 +8,8 @@ router.get('/', (req, res, next) => {
             return res.redirect('/landlord');
         } else if (req.session.passport.user.LoaiNguoiDung == 'Admin') {
             return res.redirect('/admin/profile');
+        } else if (req.session.passport.user.LoaiNguoiDung == 'Người thuê trọ') {
+            return res.redirect('/guest');
         } else {
             return res.redirect('/');
         }

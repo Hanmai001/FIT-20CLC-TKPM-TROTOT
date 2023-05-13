@@ -30,7 +30,7 @@ const checkPasswordValidity = async (password) => {
     return true;
 }
 
-const addUser = async (username, email, password, dob, fullname, phone, sex, cities, district, ward, street) => {
+const addUser = async (username, email, password, dob, fullname, phone, sex, cities, district, ward, street, type) => {
     console.log(addUser)
     try {
         await db('nguoidung').insert({
@@ -42,6 +42,7 @@ const addUser = async (username, email, password, dob, fullname, phone, sex, cit
             Email: email,
             TaiKhoan: username,
             MatKhau: password,
+            LoaiNguoiDung: type,
         });
         return true;
     } catch (error) {

@@ -5,7 +5,6 @@ import { getUserByUsername } from '../models/auth.model';
 import { getUserByPhone } from '../models/auth.model';
 import { checkPasswordValidity } from '../models/auth.model';
 
-
 const isLoggedCustomer = async (req, res, next) => {
     if (req.isAuthenticated() && req.session.passport.user.LoaiNguoiDung == 'Người thuê trọ') {
         return next();
@@ -16,7 +15,6 @@ const isLoggedCustomer = async (req, res, next) => {
     }
 }
 const isLoggedLandlord = async (req, res, next) => {
-    console.log(req.session.passport.user)
     if (req.isAuthenticated() && req.session.passport.user.LoaiNguoiDung == 'Người chủ trọ') {
         return next();
     } else if (req.isUnauthenticated()) {
@@ -35,15 +33,12 @@ const isLoggedAdmin = async (req, res, next) => {
         return res.send("Bạn không có quyền truy cập trang này!");
     }
 }
-
-const isLogged = (req, res, next) => {
-    if (req.isAuthenticated() && req.session.passport.user.LoaiNguoiDung == 'owner') {
+const isLogged = async (req, res) => {
+    if (req.isAuthenticated() && req.session.passport.user.LoaiNguoiDung == '') {
         return next();
     } else if (req.isUnauthenticated()) {
         req.flash('loginMessage', 'Vui lòng đăng nhập')
         return res.redirect('/');
-    } else {
-        return res.redirect('/customer');
     }
 }
 const getLoginPage = async (req, res) => {
@@ -66,7 +61,8 @@ const checkRegister = async (req, res) => {
         cities,
         district,
         ward,
-        street
+        street,
+        type
     } = req.body;
     //  console.log(req.body)
     // Kiểm tra các trường dữ liệu có được điền đầy đủ
@@ -134,7 +130,8 @@ const checkRegister = async (req, res) => {
         cities,
         district,
         ward,
-        street
+        street,
+        "Người thuê trọ"
     );
     if (!result) {
         req.flash('error', 'Đã có lỗi xảy ra. Vui lòng thử lại sau!');
@@ -146,4 +143,4 @@ const checkRegister = async (req, res) => {
 };
 
 
-export { getLoginPage, getRegisterPage, checkRegister, isLogged, isLoggedAdmin, isLoggedCustomer, isLoggedLandlord }
+export { getLoginPage, getRegisterPage, checkRegister, isLogged, isLoggedAdmin, isLoggedLandlord, isLoggedCustomer }
