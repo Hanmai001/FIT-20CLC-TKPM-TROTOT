@@ -6,10 +6,13 @@ import initLandlordRoute from './landlord';
 import initAdminRoute from './admin.route';
 import apiRoute from './api';
 import authRoute from './authRoute';
+import redirectRoute from './redirect.route'
+
 
 export default function (app) {
   app.use("/api", apiRoute);
   app.use("/account", authRoute);
+  app.use("/redirect", redirectRoute);
   app.use("/tenant", initTenantRoute);
   app.use("/landlord", initLandlordRoute);
   app.use("/house", initHouseRoute);
@@ -19,6 +22,7 @@ export default function (app) {
 
   app.use("/", (req, res, next) => {
     try {
+      // console.log(req.session)
       res.render("home");
     } catch (err) {
       next(err);

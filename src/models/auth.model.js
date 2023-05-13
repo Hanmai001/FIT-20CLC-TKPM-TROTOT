@@ -1,6 +1,10 @@
 import db from "../config/db.config";
 import bcrypt from "bcrypt"
 
+// const getUserByUsername = async (id) => {
+//     const user = await db('nguoidung').where('TaiKhoan', username).first();
+//     return user;
+// };
 const getUserByUsername = async (username) => {
     const user = await db('nguoidung').where('TaiKhoan', username).first();
     return user;
@@ -46,8 +50,9 @@ const addUser = async (username, email, password, dob, fullname, phone, sex, cit
     }
 };
 
-const checkUserCredential = async (TaiKhoan, MatKhau) => {
+const checkUserCredential = async (TaiKhoan, MatKhau, id) => {
     const user = await getUserByUsername(TaiKhoan);
+    //console.log(user)
     if (!user) {
         return null;
     }

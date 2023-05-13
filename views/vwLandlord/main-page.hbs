@@ -1,0 +1,398 @@
+{{#section "css"}}
+<link rel="stylesheet" href="../public/assets/css/home-page.css" />
+<link rel="stylesheet" href="../public/assets/css/header_landlord.css" />
+<link rel="stylesheet" href="../public/assets/css/fill_search.css">
+{{/section}}
+{{#section "js"}}
+<script src="../public/assets/js/header_landlors.js"></script>
+<script>
+    var Pagination = {
+
+        code: '',
+
+        // --------------------
+        // Utility
+        // --------------------
+
+        // converting initialize data
+        Extend: function (data) {
+            data = data || {};
+            Pagination.size = data.size || 300;
+            Pagination.page = data.page || 1;
+            Pagination.step = data.step || 3;
+        },
+
+        // add pages by number (from [s] to [f])
+        Add: function (s, f) {
+            for (var i = s; i < f; i++) {
+                Pagination.code += '<a>' + i + '</a>';
+            }
+        },
+        // add last page with separator
+        Last: function () {
+            Pagination.code += '<i>...</i><a>' + Pagination.size + '</a>';
+        },
+
+        // add first page with separator
+        First: function () {
+            Pagination.code += '<a>1</a><i>...</i>';
+        },
+        // --------------------
+        // Handlers
+        // --------------------
+
+        // change page
+        Click: function () {
+            // window.location.href = "http://localhost:3000/tenant/profile"
+            Pagination.page = +this.innerHTML;
+            Pagination.Start();
+        },
+
+        // previous page
+        Prev: function () {
+            Pagination.page--;
+            if (Pagination.page < 1) {
+                Pagination.page = 1;
+            }
+            Pagination.Start();
+        },
+
+        // next page
+        Next: function () {
+            Pagination.page++;
+            if (Pagination.page > Pagination.size) {
+                Pagination.page = Pagination.size;
+            }
+            Pagination.Start();
+        },
+
+
+
+        // --------------------
+        // Script
+        // --------------------
+
+        // binding pages
+        Bind: function () {
+            var a = Pagination.e.getElementsByTagName('a');
+            for (var i = 0; i < a.length; i++) {
+                if (+a[i].innerHTML === Pagination.page) a[i].className = 'current';
+                a[i].addEventListener('click', Pagination.Click, false);
+            }
+        },
+
+        // write pagination
+        Finish: function () {
+            Pagination.e.innerHTML = Pagination.code;
+            Pagination.code = '';
+            Pagination.Bind();
+        },
+
+        // find pagination type
+        Start: function () {
+            if (Pagination.size < Pagination.step * 2 + 6) {
+                Pagination.Add(1, Pagination.size + 1);
+            }
+            else if (Pagination.page < Pagination.step * 2 + 1) {
+                Pagination.Add(1, Pagination.step * 2 + 4);
+                Pagination.Last();
+            }
+            else if (Pagination.page > Pagination.size - Pagination.step * 2) {
+                Pagination.First();
+                Pagination.Add(Pagination.size - Pagination.step * 2 - 2, Pagination.size + 1);
+            }
+            else {
+                Pagination.First();
+                Pagination.Add(Pagination.page - Pagination.step, Pagination.page + Pagination.step + 1);
+                Pagination.Last();
+            }
+            Pagination.Finish();
+        },
+
+
+
+        // --------------------
+        // Initialization
+        // --------------------
+
+        // binding buttons
+        Buttons: function (e) {
+            var nav = e.getElementsByTagName('a');
+            nav[0].addEventListener('click', Pagination.Prev, false); //nếu bấm vào nút prev thì xử lý event
+            nav[1].addEventListener('click', Pagination.Next, false); //nếu bấm vào nút prev thì xử lý event
+        },
+
+        // create skeleton
+        Create: function (e) {
+
+            var html = [
+                '<a>&#9668;</a>', // previous button
+                '<span></span>',  // pagination container
+                '<a>&#9658;</a>'  // next button
+            ];
+
+            e.innerHTML = html.join(''); //thêm html vào element e
+            Pagination.e = e.getElementsByTagName('span')[0]; //Lấy a đtien
+            Pagination.Buttons(e);
+        },
+
+        // init
+        Init: function (e, data) {
+            Pagination.Extend(data);
+            Pagination.Create(e);
+            Pagination.Start();
+        }
+    };
+
+
+
+    /* * * * * * * * * * * * * * * * *
+    * Initialization
+    * * * * * * * * * * * * * * * * */
+
+    var init = function () {
+        Pagination.Init(document.getElementById('pagination'), {
+            size: 30, // pages size
+            page: 1,  // selected page
+            step: 3   // pages before and after current
+        });
+    };
+    document.addEventListener('DOMContentLoaded', init, false);
+</script>
+<script>
+    // Lấy đối tượng các menu select và các giá trị mặc định
+    var citySelect = document.getElementById("city-select");
+    var districtSelect = document.getElementById("district-select");
+    var wardSelect = document.getElementById("ward-select");
+    var defaultCityOption = citySelect.querySelector("option[value='']");
+    var defaultDistrictOption = districtSelect.querySelector("option[value='']");
+    var defaultWardOption = wardSelect.querySelector("option[value='']");
+
+    // Lấy dữ liệu các tỉnh/thành phố, quận/huyện và phường/xã từ API
+    fetch("https://provinces.open-api.vn/api/p/")
+        .then(response => response.json())
+        .then(data => {
+            // Thêm các tỉnh/thành phố vào menu select
+            data.forEach(city => {
+                var option = document.createElement("option");
+                option.text = city.name;
+                option.value = city.code;
+                citySelect.add(option);
+            });
+        });
+
+    // Lấy danh sách các quận/huyện khi tỉnh/thành phố được chọn
+    citySelect.addEventListener("change", function () {
+        // Xóa các quận/huyện và phường/xã đã chọn trước đó
+        districtSelect.innerHTML = "";
+        wardSelect.innerHTML = "";
+        districtSelect.add(defaultDistrictOption);
+        wardSelect.add(defaultWardOption);
+
+        // Lấy mã tỉnh/thành phố được chọn
+        var cityCode = this.value;
+
+        // Lấy dữ liệu các quận/huyện của tỉnh/thành phố được chọn từ API
+        fetch(`https://provinces.open-api.vn/api/p/${cityCode}?depth=2`)
+            .then(response => response.json())
+            .then(data => {
+                // Thêm các quận/huyện vào menu select
+                data.districts.forEach(district => {
+                    var option = document.createElement("option");
+                    option.text = district.name;
+                    option.value = district.code;
+                    districtSelect.add(option);
+                });
+            });
+    });
+
+    // Lấy danh sách các phường/xã khi quận/huyện được chọn
+    districtSelect.addEventListener("change", function () {
+        // Xóa các phường/xã đã chọn trước đó
+        wardSelect.innerHTML = "";
+        wardSelect.add(defaultWardOption);
+
+        // Lấy mã quận/huyện được chọn
+        var districtCode = this.value;
+
+        // Lấy dữ liệu các phường/xã của quận/huyện được chọn từ API
+        fetch(`https://provinces.open-api.vn/api/d/${districtCode}?depth=2`)
+            .then(response => response.json())
+            .then(data => {
+                // Thêm các phường/xã vào menu select
+                data.wards.forEach(ward => {
+                    var option = document.createElement("option");
+                    option.text = ward.name;
+                    option.value = ward.code;
+                    wardSelect.add(option);
+                });
+            });
+    });
+
+
+</script>
+{{/section}}
+{{>header_landlord}}
+{{!-- fillter bar --}}
+{{>search_bar}}
+{{!-- content --}}
+<div class="row mx-0 justify-content-between" style="margin-top: px;background-color:#ffffff">
+    {{!-- start of product --}}
+    <div class="col-10" style="">
+        <div class="rounded-bg" style="margin-left: 2px; margin-top :20px; background-color:#ffffff">
+            <div class="row">
+                <div class="container">
+                    <h1 style="font-size:xx-large">Sản phẩm nổi bật trong tháng</h1>
+                    <hr>
+                    <br>
+                    <div class="rounded-product"
+                        style="background: linear-gradient(135deg, #ffffff, #f6f6f6); box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); border-radius: 10px; transition: box-shadow 0.3s; border: 2px solid #ccc;">
+                        <div class="product#1">
+                            <div class="row">
+                                <img src="https://pt123.cdn.static123.com/images/thumbs/450x300/fit/2021/03/10/z2372635816674-545794dbbc111cba4b6b0b4ed0d7d184_1615391076.jpg"
+                                    alt="Featured Product" class="product-img">
+                                <div class="col-8">
+                                    <h2 style="font-size:x-large;  margin-top: 5px; color:red">Phòng trọ sleepbox ngay
+                                        chợ Gò Vấp
+                                        Lê Quang Định</h2>
+                                    <div class="row" style="margin-top: 20px;">
+                                        <div class="col-4">
+                                            &#x1F4B0; Giá: 1.8 triệu/tháng
+                                        </div>
+                                        <div class="col-4">
+                                            &#x25A0; 242 m2
+                                        </div>
+                                        <div class="col-4">
+                                            &#x1F3E0; Quận Gò Vấp
+                                        </div>
+                                    </div>
+                                    <div class="row" style="margin-top: 10px;">
+                                        <div class="col-4">
+                                            &#x1F464; Người đăng: Hồ Văn Duy
+                                        </div>
+                                        <div class="col-4" style="margin-left: -5px;">
+                                            &#x1F4F1; Liên hệ: 19001009
+                                        </div>
+                                    </div>
+                                    <a href="/details/1" class="btn btn-primary" style="margin-top: 45px;">Xem
+                                        chi
+                                        tiết</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {{!-- end of product --}}
+                    <br>
+                    <hr>
+                    <br>
+                    <div class="rounded-product"
+                        style="background: linear-gradient(135deg, #ffffff, #f6f6f6); box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); border-radius: 10px; transition: box-shadow 0.3s; border: 2px solid #ccc;">
+                        <div class="product#2">
+                            <div class="row">
+                                <img src="https://pt123.cdn.static123.com/images/thumbs/450x300/fit/2023/04/26/839248a0-02aa-4aa1-b984-f86f68d9abf4_1682492374.jpg"
+                                    alt="Featured Product" class="product-img">
+                                <div class="col-8">
+                                    <h2 style="font-size:x-large;  margin-top: 5px; color:red">Phòng trọ mới rất đẹp
+                                        373/1/2A ĐƯỜNG
+                                        ...
+                                    </h2>
+                                    <div class="row" style="margin-top: 20px;">
+                                        <div class="col-4">
+                                            &#x1F4B0; Giá: 2 triệu/tháng
+                                        </div>
+                                        <div class="col-4">
+                                            &#x25A0; 300 m2
+                                        </div>
+                                        <div class="col-4">
+                                            &#x1F3E0; Quận 1
+                                        </div>
+                                    </div>
+                                    <div class="row" style="margin-top: 10px;">
+                                        <div class="col-4">
+                                            &#x1F464; Người đăng: Trần Xuân Quang
+                                        </div>
+                                        <div class="col-4" style="margin-left: -5px;">
+                                            &#x1F4F1; Liên hệ: 243144
+                                        </div>
+                                    </div>
+                                    <a href="/details/1" class="btn btn-primary" style="margin-top: 45px;">Xem
+                                        chi
+                                        tiết</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{!-- filter box --}}
+    <div class="col-2 filter ">
+        <div class="rounded-bg" style="margin-top :20px;">
+            <div class="ms-4">
+                <i class="fa-solid fa-filter"></i>
+                <h6 class="d-inline-block">LỌC NHANH</h6>
+            </div>
+            <div class="ms-4 mt-2 filter-item">
+                <p>Theo tên</p>
+                <!-- <form action="/"> -->
+                <input type="checkbox" id="" name="type" value="">
+                <label for="">
+                    SAMPLE 1
+                </label><br>
+                <input type="checkbox" id="" name="type" value="">
+                <label for="">
+                    SAMPLE 2
+                </label><br>
+                <!-- </form> -->
+            </div>
+            <div class="ms-4 mt-2 filter-item">
+                <p>Theo quận</p>
+                <!-- <form action="/"> -->
+                <input type="checkbox" id="" name="brand" value="">
+                <label for="">
+                    SAMPLE 1
+                </label><br>
+                <input type="checkbox" id="" name="brand" value="">
+                <label for="">
+                    SAMPLE 2
+                </label><br>
+                <!-- </form> -->
+            </div>
+            <div class="ms-4 mt-2 filter-item">
+                <p>Nhà sản xuất</p>
+                <!-- <form action="/"> -->
+                <input type="checkbox" id="" name="type" value="">
+                <label for="">
+                    SAMPLE 1
+                </label><br>
+                <input type="checkbox" id="" name="type" value="">
+                <label for="">
+                    SAMPLE 2
+                </label><br>
+                <!-- </form> -->
+            </div>
+            <div class="ms-4 mt-2 filter-price">
+                <p>Theo khoảng giá</p>
+                <!-- <form action=""> -->
+                <input type="text" placeholder="TỪ" id="price-from" name="priceFrom">
+                <i class="fa-solid fa-arrow-right-long"></i>
+                <input type="text" placeholder="ĐẾN" id="price-to" name="priceTo">
+                <input class="mt-2 text-white rounded" type="submit" value="ÁP DỤNG" style="background-color:#0d6efd">
+                <!-- </form> -->
+            </div>
+            <div class="ms-4 mt-2 filter-price">
+                <p>Diện tích</p>
+                <!-- <form action=""> -->
+                <input type="text" placeholder="TỪ" id="price-from" name="priceFrom">
+                <i class="fa-solid fa-arrow-right-long"></i>
+                <input type="text" placeholder="ĐẾN" id="price-to" name="priceTo">
+                <input class="mt-2 text-white rounded" type="submit" value="ÁP DỤNG" style="background-color:#0d6efd">
+                <!-- </form> -->
+            </div>
+        </div>
+    </div>
+</div>
+<div class="d-flex justify-content-center my-4 container-pagination" style="margin-left: -275px;">
+    <div id="pagination"></div>
+</div>

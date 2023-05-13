@@ -5,7 +5,49 @@ import { getUserByUsername } from '../models/auth.model';
 import { getUserByPhone } from '../models/auth.model';
 import { checkPasswordValidity } from '../models/auth.model';
 
+
+const isLoggedCustomer = async (req, res, next) => {
+    if (req.isAuthenticated() && req.session.passport.user.LoaiNguoiDung == 'Người thuê trọ') {
+        return next();
+    } else if (req.isUnauthenticated()) {
+        return next();
+    } else {
+        return res.send("Bạn không có quyền truy cập trang này!");
+    }
+}
+const isLoggedLandlord = async (req, res, next) => {
+    console.log(req.session.passport.user)
+    if (req.isAuthenticated() && req.session.passport.user.LoaiNguoiDung == 'Người chủ trọ') {
+        return next();
+    } else if (req.isUnauthenticated()) {
+        return next();
+    } else {
+        return res.send("Bạn không có quyền truy cập trang này!");
+    }
+}
+
+const isLoggedAdmin = async (req, res, next) => {
+    if (req.isAuthenticated() && req.session.passport.user.LoaiNguoiDung == 'Admin') {
+        return next();
+    } else if (req.isUnauthenticated()) {
+        return next();
+    } else {
+        return res.send("Bạn không có quyền truy cập trang này!");
+    }
+}
+
+const isLogged = (req, res, next) => {
+    if (req.isAuthenticated() && req.session.passport.user.LoaiNguoiDung == 'owner') {
+        return next();
+    } else if (req.isUnauthenticated()) {
+        req.flash('loginMessage', 'Vui lòng đăng nhập')
+        return res.redirect('/');
+    } else {
+        return res.redirect('/customer');
+    }
+}
 const getLoginPage = async (req, res) => {
+    //console.log(req.session)
     res.render('vwAccount/login', { messages: { error: req.flash('error'), success: req.flash('success') } });
 };
 const getRegisterPage = async (req, res) => {
@@ -104,4 +146,4 @@ const checkRegister = async (req, res) => {
 };
 
 
-export { getLoginPage, getRegisterPage, checkRegister }
+export { getLoginPage, getRegisterPage, checkRegister, isLogged, isLoggedAdmin, isLoggedCustomer, isLoggedLandlord }

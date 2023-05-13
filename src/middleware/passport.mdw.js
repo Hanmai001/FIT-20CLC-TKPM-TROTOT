@@ -2,6 +2,7 @@ import passport from 'passport';
 import LocalStrategy from 'passport-local';
 import { checkUserCredential } from '../models/auth.model';
 
+
 passport.use(new LocalStrategy(
     {
         usernameField: 'TaiKhoan',
@@ -23,10 +24,9 @@ passport.use(new LocalStrategy(
 ));
 passport.serializeUser(function (user, done) {
     process.nextTick(function () {
-        done(null, { id: user.NguoiDungId, username: user.TaiKhoan });
+        done(null, { id: user.NguoiDungID, username: user.TaiKhoan, LoaiNguoiDung: user.LoaiNguoiDung });
     });
 });
-
 passport.deserializeUser(function (user, done) {
     process.nextTick(function () {
         return done(null, user);
