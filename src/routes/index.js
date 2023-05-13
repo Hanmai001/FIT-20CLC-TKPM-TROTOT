@@ -5,9 +5,11 @@ import initListRoute from './list-houses';
 import initLandlordRoute from './landlord';
 import initAdminRoute from './admin.route';
 import apiRoute from './api';
+import authRoute from './authRoute';
 
 export default function (app) {
   app.use("/api", apiRoute);
+  app.use("/account", authRoute);
   app.use("/tenant", initTenantRoute);
   app.use("/landlord", initLandlordRoute);
   app.use("/house", initHouseRoute);
