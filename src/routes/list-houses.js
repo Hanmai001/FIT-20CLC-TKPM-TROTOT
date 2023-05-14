@@ -1,6 +1,6 @@
 import express from 'express';
 const initListRoute = express.Router();
-import { getListPage } from '../controllers/house.controller';
+import { getListPage } from '../controllers/home.controller';
 
 initListRoute.route("/").get(getListPage);
 
