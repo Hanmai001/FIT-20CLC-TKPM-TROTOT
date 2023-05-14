@@ -1,15 +1,11 @@
 import dotenv from "dotenv";
 import express from "express";
 import cors from "cors";
-// import morgan from "morgan";
 import activate_hbs from "./src/middleware/handlebars.mdw";
 import activate_route from "./src/routes";
-// import hbs from 'hbs';
-import { passport } from "./src/middleware/passport.mdw"
-import cookieParser from "cookie-parser";
-import logger from 'morgan';
-import flash from 'connect-flash';
+import { passport } from "./src/middleware/passport.mdw";
 import session from "express-session";
+import flash from 'connect-flash';
 
 dotenv.config();
 
@@ -19,8 +15,6 @@ const corsOptions = { origin: "*" };
 
 app.use(cors(corsOptions));
 // Cấu hình session
-app.use(logger('dev'));
-app.use(cookieParser());
 app.use(session({
   secret: 'my_secret_key',
   resave: false,
