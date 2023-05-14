@@ -144,3 +144,7 @@ textarea {
     color: #002ffe;
     font-size: 18px;
 }
+
+#item-hidden {
+    visibility: hidden;
+}

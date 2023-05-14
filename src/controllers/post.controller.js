@@ -5,7 +5,8 @@ import { addVideoModel, deleteVideoModel, findVideoOfHouse, deleteVideosByArrayM
 
 const addHouse = async (req, res) => {
     const { utilities } = req.body;
-    const id = await addHouseModel(req.body);
+    const idUser = res.locals.user.id;
+    const id = await addHouseModel(idUser, req.body);
     for (let file of req.files) {
         if (file.mimetype.startsWith('video/')) {
             await addVideoModel(file.destination, file.filename, id);

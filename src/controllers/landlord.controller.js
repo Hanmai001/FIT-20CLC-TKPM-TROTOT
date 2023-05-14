@@ -19,13 +19,11 @@ const getMainPage = async (req, res) => {
 }
 const getHouseManagementPage = async (req, res) => {
     let { page, filter } = req.query;
-    const idHouse = res.locals.user.id;
-
-    console.log(idHouse)
+    const idUser = res.locals.user.id;
     if (!page) page = 1;
-    const { houses, pages } = await getAllHousesOfLandlord(1, filter);
+    const { houses, pages } = await getAllHousesOfLandlord(idUser, filter);
     //console.log(filter, page)
-    const result = await getLandlordHouseListModel(1, 5, (page - 1) * 5, filter);
+    const result = await getLandlordHouseListModel(idUser, 5, (page - 1) * 5, filter);
     for (let house of result) {
         const temp = await findPhotosOfHouse(house.TinID);
         house.photo = temp[0].ChiTietHinhAnh;
@@ -47,10 +45,11 @@ const getHouseManagementPage = async (req, res) => {
 }
 const getManageAppointmentPage = async (req, res) => {
     let { page, filter } = req.query;
+    const idUser = res.locals.user.id;
     if (!page) page = 1;
-    const { houses, pages } = await getAllHouseAppointmentLandlord(1, filter);
+    const { houses, pages } = await getAllHouseAppointmentLandlord(idUser, filter);
     //console.log(filter, page)
-    const result = await getLandlordHouseAppointmentListModel(1, 5, (page - 1) * 5, filter);
+    const result = await getLandlordHouseAppointmentListModel(idUser, 5, (page - 1) * 5, filter);
     for (let house of result) {
         const temp = await findPhotosOfHouse(house.TinID);
         house.photo = temp[0].ChiTietHinhAnh;
@@ -78,7 +77,7 @@ const getManageAppointmentPage = async (req, res) => {
     return res.render("vwLandlord/manage-appointment", { page: page ? parseInt(page) : 1, pages: parseInt(pages), houses: result })
 }
 const getProfilePage = async (req, res) => {
-    const idUser = 1;
+    const idUser = res.locals.user.id;
     const user = await getInfoProfile(idUser);
     const date = new Date(user.NgaySinh);
     let time = date.toISOString().substring(0, 10);
@@ -86,7 +85,7 @@ const getProfilePage = async (req, res) => {
     newDate.setDate(newDate.getDate() + 1);
     const newDateStr = newDate.toISOString().slice(0, 10);
     user.NgaySinh = newDateStr;
-    res.render("vwLandlord/landlord-profile", { idUser: 1, user })
+    res.render("vwLandlord/landlord-profile", { idUser, user })
 }
 const getChangePassPage = async (req, res) => {
     res.render("vwLandlord/change-password")
@@ -107,7 +106,7 @@ const getEditHousePage = async (req, res) => {
     res.render("vwLandlord/update-house", { house, photos: JSON.stringify(photos), utilities, videos: JSON.stringify(videos) });
 }
 const updateProfile = async (req, res) => {
-    const idUser = 1;
+    const idUser = res.locals.user.id;
     let ava = '';
     //console.log(req.body, req.file);
     if (req.file)
