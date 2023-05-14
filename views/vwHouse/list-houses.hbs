@@ -160,6 +160,50 @@
     };
     document.addEventListener('DOMContentLoaded', init, false);
 </script>
+<script>
+    const citySelect = document.querySelector('#city-select');
+    const districtSelect = document.querySelector('#district-select');
+    const wardSelect = document.querySelector('#ward-select');
+
+    // Lấy danh sách tỉnh/thành phố từ API
+    fetch('https://provinces.open-api.vn/api/p', {
+        method: 'GET'
+    })
+        .then(response => response.json())
+        .then(data => {
+            // Tạo các option cho select box chọn tỉnh/thành phố
+            const cityOptions = data.map(city => `<option value="${city.name}">${city.name}</option>`);
+            citySelect.innerHTML = `<option value="">--Chọn thành phố--</option>` + cityOptions.join('');
+
+            // Lấy danh sách quận/huyện của tỉnh/thành phố đầu ti
+            const selectedCity = data[0];
+            fetch(`https://provinces.open-api.vn/api/d?province=${selectedCity.code}`, {
+                method: 'GET'
+            })
+                .then(response => response.json())
+                .then(data => {
+                    // Tạo các option cho select box chọn quận/huyện
+                    const districtOptions = data.map(district => `<option value="${district.name}">${district.name}</option>`);
+                    districtSelect.innerHTML = `<option value="">--Chọn quận/huyện--</option>` + districtOptions.join('');
+
+                    // Lấy danh sách phường/xã của quận/huyện đầu ti
+                    const selectedDistrict = data[0];
+                    fetch(`https://provinces.open-api.vn/api/w?district=${selectedDistrict.code}`, {
+                        method: 'GET'
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            // Tạo các option cho select box chọn phường/xã
+                            const wardOptions = data.map(ward => `<option value="${ward.name}">${ward.name}</option>`);
+                            wardSelect.innerHTML = `<option value="">--Chọn phường/xã--</option>` + wardOptions.join('');
+                        })
+                        .catch(error => console.log(error));
+                })
+                .catch(error => console.log(error));
+        })
+        .catch(error => console.log(error));
+
+</script>
 {{/section}}
 {{>header_landlord}}
 {{!-- fillter bar --}}

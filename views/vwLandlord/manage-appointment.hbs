@@ -203,7 +203,10 @@
     function delAppointment(e) {
         const idAppointment = id;
         fetch(`/landlord/cancel-appointment/${idAppointment}`, {
-            method: 'PATCH'
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json'
+            }
         })
             .then(response => {
                 if (response.ok) {
@@ -219,6 +222,9 @@
         console.log(idAppointment)
         fetch(`/landlord/confirm-appointment/${idAppointment}`, {
             method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json'
+            }
         })
             .then(response => {
                 if (response.ok) {

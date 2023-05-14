@@ -5,18 +5,27 @@ import initListRoute from './list-houses';
 import initLandlordRoute from './landlord';
 import initAdminRoute from './admin.route';
 import apiRoute from './api';
+import authRoute from './authRoute';
+import redirectRoute from './redirect.route'
+import initGuestRoute from './guest.route'
+import { isLoggedCustomer, isLoggedAdmin, isLoggedLandlord } from '../controllers/auth.controller';
+
 
 export default function (app) {
   app.use("/api", apiRoute);
+  app.use("/account", authRoute);
+  app.use("/redirect", redirectRoute);
   app.use("/tenant", initTenantRoute);
-  app.use("/landlord", initLandlordRoute);
+  app.use("/guest", isLoggedCustomer, initGuestRoute);
+  app.use("/landlord", isLoggedLandlord, initLandlordRoute);
   app.use("/house", initHouseRoute);
-  app.use("/admin", initAdminRoute);
+  app.use("/admin", isLoggedAdmin, initAdminRoute);
   app.use("/details/:id", initDetailsRoute);
   app.use("/list", initListRoute);
 
-  app.use("/", (req, res, next) => {
+  app.use("/", isLoggedCustomer, isLoggedAdmin, isLoggedLandlord, (req, res, next) => {
     try {
+      // console.log(req.session)
       res.render("home");
     } catch (err) {
       next(err);

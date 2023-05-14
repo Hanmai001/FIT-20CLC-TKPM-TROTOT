@@ -1,97 +1,175 @@
 {{#section "css"}}
-    <link rel="stylesheet" type="text/css" href="../../public/assets/css/register.css" />
-    <link rel="stylesheet" type="text/css" href="../../public/assets/css/validation/form.css"/>  
+<link rel="stylesheet" type="text/css" href="../../public/assets/css/auth.css" />
 {{/section}}
 {{#section "js"}}
-    <script src="../../public/assets/js/validator.js"></script>
-    <script>
-        Validator({
-            form: '#frmRegister',
-            rules: [
-                Validator.isRequired('#txtFirstName', "Please input first name."),
-                Validator.isRequired('#txtLastName', "Please input last name."), 
-                Validator.isRequired('#txtEmail', "Please input email."), 
-                Validator.checkAvailableEmail('#txtEmail'),
-                Validator.isEmail('#txtEmail'),
-                Validator.minLength('#txtPassword', 6),
-                Validator.isCorrect('#txtConfirm', '#txtPassword'),
-            ],
-        });
-        $('#frmRegister').on('submit', function (e) {
-            e.preventDefault();
+{{!--
+<script>
+    // Kiểm tra tính hợp lệ của email
+    function validateEmail(email) {
+        const re = /\S+@\S+\.\S+/;
+        return re.test(email);
+    }
 
-            const email = $('#txtEmail').val();
-            const errorMessage = $('#txtEmail').next();
+    // Kiểm tra tính hợp lệ của mật khẩu
+    function validatePassword(password) {
+        return password.length >= 6;
+    }
 
-            if (errorMessage.text().length === 0) {
-                $.getJSON(`/account/is-available?email=${email}`, function (data) {
-                    if (data === false) {
-                        errorMessage.text('This email is already used.');
-                        errorMessage.parent().addClass('invalid');
-                    } else {
-                        errorMessage.text('');
-                        errorMessage.parent().removeClass('invalid');
-                        $('#frmRegister').off('submit').submit();
-                    }
-                });
-            }
-            
-        });
-    </script>
+    // Kiểm tra tính hợp lệ của xác nhận mật khẩu
+    function validateConfirmPassword(password, confirmPassword) {
+        return password === confirmPassword;
+    }
+
+    // Kiểm tra tính hợp lệ của tài khoản, email, mật khẩu, xác nhận mật khẩu khi form đăng ký được submit
+    function validateForm() {
+        const username = document.getElementById('username').value;
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        const confirmPassword = document.getElementById('confirm-password').value;
+
+        let isValid = true;
+
+        if (!username) {
+            isValid = false;
+            alert('Vui lòng nhập tài khoản.');
+        } else if (!validateEmail(email)) {
+            isValid = false;
+            alert('Vui lòng nhập email hợp lệ.');
+        } else if (!validatePassword(password)) {
+            isValid = false;
+            alert('Mật khẩu phải có ít nhất 6 ký tự.');
+        } else if (!validateConfirmPassword(password, confirmPassword)) {
+            isValid = false;
+            alert('Xác nhận mật khẩu không khớp.');
+        }
+
+        return isValid;
+    }
+</script> --}}
+<script>
+    const citySelect = document.querySelector('#city');
+    const districtSelect = document.querySelector('#district');
+    const wardSelect = document.querySelector('#ward');
+
+    // Lấy danh sách tỉnh/thành phố từ API
+    fetch('https://provinces.open-api.vn/api/p', {
+        method: 'GET'
+    })
+        .then(response => response.json())
+        .then(data => {
+            // Tạo các option cho select box chọn tỉnh/thành phố
+            const cityOptions = data.map(city => `<option value="${city.name}">${city.name}</option>`);
+            citySelect.innerHTML = `<option value="">--Chọn thành phố--</option>` + cityOptions.join('');
+
+            // Lấy danh sách quận/huyện của tỉnh/thành phố đầu ti
+            const selectedCity = data[0];
+            fetch(`https://provinces.open-api.vn/api/d?province=${selectedCity.code}`, {
+                method: 'GET'
+            })
+                .then(response => response.json())
+                .then(data => {
+                    // Tạo các option cho select box chọn quận/huyện
+                    const districtOptions = data.map(district => `<option value="${district.name}">${district.name}</option>`);
+                    districtSelect.innerHTML = `<option value="">--Chọn quận/huyện--</option>` + districtOptions.join('');
+
+                    // Lấy danh sách phường/xã của quận/huyện đầu ti
+                    const selectedDistrict = data[0];
+                    fetch(`https://provinces.open-api.vn/api/w?district=${selectedDistrict.code}`, {
+                        method: 'GET'
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            // Tạo các option cho select box chọn phường/xã
+                            const wardOptions = data.map(ward => `<option value="${ward.name}">${ward.name}</option>`);
+                            wardSelect.innerHTML = `<option value="">--Chọn phường/xã--</option>` + wardOptions.join('');
+                        })
+                        .catch(error => console.log(error));
+                })
+                .catch(error => console.log(error));
+        })
+        .catch(error => console.log(error));
+
+</script>
 {{/section}}
-<div class="container-fluid" style="min-height: 600px;">
-    <div class="row" style="margin-bottom: 20px;margin-top:100px; justify-content: center">
-        <div class="card" style="width: 400px;">
-            <form method="post" id="frmRegister">
-                <div class="card-header text-center">
-                    <h3 style="margin:0">SIGN UP</h3>
-                </div>
-                
-                <div class="card-body">
-                    <div class="input-group form-group" style="display:flex; flex-direction: column;">
-                        <label class="h6" for="txtFirstName" style="float:left">First Name</label>
-                        <input id="txtFirstName" type="text" class="form-control w-100" placeholder="First name" name="firstName"/>
-                        <span class="form-message"></span>
-                    </div>
-                    <div class="input-group form-group" style="display:flex; flex-direction: column;">
-                        <label class="h6" for="txtLastName" style="float:left">Last Name</label>
-                        <input id="txtLastName" type="text" class="form-control w-100" placeholder="Last name" name="lastName"/>
-                        <span class="form-message"></span>
-                    </div>
-                    <div class="input-group form-group" style="display:flex; flex-direction: column;">
-                        <label class="h6" for="txtEmail" style="float:left">Email</label>
-                        <input id="txtEmail" type="text" class="form-control w-100" placeholder="Email" name="email"/>
-                        <span class="form-message"></span>
-                    </div>
-
-                    <div class="input-group form-group" style="display:flex; flex-direction: column;">
-                        <label class="h6" for="txtPassword" style="float:left">Password</label>
-                        <input id="txtPassword" type="password" class="form-control w-100" placeholder="Password" name="password"/>
-                        <span class="form-message"></span>
-                    </div>
-                    <div class="input-group form-group" style="display:flex; flex-direction: column;">
-                        <label class="h6" for="txtConfirm" style="float:left">Confirm Password</label>
-                        <input id="txtConfirm" type="password" class="form-control w-100" placeholder="Pre type your password" />
-                        <span class="form-message"></span>
-                    </div>
-
-                    <div class="input-group form-group" style="display:flex; flex-direction: column;">
-                        <label class="h6" for="txtGender" style="float:left">Gender</label>
-                        <select name="gender" class="form-control" id="txtGender" style="width:100%;">
-                            <option value="Male">Male</option>
-                            <option value="Female">Female</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <input type="submit" value="Sign Up" class="btn login_btn"  formaction="/account/register"/>
-                    </div>
-
-                    <div class="d-flex justify-content-center links">
-                        Do have an account?&nbsp;<a href="/account/login">Log in</a>
-                    </div>
-                </div>
-            </form>
+<div class="container">
+    <h1 style="text-align: center; font-size: 2rem; margin-top: 2rem;">Đăng ký</h1>
+    <div class="card-body">
+        {{#if messages.error}}
+        <div class="alert alert-danger" role="alert">
+            {{messages.error}}
         </div>
+        {{/if}}
+        {{#if messages.success}}
+        <div class="alert alert-success" role="alert">
+            {{messages.success}}
+        </div>
+        {{/if}}
+        <form method="post" action="/account/register" onsubmit="return validateForm()">
+            <div class="form-group">
+                <label for="username">Tài khoản</label>
+                <input type="text" class="form-control" id="username" name="username" required />
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" class="form-control" id="email" name="email" required />
+            </div>
+            <div class="form-group">
+                <label for="password">Mật khẩu</label>
+                <input type="password" class="form-control" id="password" name="password" required />
+            </div>
+            <div class="form-group">
+                <label for="confirm_password">Xác nhận mật khẩu</label>
+                <input type="password" class="form-control" id="confirm_password" name="confirm_password" required />
+            </div>
+            <div class="form-group">
+                <label for="fullname">Họ và tên</label>
+                <input type="text" class="form-control" id="fullname" name="fullname" required />
+            </div>
+            <div class="form-group">
+                <label for="phone">Số điện thoại</label>
+                <input type="tel" class="form-control" id="phone" name="phone" required />
+            </div>
+            <div class="form-group">
+                <label for="sex">Giới tính</label>
+                <select class="form-control" id="sex" name="sex" required>
+                    <option value="Nam">Nam</option>
+                    <option value="Nữ">Nữ</option>
+                    <option value="Khác">Khác</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="dob">Ngày sinh</label>
+                <input type="date" class="form-control" id="dob" name="dob" required />
+            </div>
+            {{!-- <div class="form-group">
+                <label for="address">Địa chỉ</label>
+                <input type="text" class="form-control" id="address" name="address" required />
+            </div> --}}
+            <label for="cities">Thành Phố</label>
+            <div class="form-group">
+                <select class="form-select" name="cities" id="city">
+                    <option value="">--Chọn Tỉnh--</option>
+                </select>
+            </div>
+            <label for="district">Quận/Huyện</label>
+            <div class="form-group">
+                <select class="form-select" id="district" name="district">
+                    <option value="">--Chọn quận/huyện--</option>
+                </select>
+            </div>
+            <label for="ward">Xã/Phường</label>
+            <div class="form-group">
+                <select class="form-select" id="ward" name="ward">
+                    <option value="">--Chọn phường/xã--</option>
+                </select>
+            </div>
+            <label for="street">Số nhà/Đường</label>
+            <div class="form-group">
+                <input class="form-control" id="street" name="street" required />
+            </div>
+            <div class="form-group mt-4">
+                <button type="submit" class="btn btn-primary btn-block" style="">Đăng ký</button>
+            </div>
+        </form>
     </div>
 </div>

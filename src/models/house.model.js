@@ -1,11 +1,26 @@
 import db from "../config/db.config";
-import { deletePhotoModel } from "./photo.model";
-import { deleteVideoModel } from "./video.model";
-import { deleteUtilityModel } from "./utility.model";
 
 const addHouseModel = async (data) => {
     const { cities, districts, wards, type_house, status, detailed_address, title, description, utilities, area, num_people, price, water, electricity } = data;
     const [id] = await db('tindangtro').insert(
+        {
+            Ten: title,
+            DiaChi: detailed_address + ', ' + wards + ', ' + districts + ', ' + cities,
+            TrangThaiKiemDuyet: "Chờ xác nhận",
+            Gia: price,
+            MoTa: description,
+            SoNguoi: parseInt(num_people),
+            TrangThaiPhong: status,
+            LoaiTro: type_house,
+            DienTich: parseFloat(area),
+            TienDien: parseFloat(electricity),
+            TienNuoc: parseFloat(water)
+        }, 'TinID').returning('TinID')
+    return id;
+}
+const updateHouseModel = async (data, idHouse) => {
+    const { cities, districts, wards, type_house, status, detailed_address, title, description, utilities, area, num_people, price, water, electricity } = data;
+    const [id] = await db('tindangtro').where('TinID', '=', idHouse).update(
         {
             Ten: title,
             DiaChi: detailed_address + ', ' + wards + ', ' + districts + ', ' + cities,
@@ -80,14 +95,21 @@ const getLandlordHouseListModel = async (idUser, limit, offset, filter) => {
     return await result;
 }
 const deleteLandlordHouseModel = async (idHouse) => {
-    db('tindangtro')
+    await db('tindangtro')
         .where('TinID', '=', idHouse)
-        .del()
-        .then(function () {
-            deletePhotoModel(idHouse);
-            deleteVideoModel(idHouse);
-            deleteUtilityModel(idHouse);
-        })
+        .del();
 }
-
-export { addHouseModel, getAllHousesOfLandlord, getLandlordHouseListModel, deleteLandlordHouseModel, getAllHouseAppointmentLandlord, getLandlordHouseAppointmentListModel }
+const getDetailedHouseModel = async (idHouse) => {
+    const res = await db('tindangtro').select('*').where('TinID', '=', idHouse);
+    return res[0];
+}
+export {
+    addHouseModel,
+    getAllHousesOfLandlord,
+    getLandlordHouseListModel,
+    deleteLandlordHouseModel,
+    getAllHouseAppointmentLandlord,
+    getLandlordHouseAppointmentListModel,
+    getDetailedHouseModel,
+    updateHouseModel
+}

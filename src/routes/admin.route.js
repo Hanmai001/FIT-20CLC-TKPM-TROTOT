@@ -3,10 +3,10 @@ import { getAllUsers, getDetailedUser, updateUser, countUserByRole, getNewUser, 
 
 const router = express.Router();
 
-router.get('/profile', (req, res, next) => {
+router.get('/profile', isLoggedAdmin, (req, res, next) => {
   try {
     res.render('vwAdmin/profile');
-  } catch(err) { next(err) }
+  } catch (err) { next(err) }
 
 });
 // router.route('/users/role').get(countUserByRole);
@@ -17,7 +17,7 @@ router.get('/users', getAllUsers);
 router.get('/post', (req, res, next) => {
   try {
     res.render('vwAdmin/post');
-  } catch(err) { next(err) }
+  } catch (err) { next(err) }
 
 });
 router.get('/appointment', (req, res, next) => {
@@ -28,7 +28,7 @@ router.get('/appointment', (req, res, next) => {
 router.get('/review', (req, res, next) => {
   try {
     res.render('vwAdmin/review');
-  } catch(err) { next(err) }
+  } catch (err) { next(err) }
 
 });
 
