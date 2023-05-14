@@ -3,7 +3,7 @@ import multer from 'multer';
 // import appRoot from 'app-root-path';
 import path from 'path';
 const initHouseRoute = express.Router();
-import {addHouse, deleteLandlordHouse, updateHouse} from '../controllers/house.controller';
+import {addHouse, deleteLandlordHouse, updateHouse} from '../controllers/post.controller';
 //Middleware
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {

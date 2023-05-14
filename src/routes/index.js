@@ -1,4 +1,4 @@
-import initHouseRoute from './house';
+import initHouseRoute from './post';
 import initTenantRoute from './tenant';
 import initDetailsRoute from './details_house';
 import initListRoute from './list-houses';
@@ -22,7 +22,6 @@ export default function (app) {
   app.use("/admin", isLoggedAdmin, initAdminRoute);
   app.use("/details/:id", initDetailsRoute);
   app.use("/list", initListRoute);
-
   app.use("/", isLogged, (req, res, next) => {
     try {
       // console.log(req.session)
