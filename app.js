@@ -1,5 +1,6 @@
 import dotenv from "dotenv";
 import express from "express";
+import cors from "cors";
 // import morgan from "morgan";
 import activate_hbs from "./src/middleware/handlebars.mdw";
 import activate_route from "./src/routes";
@@ -7,8 +8,10 @@ import activate_route from "./src/routes";
 dotenv.config();
 
 const app = express();
+const corsOptions = { origin: "*" };
 
-// app.use(morgan("combined"));
+
+app.use(cors(corsOptions));
 app.use("/public", express.static("public"));
 
 app.use(express.urlencoded({ extended: true }));

@@ -76,7 +76,7 @@ Validator.isEmail = (selector) => {
         selector,
         test: (value) => {
             const mailFormat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
-            return value.match(mailFormat) ? undefined : 'Please input correct email format.'
+            return value.match(mailFormat) ? undefined : 'Vui lòng nhập đúng định dạng email.'
         }
     }
 }
@@ -85,7 +85,7 @@ Validator.minLength = (selector, min) => {
     return {
         selector,
         test: (value) => {
-            return value.length >= min ? undefined : `Please input at least ${min} length.`
+            return value.length >= min ? undefined : `Vui lòng nhập ít nhất ${min} kí tự.`
         }
     }
 }
@@ -100,23 +100,22 @@ Validator.isCorrect = (selector, selector2) => {
 }
 
 Validator.isPhoneNumber = (selector) => {
-    const regexPhoneNumber = /(84|0[3|5|7|8|9])+([0-9]{8})\b/g;
-
     return {
         selector,
         test: (value) => {
-            return value === regexPhoneNumber ? undefined : `Vui lòng nhập đúng số điện thoại.`
+            const regexPhoneNumber = /(84|0[3|5|7|8|9])+([0-9]{8})\b/g;
+            return value.match(regexPhoneNumber) ? undefined : `Vui lòng nhập đúng số điện thoại.`
         }
     }
 }
 
-Validator.checkAvailableEmail = (selector) => {
+Validator.checkAvailableUsername = (selector) => {
     return {
         selector,
         test: (value) => {
-            $.getJSON(`/account/is-available?email=${value}`, function (data) {
+            $.getJSON(`/admin/users/is-available?username=${value}`, function (data) {
                 if (data === false) {
-                    return 'This email is already used.';
+                    return 'Tên đăng nhập này đã được sử dụng.';
                 } 
                 return undefined;
             });

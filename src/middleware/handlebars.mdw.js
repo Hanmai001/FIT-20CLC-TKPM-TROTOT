@@ -30,12 +30,8 @@ export default function (app) {
             checkTeacher: function (value) {
             return value === "Teacher";
             },
-            ifEqualString: function (a, b, opts) {
-                if (a === b) {
-                    return opts.fn(this);
-                } else {
-                    return opts.inverse(this);
-                }
+            ifEqualString: function (a, b) {
+                return a === b;
             },
             ifNotEqualString: function (a, b, opts) {
                 if (a !== b) {
@@ -56,15 +52,7 @@ export default function (app) {
                 tagStar += `<span class="fa fa-star-o star-tag"></span>`;
             }
             return tagStar;
-            },
-            formatDuration: function (seconds) {
-            let time = (seconds * 1.0) / 60;
-            let duration = "";
-    
-            if (time < 1) duration = Math.round(seconds) + " seconds";
-            else duration = Math.round(time) + " min";
-            return duration;
-            },
+            }
         },
         })
     );
