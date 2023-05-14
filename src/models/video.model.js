@@ -16,6 +16,11 @@ const findVideosOfHouse = async (idHouse) => {
     return res;
 
 }
+const findVideoOfHouse = async (pathFile) => {
+    const res = await db('video')
+        .where('ChiTietVideo', '=', pathFile).select('VideoID');
+    return res.length;
+}
 const deleteVideoModel = async (idHouse) => {
     const res = await findVideosOfHouse(idHouse);
     const ids = res.map(item => item.VideoID);
@@ -23,4 +28,8 @@ const deleteVideoModel = async (idHouse) => {
     await db('video').whereIn('VideoID', ids).delete();
     await db('video_tindangtro').where('TinID', '=', idHouse).del();
 }
-export { addVideoModel, deleteVideoModel }
+const deleteVideosByArrayModel = async (idHouse, ids) => {
+    await db('video').whereIn('VideoID', ids).delete();
+    await db('video_tindangtro').whereIn('VideoID', ids).del();
+}
+export { addVideoModel, deleteVideoModel, findVideosOfHouse, findVideoOfHouse, deleteVideosByArrayModel }

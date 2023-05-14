@@ -1,9 +1,16 @@
-import { getAllHousesOfLandlord, getLandlordHouseListModel, getAllHouseAppointmentLandlord, getLandlordHouseAppointmentListModel } from "../models/house.model";
+import {
+    getAllHousesOfLandlord,
+    getLandlordHouseListModel,
+    getAllHouseAppointmentLandlord,
+    getLandlordHouseAppointmentListModel,
+    getDetailedHouseModel
+} from "../models/house.model";
+import { findUtilitiesOfHouse } from "../models/utility.model";
 import { findPhotosOfHouse } from "../models/photo.model";
+import { findVideosOfHouse } from "../models/video.model";
 import { getInfoProfile, updateProfileModel } from "../models/landlord.model";
 import { getInfoProfileTenant } from "../models/tenant.model";
 import { confirmAppointmenLandlord, cancelAppointmentModel } from "../models/appointment.model";
-
 const getPostHousePage = async (req, res) => {
     res.render("vwLandlord/post-house")
 }
@@ -11,7 +18,7 @@ const getHouseManagementPage = async (req, res) => {
     let { page, filter } = req.query;
     if (!page) page = 1;
     const { houses, pages } = await getAllHousesOfLandlord(1, filter);
-    console.log(filter, page)
+    //console.log(filter, page)
     const result = await getLandlordHouseListModel(1, 5, (page - 1) * 5, filter);
     for (let house of result) {
         const temp = await findPhotosOfHouse(house.TinID);
@@ -36,7 +43,7 @@ const getManageAppointmentPage = async (req, res) => {
     let { page, filter } = req.query;
     if (!page) page = 1;
     const { houses, pages } = await getAllHouseAppointmentLandlord(1, filter);
-    console.log(filter, page)
+    //console.log(filter, page)
     const result = await getLandlordHouseAppointmentListModel(1, 5, (page - 1) * 5, filter);
     for (let house of result) {
         const temp = await findPhotosOfHouse(house.TinID);
@@ -78,10 +85,25 @@ const getProfilePage = async (req, res) => {
 const getChangePassPage = async (req, res) => {
     res.render("vwLandlord/change-password")
 }
+const getEditHousePage = async (req, res) => {
+    const id = req.params.id;
+    const house = await getDetailedHouseModel(id);
+    let photos = await findPhotosOfHouse(id);
+    let videos = await findVideosOfHouse(id);
+    let utilities = await findUtilitiesOfHouse(id);
+    house.DiaChi = house.DiaChi.split(', ');
+    house.ThanhPho = house.DiaChi[3];
+    house.Quan = house.DiaChi[2];
+    house.Phuong = house.DiaChi[1];
+    house.DiaChiCuThe = house.DiaChi[0];
+    utilities = utilities.map(item => item.TienIchID);
+
+    res.render("vwLandlord/update-house", { house, photos: JSON.stringify(photos), utilities, videos: JSON.stringify(videos) });
+}
 const updateProfile = async (req, res) => {
     const idUser = 1;
     let ava = '';
-    console.log(req.body, req.file);
+    //console.log(req.body, req.file);
     if (req.file)
         ava = '../.' + req.file.destination + req.file.filename;
     await updateProfileModel(idUser, req.body, ava);
@@ -105,5 +127,6 @@ export {
     getChangePassPage,
     updateProfile,
     confirmAppointment,
-    deleteAppointment
+    deleteAppointment,
+    getEditHousePage
 }

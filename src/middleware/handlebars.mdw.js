@@ -37,6 +37,9 @@ export default function (app) {
                     return opts.inverse(this);
                 }
             },
+            ifOr: function (a, b, opts) {
+                return (a || b) ? opts.fn(this) : opts.inverse(this);;
+            },
             ifNotEqualString: function (a, b, opts) {
                 if (a !== b) {
                     return opts.fn(this);

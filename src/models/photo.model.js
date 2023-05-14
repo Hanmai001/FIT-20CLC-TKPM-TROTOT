@@ -18,6 +18,11 @@ const findPhotosOfHouse = async (idHouse) => {
     return res;
 
 }
+const findPhotoOfHouse = async (pathFile) => {
+    const res = await db('hinh_anh')
+        .where('ChiTietHinhAnh', '=', pathFile).select('HinhAnhID');
+    return res.length;
+}
 const deletePhotoModel = async (idHouse) => {
     const res = await findPhotosOfHouse(idHouse);
     const ids = res.map(item => item.HinhAnhID);
@@ -25,5 +30,9 @@ const deletePhotoModel = async (idHouse) => {
     await db('hinh_anh').whereIn('HinhAnhID', ids).delete();
     await db('hinhanh_tindangtro').where('TinID', '=', idHouse).del();
 }
+const deletePhotosByArrayModel = async (idHouse, ids) => {
+    await db('hinh_anh').whereIn('HinhAnhID', ids).delete();
+    await db('hinhanh_tindangtro').whereIn('HinhAnhID', ids).del();
+}
 
-export { addPhotoModel, deletePhotoModel, findPhotosOfHouse }
+export { addPhotoModel, deletePhotoModel, findPhotosOfHouse, findPhotoOfHouse, deletePhotosByArrayModel }
