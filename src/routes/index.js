@@ -24,7 +24,6 @@ export default function (app) {
 
   app.use("/", isLogged, (req, res, next) => {
     try {
-      console.log(req.user)
       res.render("home", { user: req.user });
     } catch (err) {
       next(err);
