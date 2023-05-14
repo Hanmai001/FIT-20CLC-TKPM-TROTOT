@@ -3,7 +3,7 @@ const router = express.Router();
 
 router.get('/', (req, res, next) => {
     try {
-        console.log(req.session.passport.user.LoaiNguoiDung)
+       // console.log(res.locals)
         if (req.session.passport.user.LoaiNguoiDung == 'Người chủ trọ') {
             return res.redirect('/landlord');
         } else if (req.session.passport.user.LoaiNguoiDung == 'Admin') {

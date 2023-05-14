@@ -2,13 +2,10 @@ import bcrypt from 'bcrypt';
 import { addUser } from '../models/auth.model';
 import { getUserByEmail } from '../models/auth.model';
 import { getUserByUsername } from '../models/auth.model';
-import { getUserByPhone } from '../models/auth.model';
 import { checkPasswordValidity } from '../models/auth.model';
 
 const isLoggedCustomer = async (req, res, next) => {
     if (req.isAuthenticated() && req.session.passport.user.LoaiNguoiDung == 'Người thuê trọ') {
-        return next();
-    } else if (req.isUnauthenticated()) {
         return next();
     } else {
         return res.send("Bạn không có quyền truy cập trang này!");
@@ -16,8 +13,6 @@ const isLoggedCustomer = async (req, res, next) => {
 }
 const isLoggedLandlord = async (req, res, next) => {
     if (req.isAuthenticated() && req.session.passport.user.LoaiNguoiDung == 'Người chủ trọ') {
-        return next();
-    } else if (req.isUnauthenticated()) {
         return next();
     } else {
         return res.send("Bạn không có quyền truy cập trang này!");
@@ -27,20 +22,25 @@ const isLoggedLandlord = async (req, res, next) => {
 const isLoggedAdmin = async (req, res, next) => {
     if (req.isAuthenticated() && req.session.passport.user.LoaiNguoiDung == 'Admin') {
         return next();
-    } else if (req.isUnauthenticated()) {
-        return next();
     } else {
         return res.send("Bạn không có quyền truy cập trang này!");
     }
 }
-const isLogged = async (req, res) => {
-    if (req.isAuthenticated() && req.session.passport.user.LoaiNguoiDung == '') {
+const isLogged = async (req, res, next) => {
+    if (req.isAuthenticated()) {
+        const loaiNguoiDung = req.session.passport.user.LoaiNguoiDung;
+        if (loaiNguoiDung == 'Người thuê trọ' || loaiNguoiDung == 'Người chủ trọ' || loaiNguoiDung == 'Admin') {
+            return next();
+        } else {
+            // Nếu đã đăng nhập nhưng chưa có role thì đưa đến trang chủ
+            return res.redirect('/');
+        }
+    } else {
         return next();
-    } else if (req.isUnauthenticated()) {
-        req.flash('loginMessage', 'Vui lòng đăng nhập')
-        return res.redirect('/');
     }
 }
+
+
 const getLoginPage = async (req, res) => {
     //console.log(req.session)
     res.render('vwAccount/login', { messages: { error: req.flash('error'), success: req.flash('success') } });
@@ -54,14 +54,6 @@ const checkRegister = async (req, res) => {
         email,
         password,
         confirm_password,
-        fullname,
-        phone,
-        sex,
-        dob,
-        cities,
-        district,
-        ward,
-        street,
         type
     } = req.body;
     //  console.log(req.body)
@@ -71,14 +63,7 @@ const checkRegister = async (req, res) => {
         !email ||
         !password ||
         !confirm_password ||
-        !fullname ||
-        !phone ||
-        !sex ||
-        !dob ||
-        !cities ||
-        !district ||
-        !ward ||
-        !street
+        !type
     ) {
 
         req.flash('error', 'Vui lòng nhập đầy đủ thông tin!');
@@ -88,12 +73,6 @@ const checkRegister = async (req, res) => {
     const checkPassword = await checkPasswordValidity(password)
     if (!checkPassword) {
         req.flash('error', 'Mật khẩu không hợp lệ!');
-        return res.redirect('/account/register');
-    }
-    // Kiểm tra số điện thoại đã tồn tại chưa
-    const phoneExist = await getUserByPhone(phone);
-    if (phoneExist) {
-        req.flash('error', 'Số điện thoại đã được sử dụng. Vui lòng chọn số khác!');
         return res.redirect('/account/register');
     }
     // Kiểm tra tài khoản đã tồn tại chưa
@@ -123,14 +102,6 @@ const checkRegister = async (req, res) => {
         username,
         email,
         hashedPassword,
-        dob,
-        fullname,
-        phone,
-        sex,
-        cities,
-        district,
-        ward,
-        street,
         "Người thuê trọ"
     );
     if (!result) {

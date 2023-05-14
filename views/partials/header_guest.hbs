@@ -3,6 +3,7 @@
     <a href="/guest">
       <img src="../../public/assets/pictures/icon.png" alt="" width="100px">
     </a>
+
     <div class="" id="navbarNavAltMarkup">
       <div class="navbar-nav">
         <a class="nav-link header__item mx-4" href="/guest">Trang chủ</a>
@@ -10,21 +11,28 @@
         <a class="nav-link header__item mx-4" href="#">Liên hệ</a>
       </div>
     </div>
-    <div class="inline-div">
-      <a href="/account/login"><i class="fa-solid fa-user-plus" style="color: #000000;"></i>&nbsp&nbspĐăng nhập</a>
-    </div>
-    <div class="inline-div">
-      <a href="/account/register"><i class="fa-solid fa-right-to-bracket" style="color: #000000;"></i>&nbsp&nbspĐăng
-        ký</a>
+    <div class="text-end user-option">
+      <ul class="text-white ms-2 nav-profile">
+        <li class="js-option-profile" onmouseover="hoverAva()">
+          <div class="text-center">
+            <img src="https://khoinguonsangtao.vn/wp-content/uploads/2022/07/avatar-cute-2.jpg" alt="">
+          </div>
+
+          <div>
+            Hân Mai
+            <i class="fas fa-sort-down"></i>
+          </div>
+
+          <ul class="subnav text-black js-subnav">
+            <li><a href="/landlord/profile">Tài khoản của tôi</a></li>
+            <li><a href="/landlord/post-house">Đăng tin</a></li>
+            <li><a href="#">Đăng xuất</a></li>
+          </ul>
+        </li>
+      </ul>
     </div>
     <div class="btn-post-house">
-      <a href="#"><button>Đăng tin<i class="fas fa-plus"></i></button></a>
+      <a href="/landlord/post-house"><button>Đăng tin<i class="fas fa-plus"></i></button></a>
     </div>
   </div>
 </nav>
-<style>
-  a {
-    color: black;
-    text-decoration: none;
-  }
-</style>
