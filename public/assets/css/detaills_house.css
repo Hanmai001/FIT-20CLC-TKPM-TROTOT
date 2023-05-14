@@ -21,13 +21,12 @@ p {
 /* product */
 
 .room-image {
-    max-width: 400px;
+    max-width: 1000px;
     margin-bottom: 20px;
 }
 
 .pic-product {
     width: 100% !important;
-    position: relative;
 
 }
 

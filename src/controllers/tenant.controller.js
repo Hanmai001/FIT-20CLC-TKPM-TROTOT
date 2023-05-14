@@ -1,6 +1,3 @@
-const getTenantPage = async (req, res) => {
-    return res.render("vwTenant/tenant-page")
-}
 const getManageAppointmentPage = async (req, res) => {
     return res.render("vwTenant/manage-appointment")
 }
@@ -13,4 +10,4 @@ const getChangePassPage = async (req, res) => {
 const updateProfile = async (req, res) => {
     console.log(req.body);
 }
-export { getManageAppointmentPage, getProfilePage, getChangePassPage, updateProfile, getTenantPage }
+export { getManageAppointmentPage, getProfilePage, getChangePassPage, updateProfile }

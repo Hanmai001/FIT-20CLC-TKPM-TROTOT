@@ -14,9 +14,6 @@ import { confirmAppointmenLandlord, cancelAppointmentModel } from "../models/app
 const getPostHousePage = async (req, res) => {
     res.render("vwLandlord/post-house")
 }
-const getMainPage = async (req, res) => {
-    res.render("vwLandlord/main-page")
-}
 const getHouseManagementPage = async (req, res) => {
     let { page, filter } = req.query;
     const idUser = res.locals.user.id;
@@ -134,5 +131,4 @@ export {
     confirmAppointment,
     deleteAppointment,
     getEditHousePage,
-    getMainPage
 }
