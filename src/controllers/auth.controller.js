@@ -1,8 +1,5 @@
 import bcrypt from 'bcrypt';
-import { addUser } from '../models/auth.model';
-import { getUserByEmail } from '../models/auth.model';
-import { getUserByUsername } from '../models/auth.model';
-import { checkPasswordValidity } from '../models/auth.model';
+import { addUser, getUserByEmail, getUserByUsername, checkPasswordValidity } from '../models/user.model'
 
 const isLoggedCustomer = async (req, res, next) => {
     if (req.isAuthenticated() && req.session.passport.user.LoaiNguoiDung == 'Người thuê trọ') {

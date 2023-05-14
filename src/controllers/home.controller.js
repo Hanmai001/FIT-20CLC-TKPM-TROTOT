@@ -1,9 +1,10 @@
-import db from "../config/db.config";
 
-const getTrendingHouseInfo = async (req, res) => {
-    const result = await db.select().from('tindangtro')
-    console.log(result);
-    return res.render('vwLandLord/main_page', { result: result })
+
+const getListPage = async (req, res) => {
+    res.render("vwHouse/list-houses")
+}
+const getHousePage = async (req, res) => {
+    res.render("vwHouse/details-house")
 }
 
-export { getTrendingHouseInfo }
+export { getListPage, getHousePage }
