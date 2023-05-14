@@ -30,8 +30,12 @@ export default function (app) {
             checkTeacher: function (value) {
             return value === "Teacher";
             },
-            ifEqualString: function (a, b) {
-                return a === b;
+            ifEqualString: function (a, b, opts) {
+                if (a === b) {
+                    return opts.fn(this);
+                } else {
+                    return opts.inverse(this);
+                }
             },
             ifOr: function (a, b, opts) {
                 return (a || b) ? opts.fn(this) : opts.inverse(this);;

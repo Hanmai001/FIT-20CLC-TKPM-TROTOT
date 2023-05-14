@@ -15,7 +15,7 @@ export default function (app) {
   app.use("/api", apiRoute);
   app.use("/account", authRoute);
   app.use("/redirect", redirectRoute);
-  app.use("/tenant", initTenantRoute);
+  app.use("/tenant", isLoggedCustomer, initTenantRoute);
   app.use("/guest", isLoggedCustomer, initGuestRoute);
   app.use("/landlord", isLoggedLandlord, initLandlordRoute);
   app.use("/house", initHouseRoute);

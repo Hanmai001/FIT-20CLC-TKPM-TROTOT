@@ -12,6 +12,7 @@ h5 {
 }
 .content__header-filter select {
     position: absolute;
+    z-index: 1;
     padding: 8px 15px;
     right: 0;
 }

@@ -1,10 +1,10 @@
 import db from "../config/db.config";
 
-const getInfoProfile = async (idUser) => {
+const getInfoProfileLandlord = async (idUser) => {
     const res = await db('nguoidung').where('NguoiDungID', '=', idUser).select('HoTen', 'DiaChi', 'SDT', 'GioiTinh', 'NgaySinh', 'Email', 'GioiThieu', 'TaiKhoan', 'avatar');
     return res[0];
 }
-const updateProfileModel = async (idUser, data, file) => {
+const updateProfileLandlordModel = async (idUser, data, file) => {
     //console.log(file)
     if (file) {
         const res = await db('nguoidung').where('NguoiDungID', '=', idUser).update({
@@ -27,4 +27,4 @@ const updateProfileModel = async (idUser, data, file) => {
     }
     
 }
-export { getInfoProfile, updateProfileModel };
+export { getInfoProfileLandlord, updateProfileLandlordModel };
