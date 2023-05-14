@@ -7,7 +7,8 @@ import {
     updateProfile,
     getTenantPage,
     deleteAppointment,
-    addAppointment
+    addAppointment,
+    getFavouriteListPage
 } from '../controllers/tenant.controller';
 import { logout } from '../controllers/auth.controller';
 import multer from 'multer';
@@ -28,6 +29,7 @@ const storage = multer.diskStorage({
 let upload = multer({ storage: storage });
 initTenantRoute.route("/manage-appointment").get(getManageAppointmentPage);
 initTenantRoute.route("/profile").get(getProfilePage);
+initTenantRoute.route("/favourite-list").get(getFavouriteListPage);
 initTenantRoute.route("/change-password").get(getChangePassPage);
 initTenantRoute.route("/profile/update/:id").post(upload.single('update-ava'), updateProfile);
 initTenantRoute.route("/cancel-appointment/:id").patch(deleteAppointment);
