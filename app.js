@@ -6,6 +6,8 @@ import activate_route from "./src/routes";
 import { passport } from "./src/middleware/passport.mdw";
 import session from "express-session";
 import flash from 'connect-flash';
+import cookieParser from 'cookie-parser';
+import logger from 'morgan';
 
 dotenv.config();
 
@@ -24,6 +26,9 @@ app.use(session({
 app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(passport.authenticate('session'));
+app.use(logger('dev'));
+app.use(cookieParser());
 
 app.use("/public", express.static("public"));
 

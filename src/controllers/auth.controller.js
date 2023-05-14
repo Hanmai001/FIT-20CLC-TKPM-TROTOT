@@ -28,6 +28,7 @@ const isLoggedAdmin = async (req, res, next) => {
 }
 const isLogged = async (req, res, next) => {
     if (req.isAuthenticated()) {
+        console.log(req.session.passport.user)
         const loaiNguoiDung = req.session.passport.user.LoaiNguoiDung;
         if (loaiNguoiDung == 'Người thuê trọ' || loaiNguoiDung == 'Người chủ trọ' || loaiNguoiDung == 'Admin') {
             return next();

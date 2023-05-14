@@ -1,6 +1,6 @@
 import db from "../config/db.config";
 
-const addHouseModel = async (data) => {
+const addHouseModel = async (idUser, data) => {
     const { cities, districts, wards, type_house, status, detailed_address, title, description, utilities, area, num_people, price, water, electricity } = data;
     const [id] = await db('tindangtro').insert(
         {
@@ -10,6 +10,7 @@ const addHouseModel = async (data) => {
             Gia: price,
             MoTa: description,
             SoNguoi: parseInt(num_people),
+            NguoiDangTin: parseInt(idUser),
             TrangThaiPhong: status,
             LoaiTro: type_house,
             DienTich: parseFloat(area),
@@ -67,7 +68,7 @@ const getLandlordHouseAppointmentListModel = async (idUser, limit, offset, filte
     return await result;
 }
 const getAllHousesOfLandlord = async (idUser, filter) => {
-    let result = db('tindangtro').select('*');
+    let result = db('tindangtro').where('NguoiDangTin', '=', idUser).select('*');
     if (filter) {
         if (filter === "Chờ xác nhận" || filter === "Đã duyệt")
             result = result.where('TrangThaiKiemDuyet', filter);
@@ -81,6 +82,7 @@ const getAllHousesOfLandlord = async (idUser, filter) => {
 }
 const getLandlordHouseListModel = async (idUser, limit, offset, filter) => {
     let result = db('tindangtro')
+        .where('NguoiDangTin', '=', idUser)
         .select('*')
         .limit(limit)
         .offset(offset);
