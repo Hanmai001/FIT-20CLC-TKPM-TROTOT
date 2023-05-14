@@ -1,0 +1,229 @@
+{{#section "css"}}
+  <link
+    rel="stylesheet"
+    type="text/css"
+    href="../../public/assets/css/admin/admin_profile.css"
+  />
+  <link rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css">
+{{/section}}
+
+{{#section 'js'}}
+<script
+  src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
+
+<script src="../../public/assets/js/validator.js"></script>
+<script>
+  $('#txtDOB').datetimepicker({
+    timepicker: false,
+    format: 'd/m/Y',
+    mask: true,
+  });
+
+  Validator({
+        form: '#form-1',
+        rules: [
+            Validator.isEmail('#email'),
+            Validator.isRequired('#password', "Please input your password"),
+        ]
+    });
+    Validator({
+        form: '#form-2',
+        rules: [
+            Validator.isRequired('#p1', "Please input your password"),
+            Validator.minLength('#p2', 6),
+            Validator.isCorrect('#p3', '#p2'),
+        ]
+  });
+</script>
+{{/section}}
+
+<div class="container-fluid">
+    <div class="row">
+      <nav class="col-2 bg-light sidebar">
+        <ul class="nav flex-column">
+          <li>
+            <div class="img-profile">
+              <img
+                class="rounded-circle img-thumbnail img-avt"
+                {{#if (isEmpty this.user.image) }}
+                src="../../public/assets/images/no_avt_male.png"
+                {{else}}
+                src="../../public/assets/images/{{this.user.image}}"
+                {{/if}}
+                alt="avatar"
+              />
+            </div>
+            <div>
+              <p class="h6 img-name">{{this.user.firstName}} {{this.user.lastName}}</p>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" href="">
+              <i class="fa fa-cog" aria-hidden="true"></i>
+              Hồ sơ cá nhân
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/admin/users">
+              <i class="fa fa-user" aria-hidden="true"></i>
+              Người dùng
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/admin/posts">
+              <i class="fa fa-user" aria-hidden="true"></i>
+              Tin đăng trọ
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/admin/appointments">
+              <i class="fa fa-user" aria-hidden="true"></i>
+              Lịch hẹn
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/admin/reviews">
+              <i class="fa fa-comments" aria-hidden="true"></i>
+              Đánh giá
+            </a>
+          </li>
+        </ul>
+      </nav>
+      <div class="col-10 h-100">
+        <div class="card">
+          <div class="card-header">
+            <h3>Hồ sơ cá nhân</h3>
+          </div>
+          <div class="card-body m-5">
+            {{!-- <form method="post" id="form-1">
+              <div class="pl-5 pr-5">
+                <div class="form-group">
+                  <input
+                    type="text"
+                    class="form-control"
+                    value="{{this.user.firstName}}"
+                    name="firstName"
+                    id="firstName"
+                  />
+                   <span class="form-message"></span>
+                </div>
+                <div class="form-group">
+                  <input
+                    type="text"
+                    class="form-control"
+                    value="{{this.user.lastName}}"
+                    name="lastName"
+                    id="lastName"
+                  />
+                   <span class="form-message"></span>
+                </div>
+                <div class="form-group" style="margin-bottom: 2px;">
+                  <input
+                    type="text"
+                    class="form-control"
+                    {{#if (isEmpty this.user.headline) }}
+                    placeholder="Headline"
+                    {{else}}
+                    value="{{this.user.headline}}"
+                    {{/if}}
+                    name="headline"
+                    id="headline"
+                  />
+                   <span class="form-message"></span>
+                </div>
+                
+
+                <div style="margin-bottom: 2px;">
+                  <p
+                  class="form-group"
+                  style="font-size: 12px; text-align: left;"
+                >Add a professional headline like, "Instructor at Udemy" or
+                  "Architect."</p>
+                  <textarea id="desc" name="description">
+                    {{#if (isEmpty this.user.description)}}
+                    
+                    {{else}}
+                    {{{this.user.description}}}
+                    {{/if}}
+                  </textarea>
+                </div>
+                <p
+                  class="form-group"
+                  style="font-size: 12px; text-align: left;"
+                >Add description</p>
+
+                <button
+                  type="submit"
+                  class="btn btn-primary d-flex px-4"
+                >Save</button>
+              </div>
+            </form> --}}
+            <form method="post" id="form-1">
+              <div class="form-group row">
+                <label for="username" class="col-sm-2 col-form-label">Tên đăng nhập</label>
+                <div class="col-sm-10">
+                  <input name="TaiKhoan" type="text" readonly class="form-control-plaintext" id="username" value="dong123">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="password"class="col-sm-2 col-form-label">Mật khẩu</label>
+                <div class="col-sm-8">
+                  <input type="password" readonly class="form-control" id="password" placeholder="**********">
+                </div>
+                <div class="input-group-append col-sm-2">
+                    <button class="btn btn-outline-secondary" type="button">Thay đổi</button>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="name" class="col-sm-2 col-form-label">Họ tên</label>
+                <div class="col-sm-8">
+                  <input name="HoTen" type="text" class="form-control" value="Lê Đông Đông" id="name">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="email" class="col-sm-2 col-form-label">Email</label>
+                <div class="col-sm-8">
+                  <input name="Email" type="password" readonly class="form-control"  id="email" placeholder="abc@gmail.com">
+                </div>
+                <div class="input-group-append col-sm-2">
+                    <button class="btn btn-outline-secondary" type="button">Thay đổi</button>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="phone" class="col-sm-2 col-form-label">SĐT</label>
+                <div class="col-sm-8">
+                  <input name="SDT" type="text" class="form-control" value="0918422172" id="phone">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="" class="col-sm-2 col-form-label">Giới tính</label>
+                <div class="col-sm-8">
+                  <div class="form-check form-check-inline h-100">
+                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" >
+                    <label class="form-check-label" for="inlineRadio1">Nam</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
+                    <label class="form-check-label" for="inlineRadio2">Nữ</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3">
+                    <label class="form-check-label" for="inlineRadio3">Khác</label>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="txtDOB" class="col-sm-2 col-form-label">Ngày sinh</label>
+                <div class="col-sm-8">
+                  <input name="dob" type="text" class="form-control" id="txtDOB">
+                </div>
+              </div>
+              <button class="btn btn-primary font-weight-bold" type="submit" style="width:100px; display:flex; margin:auto; justify-content: center;">LƯU</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+</div>

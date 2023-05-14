@@ -99,6 +99,16 @@ Validator.isCorrect = (selector, selector2) => {
     }
 }
 
+Validator.isPhoneNumber = (selector) => {
+    const regexPhoneNumber = /(84|0[3|5|7|8|9])+([0-9]{8})\b/g;
+
+    return {
+        selector,
+        test: (value) => {
+            return value === regexPhoneNumber ? undefined : `Vui lòng nhập đúng số điện thoại.`
+        }
+    }
+}
 
 Validator.checkAvailableEmail = (selector) => {
     return {

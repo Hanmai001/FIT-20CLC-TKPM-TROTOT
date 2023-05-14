@@ -1,0 +1,61 @@
+.adding {
+  color: #fff;
+  border-color: #fff;
+}
+.adding:hover {
+  background-color: #2b6777;
+  border-color: transparent;
+}
+.adding:active {
+  background-color: #2b6777 !important;
+}
+
+.editPencil {
+  background-color: #52ab98;
+  border-color: transparent;
+}
+.editPencil:hover {
+  background-color: #2b6777;
+}
+
+.view {
+  background-color: #52ab98;
+  border-color: transparent;
+}
+
+.view:hover {
+  background-color: #2b6777;
+}
+td {
+  font-weight: bold;
+}
+
+.page-link {
+  color: #52ab98;
+}
+.page-link:hover {
+  color: #2b6777;
+}
+.page-item.active .page-link {
+  background-color: #52ab98;
+  border-color: transparent;
+}
+
+#btn-back-to-top {
+  display: none !important;
+}
+.btn-update {
+  background-color: #52ab98;
+  border-color: transparent;
+}
+.btn-update:hover {
+  background-color: #2b6777;
+  border-color: transparent;
+}
+.modal-header {
+  background-color: #52ab98;
+  color: #fff;
+}
+ul.pagination {
+  margin: 8px auto;
+}
