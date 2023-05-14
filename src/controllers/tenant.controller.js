@@ -15,7 +15,7 @@ const getManageAppointmentPage = async (req, res) => {
     const idUser = res.locals.user.id;
     if (!page) page = 1;
     const { houses, pages } = await getAllHouseAppointmentTenant(idUser, filter);
-    
+
     const result = await getTenantHouseAppointmentListModel(idUser, 5, (page - 1) * 5, filter);
     console.log(filter, page, result)
     for (let house of result) {

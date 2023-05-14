@@ -1,14 +1,10 @@
 import express from 'express';
 import { getAllUsers, getDetailedUser, updateUser, countUserByRole, getNewUser, addUser, checkUsername } from '../controllers/admin.controller';
+import { logout } from '../controllers/auth.controller'
 
 const router = express.Router();
 
-router.get('/profile', (req, res, next) => {
-  try {
-    res.render('vwAdmin/profile');
-  } catch (err) { next(err) }
-
-});
+router.route('/profile').get(getInfoProfile);
 // router.route('/users/role').get(countUserByRole);
 router.route('/users/new').get(getNewUser).post(addUser);
 router.route('/users/is-available').get(checkUsername);
@@ -31,6 +27,7 @@ router.get('/review', (req, res, next) => {
   } catch (err) { next(err) }
 
 });
+router.route('/logout').get(logout);
 
 
 export default router;
