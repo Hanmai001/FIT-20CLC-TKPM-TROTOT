@@ -14,7 +14,8 @@ const addAppointmentModel = async (idTenant, idLandlord, data) => {
     await db('dondathen').insert({
         NguoiDatHen: idTenant,
         NgayGap: data.date + ' ' + data.time,
-        ChuTro: idLandlord
+        ChuTro: idLandlord,
+        TrangThaiLichHen: 'Chưa xác nhận'
     })
 }
 

@@ -1,6 +1,6 @@
 {{#section "css"}}
-<link rel="stylesheet" type="text/css" href="../../public/assets/css/header_landlord.css"/>
-<link rel="stylesheet" type="text/css" href="../../public/assets/css/detaills_house.css"/>
+<link rel="stylesheet" href="../../public/assets/css/landlord/header_landlord.css" />
+<link rel="stylesheet" href="../../public/assets/css/detaills_house.css" />
 {{/section}}
 {{#section "js"}}
 <script src="../../public/assets/js/header_landlors.js"></script>
@@ -20,7 +20,11 @@
         //Paging
     }
 
+    const url = window.location.pathname;
+    const idPost = parseInt(url.substring(url.lastIndexOf('/') + 1));
+    console.log(idPost)
     const fullname = document.getElementById("fullname");
+    const divAddFavourite = document.getElementById("add-favourite");
     const phone = document.getElementById("phone");
     const date = document.getElementById("date");
     const time = document.getElementById("time");
@@ -28,10 +32,49 @@
     const iconConfCancel = document.getElementById("btn-close");
     const btnConfPost = document.getElementById("btn-confirm");
     const btnOpenForm = document.getElementById("btn-open-form");
+    const btnAddFavourite = document.getElementById("btn-add-favourite");
     btnConfCancel.addEventListener('click', closeConfirm);
     iconConfCancel.addEventListener('click', closeConfirm);
     btnOpenForm.addEventListener('click', openConfirm);
+    btnAddFavourite.addEventListener('click', addPost)
+    function addPost(e) {
+        e.preventDefault();
+        fetch(`/favourite-list/add-favourite/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ idPost })
+        })
+            .then((response) => {
+                parentElement.innerHTML = '<button onclick="delPost()">Xóa khỏi danh sách yêu thích</button>';
+                // Handle the response from the server
+                console.log('Response:', response);
+            })
+            .catch((error) => {
+                // Handle any errors that occur
+                console.error('Error:', error);
+            });
+    }
+    function delPost(e) {
+        e.preventDefault();
+        fetch(`/favourite-list/add-favourite/${idPost}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            },
 
+        })
+            .then((response) => {
+                parentElement.innerHTML = '<button onclick="addPost()">Thêm vào danh sách yêu thích</button>';
+                // Handle the response from the server
+                console.log('Response:', response);
+            })
+            .catch((error) => {
+                // Handle any errors that occur
+                console.error('Error:', error);
+            });
+    }
     function openConfirm(e) {
         let modal = document.querySelector(".modal-appointment-confirm");
         modal.style.display = 'flex';
@@ -84,6 +127,7 @@
             note.style.display = 'none';
         }
     })
+
 </script>
 <script async defer
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAeOS7IcZeQdZrFqQOWnddYHwki4xDCCBI&callback=initMap"></script>
@@ -94,7 +138,11 @@
     <div>
         <button id="btn-open-form">Đặt lịch</button>
     </div>
-    <form action="/tenant/add-appointment/${{post.TinID}}" method="post" id="post-appointment" class="modal-appointment-confirm">
+    <div id="add-favourite">
+        <button id="btn-add-favourite">Thêm vào danh sách yêu thích</button>
+    </div>
+    <form action="/tenant/add-appointment/{{post.TinID}}" method="post" id="post-appointment"
+        class="modal-appointment-confirm">
         <div class="modal__container d-flex flex-column justify-content-between">
             <div class="modal__container-header border-bottom">
                 <div class="d-flex justify-content-between">

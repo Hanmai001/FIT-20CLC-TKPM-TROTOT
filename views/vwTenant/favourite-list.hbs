@@ -1,0 +1,246 @@
+{{#section "css"}}
+<link rel="stylesheet" href="../../public/assets/css/manage-appointment.css" />
+<link rel="stylesheet" href="../../public/assets/css/tenant/header_tenant.css" />
+<link rel="stylesheet" href="../../public/assets/css/landlord/sidebar_landlord.css" />
+{{/section}}
+{{#section "js"}}
+<script src="../../public/assets/js/header_landlors.js"></script>
+<script>
+    var Pagination = {
+
+        code: '',
+
+        // --------------------
+        // Utility
+        // --------------------
+
+        // converting initialize data
+        Extend: function (data) {
+            data = data || {};
+            Pagination.size = data.size || 1;
+            Pagination.page = data.page || 1;
+            Pagination.step = data.step || 3;
+        },
+
+        // add pages by number (from [s] to [f])
+        Add: function (s, f) {
+            for (var i = s; i < f; i++) {
+                Pagination.code += '<a>' + i + '</a>';
+            }
+        },
+        // add last page with separator
+        Last: function () {
+            Pagination.code += '<i>...</i><a>' + Pagination.size + '</a>';
+        },
+
+        // add first page with separator
+        First: function () {
+            Pagination.code += '<a>1</a><i>...</i>';
+        },
+        // --------------------
+        // Handlers
+        // --------------------
+
+        // change page
+        Click: function () {
+            const currentUrl = new URL(window.location.href);
+            currentUrl.searchParams.set('page', this.innerHTML);
+            const updatedUrl = currentUrl.toString();
+            window.location.href = updatedUrl;
+            //Pagination.page = +this.innerHTML;
+            //Pagination.Start();
+        },
+
+        // previous page
+        Prev: function () {
+            Pagination.page--;
+            if (Pagination.page < 1) {
+                Pagination.page = 1;
+            }
+            const currentUrl = new URL(window.location.href);
+            currentUrl.searchParams.set('page', Pagination.page);
+            const updatedUrl = currentUrl.toString();
+            window.location.href = updatedUrl;
+        },
+
+        // next page
+        Next: function () {
+            Pagination.page++;
+            if (Pagination.page > Pagination.size) {
+                Pagination.page = Pagination.size;
+            }
+            //Pagination.Start();
+            const currentUrl = new URL(window.location.href);
+            currentUrl.searchParams.set('page', Pagination.page);
+            const updatedUrl = currentUrl.toString();
+            window.location.href = updatedUrl;
+        },
+
+
+
+        // --------------------
+        // Script
+        // --------------------
+
+        // binding pages
+        Bind: function () {
+            var a = Pagination.e.getElementsByTagName('a');
+            for (var i = 0; i < a.length; i++) {
+                if (+a[i].innerHTML === Pagination.page) a[i].className = 'current';
+                a[i].addEventListener('click', Pagination.Click, false);
+            }
+        },
+
+        // write pagination
+        Finish: function () {
+            Pagination.e.innerHTML = Pagination.code;
+            Pagination.code = '';
+            Pagination.Bind();
+        },
+
+        // find pagination type
+        Start: function () {
+            if (Pagination.size < Pagination.step * 2 + 6) {
+                Pagination.Add(1, Pagination.size + 1);
+            }
+            else if (Pagination.page < Pagination.step * 2 + 1) {
+                Pagination.Add(1, Pagination.step * 2 + 4);
+                Pagination.Last();
+            }
+            else if (Pagination.page > Pagination.size - Pagination.step * 2) {
+                Pagination.First();
+                Pagination.Add(Pagination.size - Pagination.step * 2 - 2, Pagination.size + 1);
+            }
+            else {
+                Pagination.First();
+                Pagination.Add(Pagination.page - Pagination.step, Pagination.page + Pagination.step + 1);
+                Pagination.Last();
+            }
+            Pagination.Finish();
+        },
+
+
+
+        // --------------------
+        // Initialization
+        // --------------------
+
+        // binding buttons
+        Buttons: function (e) {
+            var nav = e.getElementsByTagName('a');
+            nav[0].addEventListener('click', Pagination.Prev, false); //nếu bấm vào nút prev thì xử lý event
+            nav[1].addEventListener('click', Pagination.Next, false); //nếu bấm vào nút prev thì xử lý event
+        },
+
+        // create skeleton
+        Create: function (e) {
+
+            var html = [
+                '<a>&#9668;</a>', // previous button
+                '<span></span>',  // pagination container
+                '<a>&#9658;</a>'  // next button
+            ];
+            e.innerHTML = html.join(''); //thêm html vào element e
+            Pagination.e = e.getElementsByTagName('span')[0]; //Lấy a đtien
+            Pagination.Buttons(e);
+        },
+
+        // init
+        Init: function (e, data) {
+            Pagination.Extend(data);
+            Pagination.Create(e);
+            Pagination.Start();
+        }
+    };
+    /* * * * * * * * * * * * * * * * *
+    * Initialization
+    * * * * * * * * * * * * * * * * */
+    var init = function () {
+        const pageSize = '{{pages}}';
+        const pageCurr = '{{page}}';
+        Pagination.Init(document.getElementById('pagination'), {
+            size: parseInt(pageSize), // pages size
+            page: parseInt(pageCurr),  // selected page
+            step: 3   // pages before and after current
+        });
+    };
+    document.addEventListener('DOMContentLoaded', init, false);
+
+    const items = document.getElementsByClassName("js-item");
+    for (let item of items) {
+        item.addEventListener('mouseover', function (e) {
+            let modal = item.querySelector(".modal");
+            modal.style.display = "flex";
+        })
+    }
+    for (let item of items) {
+        item.addEventListener('mouseout', function (e) {
+            let modal = item.querySelector(".modal");
+            modal.style.display = "none";
+        })
+    }
+</script>
+{{/section}}
+<div class="container-fluid manage-appointment">
+    {{> header_tenant}}
+    {{> sidebar_tenant}}
+    <div class="content">
+        <div class="content__header mt-4 pb-3 border-bottom">
+            <h5>LỊCH HẸN XEM PHÒNG CỦA BẠN</h5>
+
+        </div>
+        {{#each houses}}
+        <div class="item border-bottom js-item">
+            <div class="modal">
+                <button class="show-btn">
+                    <a href="/details/{{this.TinID}}">Xem chi tiết</a></button>
+                <button class="cancel-btn"><a href="/favourite-list/delete-favourite/{{this.TinID}}">Xóa</a></button>
+            </div>
+            <div class="row">
+                <div class="col-2 py-4">
+                    <img src="{{this.photo}}" alt="" width="100%" height="100%">
+                </div>
+                <div class="col-9 py-4">
+                    <div class="item__name fw-bold row">
+                        <div class="col-6">
+                            {{this.Ten}}
+                        </div>
+                        <div class="col-6 text-end text-danger item__name-last">
+                            {{this.TrangThaiKiemDuyet}}
+                        </div>
+                    </div>
+                    <div class="item__type row">
+                        <div class="col-6">
+                            <img src="../../public/assets/pictures/home.png" alt="" width="16px" height="16px">
+                            <span>Loại trọ: {{this.LoaiTro}}</span>
+                        </div>
+                        <div class="col-6 text-end">
+                            <img src="../../public/assets/pictures/people.png" alt="" width="16px" height="16px">
+                            {{this.SoNguoi}} người
+                        </div>
+                    </div>
+                    <div class="item__area">
+                        <img src="../../public/assets/pictures/area-graph.png" alt="" width="16px" height="16px">
+                        Diện tích: {{this.DienTich}}m2
+                    </div>
+                    <div class="item__price fw-bolder">
+                        <img src="../../public/assets/pictures/best-price.png" alt="" width="16px" height="16px">
+                        {{this.Gia}} VNĐ
+                    </div>
+                    <div class="item__address">
+                        <img src="../../public/assets/pictures/location.png" alt="" width="16px" height="16px">
+                        Địa chỉ: {{this.DiaChi}}
+                    </div>
+                </div>
+            </div>
+            <div class="border-bottom"></div>
+
+        </div>
+        {{/each}}
+
+
+    </div>
+    <div class="d-flex justify-content-center my-4 container-pagination">
+        <div id="pagination"></div>
+    </div>
+</div>

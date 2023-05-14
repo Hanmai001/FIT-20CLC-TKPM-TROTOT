@@ -6,7 +6,8 @@ import landlordRoute from './landlord';
 import adminRoute from './admin.route';
 import apiRoute from './api';
 import authRoute from './authRoute';
-import redirectRoute from './redirect.route'
+import redirectRoute from './redirect.route';
+import favouriteList from './favourite_list';
 import { isLoggedCustomer, isLoggedAdmin, isLoggedLandlord, isLogged, logout } from '../controllers/auth.controller';
 
 
@@ -20,6 +21,7 @@ export default function (app) {
   app.use("/admin", adminRoute);
   app.use("/details/:id", initDetailsRoute);
   app.use("/list", initListRoute);
+  app.use("/favourite-list", favouriteList);
   app.use("/logout", logout);
 
   app.use("/", isLogged, (req, res, next) => {
