@@ -31,11 +31,7 @@ export default function (app) {
                     return value === "Teacher";
                 },
                 ifEqualString: function (a, b) {
-                    if (a === b) {
-                        return opts.fn(this);
-                    } else {
-                        return opts.inverse(this);
-                    }
+                    return a === b;
                 },
                 ifOr: function (a, b, opts) {
                     return (a || b) ? opts.fn(this) : opts.inverse(this);;

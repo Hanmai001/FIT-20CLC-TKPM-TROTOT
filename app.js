@@ -27,7 +27,7 @@ app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(passport.authenticate('session'));
-app.use(logger('dev'));
+// app.use(logger('dev'));
 app.use(cookieParser());
 
 app.use("/public", express.static("public"));

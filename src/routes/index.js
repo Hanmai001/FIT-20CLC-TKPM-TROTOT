@@ -14,10 +14,10 @@ export default function (app) {
   app.use("/api", apiRoute);
   app.use("/account", authRoute);
   app.use("/redirect", redirectRoute);
-  app.use("/tenant", isLoggedCustomer, initTenantRoute);
-  app.use("/landlord", isLoggedLandlord, initLandlordRoute);
-  app.use("/house", initHouseRoute);
-  app.use("/admin", isLoggedAdmin, initAdminRoute);
+  app.use("/tenant", isLoggedCustomer, tenantRoute);
+  app.use("/landlord", isLoggedLandlord, landlordRoute);
+  app.use("/house", postRoute);
+  app.use("/admin", adminRoute);
   app.use("/details/:id", initDetailsRoute);
   app.use("/list", initListRoute);
   app.use("/", isLogged, (req, res, next) => {
