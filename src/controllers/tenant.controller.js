@@ -76,6 +76,7 @@ const addAppointment = async (req, res) => {
     const idUser = res.locals.user.id;
     console.log(req.body)
     const idHouse = req.params.id;
+    console.log(idHouse)
     const idLandlord = await getIDLandlordOfAHouseModel(idHouse);
     await addAppointmentModel(idUser, idLandlord, req.body);
 
