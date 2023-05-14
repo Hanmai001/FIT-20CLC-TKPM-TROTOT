@@ -48,7 +48,7 @@ const addUser = async (username, email, password, dob, fullname, phone, sex, cit
 
 const checkUserCredential = async (TaiKhoan, MatKhau, id) => {
   const user = await getUserByUsername(TaiKhoan);
-  //console.log(user)
+  console.log(user)
   if (!user) {
     return null;
   }

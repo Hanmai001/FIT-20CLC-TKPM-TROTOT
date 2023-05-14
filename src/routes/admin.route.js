@@ -1,6 +1,5 @@
 import express from 'express';
-import { getAllUsers, getDetailedUser, updateUser, getInfoProfile, countUserByRole, getNewUser, addUser, checkUsername } from '../controllers/admin.controller';
-import { logout } from '../controllers/auth.controller'
+import { getAllUsers, getDetailedUser, updateUser, countUserByRole, getNewUser, addUser, checkUsername, getInfoProfile } from '../controllers/admin.controller';
 
 const router = express.Router();
 
@@ -27,7 +26,6 @@ router.get('/review', (req, res, next) => {
   } catch (err) { next(err) }
 
 });
-router.route('/logout').get(logout);
 
 
 export default router;

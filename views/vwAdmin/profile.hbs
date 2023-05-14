@@ -31,14 +31,6 @@
             Validator.isPhoneNumber('#phone'),
         ]
     });
-    Validator({
-        form: '#form-2',
-        rules: [
-            Validator.isRequired('#p1', "Please input your password"),
-            Validator.minLength('#p2', 6),
-            Validator.isCorrect('#p3', '#p2'),
-        ]
-  });
 </script>
 {{/section}}
 

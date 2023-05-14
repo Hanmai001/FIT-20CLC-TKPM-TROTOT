@@ -1,7 +1,7 @@
 {{#section "css"}}
-<link rel="stylesheet" href="../public/assets/css/landlord/header_landlord.css" />
-<link rel="stylesheet" href="../public/assets/css/fill_search.css">
-<link rel="stylesheet" href="../public/assets/css/home-page.css" />
+<link rel="stylesheet" type="text/css" href="../public/assets/css/header_landlord.css" />
+<link rel="stylesheet" type="text/css" href="../public/assets/css/fill_search.css">
+<link rel="stylesheet" type="text/css" href="../public/assets/css/home-page.css" />
 {{/section}}
 
 {{#section "js"}}
@@ -231,16 +231,22 @@
 
 </script>
 {{/section}}
-{{#ifEqualString user.LoaiNguoiDung "Người thuê trọ"}}
-{{>header_tenant}}
-{{/ifEqualString}}
-{{#ifEqualString user.LoaiNguoiDung "Người chủ trọ"}}
-{{>header_landlord}}
-{{/ifEqualString}}
-{{#ifEqualString user.LoaiNguoiDung "Admin"}}
-{{>header_admin}}
-{{/ifEqualString}}
-{{>header_default}}
+
+{{#if user}}
+  {{#ifEqualString user "Người thuê trọ"}}
+    {{>header_tenant}}
+  {{/ifEqualString}}
+  {{#ifEqualString user "Người chủ trọ"}}
+    {{>header_landlord}}
+  {{/ifEqualString}}
+  {{#ifEqualString user "Admin"}}
+    {{>header_admin}}
+  {{/ifEqualString}}
+  {{#ifEqualString user "Admin"}}
+    {{>header_default}}
+  {{/ifEqualString}}
+{{/if}}
+
 
 {{!-- fillter bar --}}
 {{>search_bar}}
