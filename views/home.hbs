@@ -235,8 +235,10 @@
 {{#if user}}
     {{#ifEqualString user.LoaiNguoiDung "Người chủ trọ"}}
     {{>header_landlord}}
-    {{else ifEqualString user.LoaiNguoiDung "Người thuê trọ"}}
+        {{else ifEqualString user.LoaiNguoiDung "Người thuê trọ"}}
     {{>header_tenant}}
+        {{else ifEqualString user.LoaiNguoiDung "Admin"}}
+    {{>header_admin}}
     {{else}}
     {{>header_default}}
     {{/ifEqualString}}
