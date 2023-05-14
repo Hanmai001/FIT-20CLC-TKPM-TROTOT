@@ -22,9 +22,13 @@
 
   Validator({
         form: '#form-1',
-        rules: [
+         rules: [
+            Validator.isRequired('#email', "Vui lòng nhập email"),
             Validator.isEmail('#email'),
-            Validator.isRequired('#password', "Please input your password"),
+            Validator.isRequired('#username', "Vui lòng nhập tên đăng nhập"),
+            Validator.isRequired('#name', "Vui lòng nhập họ tên"),
+            Validator.isRequired('#phone', "Vui lòng nhập số điện thoại"),
+            Validator.isPhoneNumber('#phone'),
         ]
     });
     Validator({
@@ -46,16 +50,12 @@
             <div class="img-profile">
               <img
                 class="rounded-circle img-thumbnail img-avt"
-                {{#if (isEmpty this.user.image) }}
-                src="../../public/assets/images/no_avt_male.png"
-                {{else}}
-                src="../../public/assets/images/{{this.user.image}}"
-                {{/if}}
+                src="../../public/assets/pictures/no-avt.jpg"
                 alt="avatar"
               />
             </div>
             <div>
-              <p class="h6 img-name">{{this.user.firstName}} {{this.user.lastName}}</p>
+              <p class="h6 img-name">{{user.HoTen}}</p>
             </div>
           </li>
           <li class="nav-item">
@@ -162,61 +162,71 @@
             <form method="post" id="form-1">
               <div class="form-group row">
                 <label for="username" class="col-sm-2 col-form-label">Tên đăng nhập</label>
-                <div class="col-sm-10">
-                  <input name="TaiKhoan" type="text" readonly class="form-control-plaintext" id="username" value="dong123">
+                <div class="col-sm-8 form-error">
+                  <input name="TaiKhoan" type="text" class="form-control" id="username" value="{{user.TaiKhoan}}">
+                  <span class="form-message"></span>
                 </div>
               </div>
               <div class="form-group row">
                 <label for="password"class="col-sm-2 col-form-label">Mật khẩu</label>
-                <div class="col-sm-8">
-                  <input type="password" readonly class="form-control" id="password" placeholder="**********">
-                </div>
-                <div class="input-group-append col-sm-2">
-                    <button class="btn btn-outline-secondary" type="button">Thay đổi</button>
-                </div>
+                <div class="col-sm-8 form-error">
+                  <input type="password" class="form-control" id="password" placeholder="********">
+                </div> 
               </div>
               <div class="form-group row">
                 <label for="name" class="col-sm-2 col-form-label">Họ tên</label>
-                <div class="col-sm-8">
-                  <input name="HoTen" type="text" class="form-control" value="Lê Đông Đông" id="name">
+                <div class="col-sm-8 form-error">
+                  <input name="HoTen" type="text" class="form-control" value="{{user.HoTen}}" id="name">
+                  <span class="form-message"></span>
                 </div>
               </div>
               <div class="form-group row">
                 <label for="email" class="col-sm-2 col-form-label">Email</label>
-                <div class="col-sm-8">
-                  <input name="Email" type="password" readonly class="form-control"  id="email" placeholder="abc@gmail.com">
-                </div>
-                <div class="input-group-append col-sm-2">
-                    <button class="btn btn-outline-secondary" type="button">Thay đổi</button>
-                </div>
+                <div class="col-sm-8 form-error">
+                  <input name="Email" type="email"  class="form-control"  id="email" value="{{user.Email}}">
+                  <span class="form-message"></span>
+                </div> 
               </div>
               <div class="form-group row">
                 <label for="phone" class="col-sm-2 col-form-label">SĐT</label>
-                <div class="col-sm-8">
-                  <input name="SDT" type="text" class="form-control" value="0918422172" id="phone">
+                <div class="col-sm-8 form-error">
+                  <input name="SDT" type="text" class="form-control" value="{{user.SDT}}" id="phone">
+                  <span class="form-message"></span>
                 </div>
               </div>
               <div class="form-group row">
                 <label for="" class="col-sm-2 col-form-label">Giới tính</label>
                 <div class="col-sm-8">
                   <div class="form-check form-check-inline h-100">
-                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" >
+                    {{#if (ifEqualString user.GioiTinh "Nam")}}
+                    <input class="form-check-input" type="radio" checked="true" name="GioiTinh" id="inlineRadio1" value="Nam" checked>
+                    {{else}}
+                     <input class="form-check-input" type="radio" checked="true" name="GioiTinh" id="inlineRadio1" value="Nam">
+                    {{/if}}
                     <label class="form-check-label" for="inlineRadio1">Nam</label>
                   </div>
                   <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
-                    <label class="form-check-label" for="inlineRadio2">Nữ</label>
+                    {{#if (ifEqualString user.GioiTinh "Nữ")}}
+                    <input class="form-check-input" type="radio" checked="true" name="GioiTinh" id="inlineRadio1" value="Nữ" checked>
+                    {{else}}
+                     <input class="form-check-input" type="radio" checked="true" name="GioiTinh" id="inlineRadio1" value="Nữ">
+                    {{/if}}
+                    <label class="form-check-label" for="inlineRadio1">Nữ</label>
                   </div>
                   <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3">
-                    <label class="form-check-label" for="inlineRadio3">Khác</label>
+                    {{#if (ifEqualString user.GioiTinh "Khác")}}
+                    <input class="form-check-input" type="radio" checked="true" name="GioiTinh" id="inlineRadio1" value="Khác" checked>
+                    {{else}}
+                     <input class="form-check-input" type="radio" checked="true" name="GioiTinh" id="inlineRadio1" value="Khác">
+                    {{/if}}
+                    <label class="form-check-label" for="inlineRadio1">Khác</label>
                   </div>
                 </div>
               </div>
               <div class="form-group row">
-                <label for="txtDOB" class="col-sm-2 col-form-label">Ngày sinh</label>
+                <label for="dob" class="col-sm-2 col-form-label">Ngày sinh</label>
                 <div class="col-sm-8">
-                  <input name="dob" type="text" class="form-control" id="txtDOB">
+                  <input name="NgaySinh" type="text" class="form-control" id="dob" value="{{user.NgaySinh}}">
                 </div>
               </div>
               <button class="btn btn-primary font-weight-bold" type="submit" style="width:100px; display:flex; margin:auto; justify-content: center;">LƯU</button>
