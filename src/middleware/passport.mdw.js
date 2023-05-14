@@ -7,10 +7,12 @@ passport.use(new LocalStrategy(
         usernameField: 'TaiKhoan',
         passwordField: 'MatKhau',
         iduserField: 'NguoiDungID',
-        typeuserField: 'LoaiNguoiDung'
+        typeuserField: 'LoaiNguoiDung',
+        passwordField: 'MatKhau'
     },
     async function (TaiKhoan, MatKhau, done) {
         const user = await checkUserCredential(TaiKhoan, MatKhau);
+        // console.log(user)
         if (!user) {
             return done(null, false, { message: "Sai thông tin tài khoản." });
         }

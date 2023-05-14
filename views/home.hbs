@@ -231,16 +231,19 @@
 
 </script>
 {{/section}}
-{{#ifEqualString user.LoaiNguoiDung "Người thuê trọ"}}
-{{>header_tenant}}
-{{/ifEqualString}}
-{{#ifEqualString user.LoaiNguoiDung "Người chủ trọ"}}
-{{>header_landlord}}
-{{/ifEqualString}}
-{{#ifEqualString user.LoaiNguoiDung "Admin"}}
-{{>header_admin}}
-{{/ifEqualString}}
-{{>header_default}}
+
+{{#if user}}
+    {{#ifEqualString user.LoaiNguoiDung "Người chủ trọ"}}
+    {{>header_landlord}}
+    {{else ifEqualString user.LoaiNguoiDung "Người thuê trọ"}}
+    {{>header_tenant}}
+    {{else}}
+    {{>header_default}}
+    {{/ifEqualString}}
+{{else}}
+    {{>header_default}}
+{{/if}}
+
 
 {{!-- fillter bar --}}
 {{>search_bar}}
