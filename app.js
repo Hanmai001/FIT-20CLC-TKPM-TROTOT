@@ -29,6 +29,12 @@ app.use("/public", express.static("public"));
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+
+app.use(function (req, res, next) {
+  res.locals.user = req.user;
+  next();
+});
+
 activate_hbs(app);
 activate_route(app);
 const PORT = process.env.PORT || 3000;

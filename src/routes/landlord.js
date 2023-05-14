@@ -11,7 +11,7 @@ import {
     updateProfile,
     confirmAppointment,
     deleteAppointment,
-    getEditHousePage, 
+    getEditHousePage,
     getMainPage
 } from '../controllers/landlord.controller';
 import { isLoggedLandlord } from '../controllers/auth.controller';

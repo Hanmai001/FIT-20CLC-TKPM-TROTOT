@@ -8,7 +8,7 @@ import apiRoute from './api';
 import authRoute from './authRoute';
 import redirectRoute from './redirect.route'
 import initGuestRoute from './guest.route'
-import { isLoggedCustomer, isLoggedAdmin, isLoggedLandlord } from '../controllers/auth.controller';
+import { isLoggedCustomer, isLoggedAdmin, isLoggedLandlord, isLogged } from '../controllers/auth.controller';
 
 
 export default function (app) {
@@ -23,7 +23,7 @@ export default function (app) {
   app.use("/details/:id", initDetailsRoute);
   app.use("/list", initListRoute);
 
-  app.use("/", isLoggedCustomer, isLoggedAdmin, isLoggedLandlord, (req, res, next) => {
+  app.use("/", isLogged, (req, res, next) => {
     try {
       // console.log(req.session)
       res.render("home");
