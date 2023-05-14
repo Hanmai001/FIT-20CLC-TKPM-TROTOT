@@ -1,6 +1,6 @@
 {{#section "css"}}
-<link rel="stylesheet" href="../../public/assets/css/header_landlord.css" />
-<link rel="stylesheet" href="../../public/assets/css/detaills_house.css" />
+<link rel="stylesheet" href="../../public/assets/css/landlord/header_landlord.css" />
+<link rel="stylesheet" href="../../public/assets/css/landlord/detaills_house.css" />
 {{/section}}
 {{#section "js"}}
 <script src="../../public/assets/js/header_landlors.js"></script>
@@ -19,6 +19,71 @@
         });
         //Paging
     }
+
+    const fullname = document.getElementById("fullname");
+    const phone = document.getElementById("phone");
+    const date = document.getElementById("date");
+    const time = document.getElementById("time");
+    const btnConfCancel = document.getElementById("btn-confirm-cancel");
+    const iconConfCancel = document.getElementById("btn-close");
+    const btnConfPost = document.getElementById("btn-confirm");
+    const btnOpenForm = document.getElementById("btn-open-form");
+    btnConfCancel.addEventListener('click', closeConfirm);
+    iconConfCancel.addEventListener('click', closeConfirm);
+    btnOpenForm.addEventListener('click', openConfirm);
+
+    function openConfirm(e) {
+        let modal = document.querySelector(".modal-appointment-confirm");
+        modal.style.display = 'flex';
+    }
+    function closeConfirm(e) {
+        let modal = document.querySelector(".modal-appointment-confirm");
+        modal.style.display = 'none';
+    }
+    fullname.addEventListener('change', function (event) {
+        const val = fullname.value;
+        if (val == "") {
+            let note = document.getElementById('fullname-note');
+            note.style.display = 'block';
+        }
+        else {
+            let note = document.getElementById('fullname-note');
+            note.style.display = 'none';
+        }
+    })
+    phone.addEventListener('change', function (event) {
+        const val = phone.value;
+        if (val == "") {
+            let note = document.getElementById('phone-note');
+            note.style.display = 'block';
+        }
+        else {
+            let note = document.getElementById('phone-note');
+            note.style.display = 'none';
+        }
+    })
+    date.addEventListener('change', function (event) {
+        const val = date.value;
+        if (val == "") {
+            let note = document.getElementById('date-note');
+            note.style.display = 'block';
+        }
+        else {
+            let note = document.getElementById('date-note');
+            note.style.display = 'none';
+        }
+    })
+    time.addEventListener('change', function (event) {
+        const val = time.value;
+        if (val == "") {
+            let note = document.getElementById('time-note');
+            note.style.display = 'block';
+        }
+        else {
+            let note = document.getElementById('time-note');
+            note.style.display = 'none';
+        }
+    })
 </script>
 <script async defer
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAeOS7IcZeQdZrFqQOWnddYHwki4xDCCBI&callback=initMap"></script>
@@ -26,8 +91,58 @@
 {{>header_landlord}}
 <div class="content">
 
+    <div>
+        <button id="btn-open-form">Đặt lịch</button>
+    </div>
+    <form action="/tenant/add-appointment/${{post.TinID}}" method="post" id="post-appointment" class="modal-appointment-confirm">
+        <div class="modal__container d-flex flex-column justify-content-between">
+            <div class="modal__container-header border-bottom">
+                <div class="d-flex justify-content-between">
+                    <h5>ĐẶT LỊCH HẸN</h5>
+                    <i id="btn-close" class="fas fa-times"></i>
+                </div>
+            </div>
+            <div class="modal__input-item">
+                <label class="d-block mb-2" for="fullname">Họ tên<span style="color:red">*</span></label>
+                <input type="text" id="fullname" name="fullname" placeholder="Nhập họ tên người đặt hẹn" value=""
+                    required>
+                <div class="text-danger content__note" id="fullname-note">
+                    Vui lòng nhập họ tên
+                </div>
+            </div>
+            <div class="modal__input-item">
+                <label class="d-block mb-2" for="phone">Số điện thoại<span style="color:red">*</span></label>
+                <input type="text" id="phone" name="phone" placeholder="Nhập số điện thoại người đặt hẹn" value=""
+                    required>
+                <div class="text-danger content__note" id="phone-note">
+                    Vui lòng nhập số điện thoại
+                </div>
+            </div>
+            <div class="modal__input-item">
+                <label class="d-block mb-2" for="date">Ngày hẹn gặp<span style="color:red">*</span></label>
+                <input type="date" id="date" name="date" value="" required>
+                <div class="text-danger content__note" id="date-note">
+                    Vui lòng chọn ngày gặp
+                </div>
+            </div>
+            <div class="modal__input-item">
+                <label class="d-block mb-2" for="time">Thời gian cụ thể<span style="color:red">*</span></label>
+                <input type="time" id="time" name="time" value="" required>
+                <div class="text-danger content__note" id="time-note">
+                    Vui lòng chọn thời gian cụ thể
+                </div>
+            </div>
+            <div class="modal__container-btns text-end pb-2">
+                <button type="submit" form="post-appointment" id="btn-confirm-del">Đặt lịch</button>
+                <button id="btn-confirm-cancel">Hủy</button>
+            </div>
+        </div>
+    </form>
     <div class="infor" style="background-color: white; padding:20px; box-shadow: 4px 2px 10px rgba(0, 0, 0, 0.2);">
         <h1 style="font-size:xx-large">Chi tiết Phòng Trọ</h1>
+
+
+
         <div class="row">
             <div class="col-10 picture">
                 {{!-- image --}}

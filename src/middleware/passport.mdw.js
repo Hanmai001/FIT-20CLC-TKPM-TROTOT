@@ -5,6 +5,7 @@ import { checkUserCredential } from '../models/user.model';
 passport.use(new LocalStrategy(
     {
         usernameField: 'TaiKhoan',
+        passwordField: 'MatKhau',
         iduserField: 'NguoiDungID',
         typeuserField: 'LoaiNguoiDung'
     },

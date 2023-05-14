@@ -196,3 +196,63 @@ span.btn.favorite {
 .btn .fa-light {
     margin-right: 5px;
 }
+
+.modal-appointment-confirm {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    z-index: 999;
+    background-color: rgba(0, 0, 0, 0.4);
+    align-items: center;
+    justify-content: center;
+    display: none;
+}
+
+.modal-appointment-confirm .modal__container {
+    background-color: #fff;
+    width: 400px;
+    height: 550px;
+    border-radius: 4px;
+    padding: 10px 20px;
+}
+
+.modal-appointment-confirm h5 {
+    color: #000;
+}
+
+.modal-appointment-confirm i {
+    font-size: 24px;
+}
+
+.modal-appointment-confirm i:hover {
+    cursor: pointer;
+}
+
+.modal-appointment-confirm .modal__container-btns button {
+    border: none;
+    background-color: #002ffe;
+    width: 100px;
+    padding: 10px 15px;
+    color: #fff;
+    border-radius: 4px;
+    opacity: 0.8;
+
+}
+
+.modal-appointment-confirm .modal__container-btns button:hover {
+    opacity: 1;
+}
+
+.modal-appointment-confirm .modal__container-btns button:first-child {
+    background-color: #fe0000;
+}
+
+.modal-appointment-confirm input {
+    width: 100%;
+    padding: 10px 10px;
+}
+.modal-appointment-confirm .modal__input-item .content__note{
+    font-size: 12px;
+}

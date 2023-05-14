@@ -1,11 +1,11 @@
 import {
     getAllHouseAppointmentTenant,
-    getTenantHouseAppointmentListModel
+    getTenantHouseAppointmentListModel,
+    getIDLandlordOfAHouseModel
 } from "../models/post.model";
 import { findPhotosOfHouse } from "../models/photo.model";
-import { getInfoProfileTenant, updateProfileTenantModel } from "../models/tenant.model";
-import { getInfoProfileLandlord } from "../models/landlord.model";
-import { cancelAppointmentModel } from "../models/appointment.model";
+import { getInfoProfileTenant, updateProfileTenantModel, getInfoProfileLandlord } from "../models/user.model";
+import { addAppointmentModel, cancelAppointmentModel } from "../models/appointment.model";
 
 const getTenantPage = async (req, res) => {
     return res.render("vwTenant/tenant-page")
@@ -72,4 +72,21 @@ const deleteAppointment = async (req, res) => {
     await cancelAppointmentModel(id);
     return res.redirect('/tenant/manage-appointment');
 }
-export { getManageAppointmentPage, getProfilePage, getChangePassPage, updateProfile, getTenantPage, deleteAppointment }
+const addAppointment = async (req, res) => {
+    const idUser = res.locals.user.id;
+    console.log(req.body)
+    const idHouse = req.params.id;
+    const idLandlord = await getIDLandlordOfAHouseModel(idHouse);
+    await addAppointmentModel(idUser, idLandlord, req.body);
+
+    res.redirect('/tenant/manage-appointment');
+}
+export {
+    getManageAppointmentPage,
+    getProfilePage,
+    getChangePassPage,
+    updateProfile,
+    getTenantPage,
+    deleteAppointment,
+    addAppointment
+}

@@ -136,6 +136,10 @@ const getTenantHouseAppointmentListModel = async (idUser, limit, offset, filter)
     }
     return await result;
 }
+const getIDLandlordOfAHouseModel = async (idHouse) => {
+    const res = await db('tindangtro').where('TinID', '=', idHouse).select('NguoiDangTin');
+    return res[0];
+}
 export {
     addHouseModel,
     getAllHousesOfLandlord,
@@ -146,5 +150,6 @@ export {
     getDetailedHouseModel,
     updateHouseModel,
     getAllHouseAppointmentTenant,
-    getTenantHouseAppointmentListModel
+    getTenantHouseAppointmentListModel,
+    getIDLandlordOfAHouseModel
 }

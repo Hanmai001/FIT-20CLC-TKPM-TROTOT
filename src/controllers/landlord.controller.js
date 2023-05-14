@@ -8,8 +8,7 @@ import {
 import { findUtilitiesOfHouse } from "../models/utility.model";
 import { findPhotosOfHouse } from "../models/photo.model";
 import { findVideosOfHouse } from "../models/video.model";
-import { getInfoProfileLandlord, updateProfileLandlordModel } from "../models/landlord.model";
-import { getInfoProfileTenant } from "../models/tenant.model";
+import { getInfoProfileLandlord, updateProfileLandlordModel, getInfoProfileTenant } from "../models/user.model";
 import { confirmAppointmenLandlord, cancelAppointmentModel } from "../models/appointment.model";
 const getPostHousePage = async (req, res) => {
     res.render("vwLandlord/post-house")

@@ -1,6 +1,14 @@
 import express from 'express';
 const initTenantRoute = express.Router();
-import { getManageAppointmentPage, getProfilePage, getChangePassPage, updateProfile, getTenantPage, deleteAppointment } from '../controllers/tenant.controller';
+import {
+    getManageAppointmentPage,
+    getProfilePage,
+    getChangePassPage,
+    updateProfile,
+    getTenantPage,
+    deleteAppointment,
+    addAppointment
+} from '../controllers/tenant.controller';
 import { logout } from '../controllers/auth.controller';
 import multer from 'multer';
 import appRoot from 'app-root-path';
@@ -23,6 +31,7 @@ initTenantRoute.route("/profile").get(getProfilePage);
 initTenantRoute.route("/change-password").get(getChangePassPage);
 initTenantRoute.route("/profile/update/:id").post(upload.single('update-ava'), updateProfile);
 initTenantRoute.route("/cancel-appointment/:id").patch(deleteAppointment);
+initTenantRoute.route("/add-appointment/:id").post(addAppointment);
 initTenantRoute.route("/logout").get(logout);
 initTenantRoute.route("/").get(getTenantPage);
 
