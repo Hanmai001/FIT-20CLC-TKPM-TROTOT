@@ -105,6 +105,41 @@ const getDetailedHouseModel = async (idHouse) => {
     const res = await db('tindangtro').select('*').where('TinID', '=', idHouse);
     return res[0];
 }
+
+const getAllHouseAppointmentTenant = async (idUser, filter) => {
+    let result = db('dondathen').select('*').where('NguoiDatHen', '=', idUser);
+    if (filter) {
+        if (filter === "Chưa xác nhận" || filter === "Đã xác nhận" || filter === "Đã hủy")
+            result = result.where('TrangThaiLichHen', filter);
+        else if (filter === "Cũ nhất")
+            result = result.orderBy('NgayDatHen', 'asc');
+        else if (filter === "Mới nhất")
+            result = result.orderBy('NgayDatHen', 'desc')
+    }
+    result = await result;
+    return { houses: result, pages: Math.ceil(result.length / 5) };
+}
+const getTenantHouseAppointmentListModel = async (idUser, limit, offset, filter) => {
+    let result = db('dondathen')
+        .join('tindangtro', 'dondathen.TinID', '=', 'tindangtro.TinID')
+        .where('NguoiDatHen', '=', idUser)
+        .select('*')
+        .limit(limit)
+        .offset(offset);
+    if (filter) {
+        if (filter === "Chưa xác nhận" || filter === "Đã xác nhận" || filter === "Đã hủy")
+            result = result.where('TrangThaiLichHen', filter);
+        else if (filter === "Cũ nhất")
+            result = result.orderBy('NgayDatHen', 'asc');
+        else if (filter === "Mới nhất")
+            result = result.orderBy('NgayDatHen', 'desc')
+    }
+    return await result;
+}
+const getIDLandlordOfAHouseModel = async (idHouse) => {
+    const res = await db('tindangtro').where('TinID', '=', idHouse).select('NguoiDangTin');
+    return res[0];
+}
 export {
     addHouseModel,
     getAllHousesOfLandlord,
@@ -113,5 +148,8 @@ export {
     getAllHouseAppointmentLandlord,
     getLandlordHouseAppointmentListModel,
     getDetailedHouseModel,
-    updateHouseModel
+    updateHouseModel,
+    getAllHouseAppointmentTenant,
+    getTenantHouseAppointmentListModel,
+    getIDLandlordOfAHouseModel
 }

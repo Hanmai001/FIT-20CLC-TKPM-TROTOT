@@ -1,6 +1,7 @@
 import bcrypt from 'bcrypt';
 import { addUser, getUserByEmail, getUserByUsername, checkPasswordValidity } from '../models/user.model'
 
+
 const isLoggedCustomer = async (req, res, next) => {
     if (req.isAuthenticated() && req.session.passport.user.LoaiNguoiDung == 'Người thuê trọ') {
         return next();
@@ -24,6 +25,7 @@ const isLoggedAdmin = async (req, res, next) => {
     }
 }
 const isLogged = async (req, res, next) => {
+    //console.log(req.session.passport.user)
     if (req.isAuthenticated()) {
         console.log(req.session.passport.user)
         const loaiNguoiDung = req.session.passport.user.LoaiNguoiDung;

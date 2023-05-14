@@ -8,14 +8,10 @@ import {
 import { findUtilitiesOfHouse } from "../models/utility.model";
 import { findPhotosOfHouse } from "../models/photo.model";
 import { findVideosOfHouse } from "../models/video.model";
-import { getInfoProfile, updateProfileModel } from "../models/landlord.model";
-import { getInfoProfileTenant } from "../models/tenant.model";
+import { getInfoProfileLandlord, updateProfileLandlordModel, getInfoProfileTenant } from "../models/user.model";
 import { confirmAppointmenLandlord, cancelAppointmentModel } from "../models/appointment.model";
 const getPostHousePage = async (req, res) => {
     res.render("vwLandlord/post-house")
-}
-const getMainPage = async (req, res) => {
-    res.render("vwLandlord/main-page")
 }
 const getHouseManagementPage = async (req, res) => {
     let { page, filter } = req.query;
@@ -71,14 +67,14 @@ const getManageAppointmentPage = async (req, res) => {
         result = str + result;
         house.Gia = result;
         const user = await getInfoProfileTenant(house.NguoiDatHen);
-        house.TenNguoiDatHen = user.HoTen;
+        house.TenNguoiDatHen = user.TaiKhoan;
         house.SDTNguoiDatHen = user.SDT;
     }
     return res.render("vwLandlord/manage-appointment", { page: page ? parseInt(page) : 1, pages: parseInt(pages), houses: result })
 }
 const getProfilePage = async (req, res) => {
     const idUser = res.locals.user.id;
-    const user = await getInfoProfile(idUser);
+    const user = await getInfoProfileLandlord(idUser);
     const date = new Date(user.NgaySinh);
     let time = date.toISOString().substring(0, 10);
     const newDate = new Date(time);
@@ -111,7 +107,7 @@ const updateProfile = async (req, res) => {
     //console.log(req.body, req.file);
     if (req.file)
         ava = '../.' + req.file.destination + req.file.filename;
-    await updateProfileModel(idUser, req.body, ava);
+    await updateProfileLandlordModel(idUser, req.body, ava);
     res.redirect('/landlord/profile')
 }
 const confirmAppointment = async (req, res) => {
@@ -134,5 +130,4 @@ export {
     confirmAppointment,
     deleteAppointment,
     getEditHousePage,
-    getMainPage
 }
