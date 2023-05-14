@@ -14,6 +14,7 @@ import {
     getEditHousePage,
     getMainPage
 } from '../controllers/landlord.controller';
+import { logout } from '../controllers/auth.controller'
 
 const initLandlordRoute = express.Router();
 //Middleware
@@ -38,6 +39,7 @@ initLandlordRoute.route("/edit-house/:id").get(getEditHousePage);
 initLandlordRoute.route("/profile/update/:id").post(upload.single('update-ava'), updateProfile);
 initLandlordRoute.route("/confirm-appointment/:id").patch(confirmAppointment);
 initLandlordRoute.route("/cancel-appointment/:id").patch(deleteAppointment);
+initLandlordRoute.route("/logout").get(logout);
 initLandlordRoute.route("/").get(getMainPage);
 
 export default initLandlordRoute;

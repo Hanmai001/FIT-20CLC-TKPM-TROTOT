@@ -10,7 +10,7 @@ authRoute.get('/register', getRegisterPage)
 
 // Route để xử lý khi submit form đăng nhập
 authRoute.post('/login', passport.authenticate('local', {
-    successRedirect: '/redirect',
+    successRedirect: '/',
     failureRedirect: '/account/login',
     failureFlash: true
 }));

@@ -7,7 +7,6 @@ import initAdminRoute from './admin.route';
 import apiRoute from './api';
 import authRoute from './authRoute';
 import redirectRoute from './redirect.route'
-import initGuestRoute from './guest.route'
 import { isLoggedCustomer, isLoggedAdmin, isLoggedLandlord, isLogged } from '../controllers/auth.controller';
 
 
@@ -15,8 +14,7 @@ export default function (app) {
   app.use("/api", apiRoute);
   app.use("/account", authRoute);
   app.use("/redirect", redirectRoute);
-  app.use("/tenant", initTenantRoute);
-  app.use("/guest", isLoggedCustomer, initGuestRoute);
+  app.use("/tenant", isLoggedCustomer, initTenantRoute);
   app.use("/landlord", isLoggedLandlord, initLandlordRoute);
   app.use("/house", initHouseRoute);
   app.use("/admin", isLoggedAdmin, initAdminRoute);
@@ -24,8 +22,7 @@ export default function (app) {
   app.use("/list", initListRoute);
   app.use("/", isLogged, (req, res, next) => {
     try {
-      // console.log(req.session)
-      res.render("home");
+      res.render("home", { user: req.user });
     } catch (err) {
       next(err);
     }

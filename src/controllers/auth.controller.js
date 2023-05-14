@@ -36,7 +36,18 @@ const isLogged = async (req, res, next) => {
         return next();
     }
 }
-
+const logout = async (req, res, next) => {
+    try {
+        req.session.destroy((err) => {
+            if (err) {
+                throw err;
+            }
+            res.redirect('/');
+        });
+    } catch (err) {
+        next(err);
+    }
+};
 
 const getLoginPage = async (req, res) => {
     //console.log(req.session)
@@ -109,4 +120,4 @@ const checkRegister = async (req, res) => {
 };
 
 
-export { getLoginPage, getRegisterPage, checkRegister, isLogged, isLoggedAdmin, isLoggedLandlord, isLoggedCustomer }
+export { getLoginPage, getRegisterPage, checkRegister, isLogged, isLoggedAdmin, isLoggedLandlord, isLoggedCustomer, logout }
