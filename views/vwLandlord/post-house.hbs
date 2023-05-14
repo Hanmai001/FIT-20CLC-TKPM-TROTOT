@@ -200,6 +200,18 @@
             note.style.display = 'none';
         }
     })
+    title.addEventListener('change', function (event) {
+        const val = title.value;
+
+        if (val == "") {
+            let note = document.getElementById('title-note');
+            note.style.display = 'block';
+        }
+        else {
+            let note = document.getElementById('title-note');
+            note.style.display = 'none';
+        }
+    })
     price.addEventListener('change', function (event) {
         const val = price.value;
         if (val == "") {
@@ -336,7 +348,7 @@
             </div>
             <div class="d-flex justify-content-between content__address">
                 <div class="address-item">
-                    <div class="text-center mb-2">
+                    <div class="">
                         <label for="city-select">Tỉnh/Thành phố<span style="color:red">*</span></label>
                     </div>
                     <select required name="cities" id="city-select" onfocus='this.size=5;' onblur='this.size=1;'
@@ -348,7 +360,7 @@
                     </div>
                 </div>
                 <div class="address-item">
-                    <div class="text-center mb-2">
+                    <div class="">
                         <label for="district-select">Quận/Huyện<span style="color:red">*</span></label>
                     </div>
                     <select required name="districts" id="district-select" onfocus='this.size=5;' onblur='this.size=1;'
@@ -360,7 +372,7 @@
                     </div>
                 </div>
                 <div class="address-item">
-                    <div class="text-center mb-2">
+                    <div class="">
                         <label for="ward-select">Phường/Xã<span style="color:red">*</span></label>
                     </div>
                     <select required name="wards" id="ward-select" onfocus='this.size=5;' onblur='this.size=1;'
@@ -369,39 +381,6 @@
                     </select>
                     <div class="text-center text-danger content__note" id="note3">
                         Vui lòng chọn Phường/Xã
-                    </div>
-                </div>
-            </div>
-            <div class="d-flex justify-content-between">
-                <div class="mt-4 content__type address-item">
-                    <div class="text-center mb-2">
-                        <label for="type-select">Loại trọ<span style="color:red">*</span></label>
-                    </div>
-                    <select required name="type_house" id="type-select" onfocus='this.size=5;' onblur='this.size=1;'
-                        onchange='this.size=1; this.blur();'>
-                        <option class="text-center" value="">--Chọn loại trọ--</option>
-                        <option value="Homestay">Homestay</option>
-                        <option value="Nhà nguyên căn">Nhà nguyên căn</option>
-                        <option value="Căn hộ">Căn hộ</option>
-                        <option value="Kí túc xá">Kí túc xá</option>
-                        <option value="Phòng trọ">Phòng trọ</option>
-                    </select>
-                    <div class="text-center text-danger content__note" id="note7">
-                        Vui lòng chọn Loại trọ
-                    </div>
-                </div>
-                <div class="mt-4 content__people address-item">
-                    <div class="text-center mb-2">
-                        <label for="status-select">Trạng thái phòng<span style="color:red">*</span></label>
-                    </div>
-                    <select required name="status" id="status-select" onfocus='this.size=3;' onblur='this.size=1;'
-                        onchange='this.size=1; this.blur();'>
-                        <option class="text-center" value="">--Chọn trạng thái phòng--</option>
-                        <option value="Còn phòng">Còn phòng</option>
-                        <option value="Hết phòng">Hết phòng</option>
-                    </select>
-                    <div class="text-center text-danger content__note" id="note6">
-                        Vui lòng chọn Trạng thái phòng
                     </div>
                 </div>
             </div>
@@ -423,6 +402,47 @@
                     required>
                 <div class="text-center text-danger content__note" id="title-note">
                     Vui lòng nhập tiêu đề cho bài viết
+                </div>
+            </div>
+            <div class="d-flex justify-content-between">
+                <div class="mt-4 content__type address-item">
+                    <div class="">
+                        <label for="type-select">Loại trọ<span style="color:red">*</span></label>
+                    </div>
+                    <select required name="type_house" id="type-select" onfocus='this.size=5;' onblur='this.size=1;'
+                        onchange='this.size=1; this.blur();'>
+                        <option class="text-center" value="">--Chọn loại trọ--</option>
+                        <option value="Homestay">Homestay</option>
+                        <option value="Nhà nguyên căn">Nhà nguyên căn</option>
+                        <option value="Căn hộ">Căn hộ</option>
+                        <option value="Kí túc xá">Kí túc xá</option>
+                        <option value="Phòng trọ">Phòng trọ</option>
+                    </select>
+                    <div class="text-center text-danger content__note" id="note7">
+                        Vui lòng chọn Loại trọ
+                    </div>
+                </div>
+                <div class="mt-4 content__people address-item">
+                    <div class="">
+                        <label for="status-select">Trạng thái phòng<span style="color:red">*</span></label>
+                    </div>
+                    <select required name="status" id="status-select" onfocus='this.size=3;' onblur='this.size=1;'
+                        onchange='this.size=1; this.blur();'>
+                        <option class="text-center" value="">--Chọn trạng thái phòng--</option>
+                        <option value="Còn phòng">Còn phòng</option>
+                        <option value="Hết phòng">Hết phòng</option>
+                    </select>
+                    <div class="text-center text-danger content__note" id="note6">
+                        Vui lòng chọn Trạng thái phòng
+                    </div>
+                </div>
+                <div class="mt-4 address-item" id="item-hidden">
+                    <div class="">
+                        <label for="item-hidden">Trạng thái phòng<span style="color:red">*</span></label>
+                    </div>
+                    <select required name="status" id="item-hidden" onfocus='this.size=3;' onblur='this.size=1;'
+                        onchange='this.size=1; this.blur();'>
+                    </select>
                 </div>
             </div>
             <div class="mt-4 pb-2">
@@ -459,6 +479,14 @@
                     <div class="text-center text-danger content__note" id="note5">
                         Vui lòng chọn nhập số người ở
                     </div>
+                </div>
+                <div class="mt-4 address-item" id="item-hidden">
+                    <div class="">
+                        <label for="item-hidden">Trạng thái phòng<span style="color:red">*</span></label>
+                    </div>
+                    <select required name="status" id="item-hidden" onfocus='this.size=3;' onblur='this.size=1;'
+                        onchange='this.size=1; this.blur();'>
+                    </select>
                 </div>
             </div>
 

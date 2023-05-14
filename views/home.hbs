@@ -233,8 +233,21 @@
 
 </script>
 {{/section}}
+{{#if user}}
+  {{#ifEqualString user "Người thuê trọ"}}
+    {{>header_tenant}}
+  {{/ifEqualString}}
+  {{#ifEqualString user "Người chủ trọ"}}
+    {{>header_landlord}}
+  {{/ifEqualString}}
+  {{#ifEqualString user "Admin"}}
+    {{>header_admin}}
+  {{/ifEqualString}}
+  {{#ifEqualString user "Admin"}}
+    {{>header_default}}
+  {{/ifEqualString}}
+{{/if}}
 
-{{>header_default}}
 {{!-- fillter bar --}}
 {{>search_bar}}
 {{!-- content --}}
