@@ -6,6 +6,8 @@
   />
   <link rel="stylesheet"
   href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css">
+  <link rel="stylesheet" type="text/css" href="../../public/assets/css/admin/form.css"/>  
+  
 {{/section}}
 
 {{#section 'js'}}
@@ -31,6 +33,15 @@
             Validator.isPhoneNumber('#phone'),
         ]
     });
+
+  Validator({
+          form: '#form-2',
+          rules: [
+              Validator.isRequired('#p1', "Vui lòng nhập mật khẩu"),
+              Validator.minLength('#p2', 6),
+              Validator.isCorrect('#p3', '#p2'),
+          ]
+      });
 </script>
 {{/section}}
 
@@ -88,69 +99,6 @@
             <h3>Hồ sơ cá nhân</h3>
           </div>
           <div class="card-body m-5">
-            {{!-- <form method="post" id="form-1">
-              <div class="pl-5 pr-5">
-                <div class="form-group">
-                  <input
-                    type="text"
-                    class="form-control"
-                    value="{{this.user.firstName}}"
-                    name="firstName"
-                    id="firstName"
-                  />
-                   <span class="form-message"></span>
-                </div>
-                <div class="form-group">
-                  <input
-                    type="text"
-                    class="form-control"
-                    value="{{this.user.lastName}}"
-                    name="lastName"
-                    id="lastName"
-                  />
-                   <span class="form-message"></span>
-                </div>
-                <div class="form-group" style="margin-bottom: 2px;">
-                  <input
-                    type="text"
-                    class="form-control"
-                    {{#if (isEmpty this.user.headline) }}
-                    placeholder="Headline"
-                    {{else}}
-                    value="{{this.user.headline}}"
-                    {{/if}}
-                    name="headline"
-                    id="headline"
-                  />
-                   <span class="form-message"></span>
-                </div>
-                
-
-                <div style="margin-bottom: 2px;">
-                  <p
-                  class="form-group"
-                  style="font-size: 12px; text-align: left;"
-                >Add a professional headline like, "Instructor at Udemy" or
-                  "Architect."</p>
-                  <textarea id="desc" name="description">
-                    {{#if (isEmpty this.user.description)}}
-                    
-                    {{else}}
-                    {{{this.user.description}}}
-                    {{/if}}
-                  </textarea>
-                </div>
-                <p
-                  class="form-group"
-                  style="font-size: 12px; text-align: left;"
-                >Add description</p>
-
-                <button
-                  type="submit"
-                  class="btn btn-primary d-flex px-4"
-                >Save</button>
-              </div>
-            </form> --}}
             <form method="post" id="form-1">
               <div class="form-group row">
                 <label for="username" class="col-sm-2 col-form-label">Tên đăng nhập</label>
@@ -162,8 +110,11 @@
               <div class="form-group row">
                 <label for="password"class="col-sm-2 col-form-label">Mật khẩu</label>
                 <div class="col-sm-8 form-error">
-                  <input type="password" class="form-control" id="password" placeholder="********">
+                  <input type="password" readonly class="form-control" id="password" placeholder="********">
                 </div> 
+                 <div class="col-sm-2">
+                    <button class="btn btn-secondary" type="button" data-toggle="modal" data-target="#passwordModal">Thay đổi</button>
+                  </div>
               </div>
               <div class="form-group row">
                 <label for="name" class="col-sm-2 col-form-label">Họ tên</label>
@@ -188,29 +139,29 @@
               </div>
               <div class="form-group row">
                 <label for="" class="col-sm-2 col-form-label">Giới tính</label>
-                <div class="col-sm-8">
-                  <div class="form-check form-check-inline h-100">
-                    {{#if (ifEqualString user.GioiTinh "Nam")}}
+                <div class="col-sm-8" style="display: flex; align-items:center;">
+                  <div class="form-check form-check-inline" style="display: flex; align-items:center;">
+                    {{#ifEqualString user.GioiTinh "Nam"}}
                     <input class="form-check-input" type="radio" checked="true" name="GioiTinh" id="inlineRadio1" value="Nam" checked>
                     {{else}}
                      <input class="form-check-input" type="radio" checked="true" name="GioiTinh" id="inlineRadio1" value="Nam">
-                    {{/if}}
+                    {{/ifEqualString}}
                     <label class="form-check-label" for="inlineRadio1">Nam</label>
                   </div>
-                  <div class="form-check form-check-inline">
-                    {{#if (ifEqualString user.GioiTinh "Nữ")}}
+                  <div class="form-check form-check-inline" style="display: flex; align-items:center;">
+                    {{#ifEqualString user.GioiTinh "Nữ"}}
                     <input class="form-check-input" type="radio" checked="true" name="GioiTinh" id="inlineRadio1" value="Nữ" checked>
                     {{else}}
                      <input class="form-check-input" type="radio" checked="true" name="GioiTinh" id="inlineRadio1" value="Nữ">
-                    {{/if}}
+                    {{/ifEqualString}}
                     <label class="form-check-label" for="inlineRadio1">Nữ</label>
                   </div>
-                  <div class="form-check form-check-inline">
-                    {{#if (ifEqualString user.GioiTinh "Khác")}}
+                  <div class="form-check form-check-inline" style="display: flex; align-items:center;">
+                    {{#ifEqualString user.GioiTinh "Khác"}}
                     <input class="form-check-input" type="radio" checked="true" name="GioiTinh" id="inlineRadio1" value="Khác" checked>
                     {{else}}
                      <input class="form-check-input" type="radio" checked="true" name="GioiTinh" id="inlineRadio1" value="Khác">
-                    {{/if}}
+                    {{/ifEqualString}}
                     <label class="form-check-label" for="inlineRadio1">Khác</label>
                   </div>
                 </div>
@@ -221,9 +172,66 @@
                   <input name="NgaySinh" type="text" class="form-control" id="dob" value="{{user.NgaySinh}}">
                 </div>
               </div>
-              <button class="btn btn-primary font-weight-bold" type="submit" style="width:100px; display:flex; margin:auto; justify-content: center;">LƯU</button>
+              <button class="btn btn-primary font-weight-bold mt-5" type="submit" style="width:100px; display:flex; margin:auto; justify-content: center;">LƯU</button>
             </form>
-          </div>
+
+           
+            <div class="modal fade" id="passwordModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog" style="margin-top: 11%;">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Thay đổi mật khẩu</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <form method="post" action="/admin/users/{{user.NguoiDungID}}/password" id="form-2">
+                    <div class="modal-body">
+                      <div class="input-group">
+                        <div class="form-group input-group form-error" style="display: flex; flex-direction: column;">
+                          <input
+                            id="p1"
+                            type="password"
+                            class="form-control w-100"
+                            placeholder="Nhập mật khẩu hiện tại"
+                          />
+                          <span class="form-message"></span>
+                        </div>
+                      
+                        <div class="form-group input-group form-error" style="display: flex; flex-direction: column;">
+                          <input
+                            id="p2"
+                            type="password"
+                            class="form-control w-100"
+                            placeholder="Nhập mật khẩu mới"
+                          />
+                          <span class="form-message"></span>
+                        </div>
+                        
+                        <div class="form-group input-group form-error" style="display: flex; flex-direction: column;">
+                          <input
+                            id="p3"
+                            type="password"
+                            name="MatKhau"
+                            class="form-control w-100" 
+                            placeholder="Nhập lại mật khẩu"
+                          />
+                          <span class="form-message"></span>
+                        </div>
+                      
+                      
+                    
+                      </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                      <button type="submit" class="btn btn-primary d-flex px-4">Xác nhận</button>
+                    </div>
+                  </form>
+              </div>
+            </div>
+            
+            </div>
         </div>
       </div>
     </div>

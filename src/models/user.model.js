@@ -116,6 +116,29 @@ export default {
     })
   },
 
+  patchProfile(user) {
+    const id = user.id;
+    delete user.id;
+
+    return db('nguoidung').where('NguoiDungID', id).update({
+      HoTen: user.HoTen,
+      SDT: user.SDT,
+      Email: user.Email,
+      TaiKhoan: user.TaiKhoan,
+      GioiTinh: user.GioiTinh,
+      NgaySinh: user.NgaySinh,
+    })
+  },
+
+  patchPassword(user) {
+    const id = user.id;
+    delete user.id;
+
+    return db('nguoidung').where('NguoiDungID', id).update({
+      MatKhau: user.MatKhau,
+    })
+  },
+
   async findByRole(role) {
     if (role === '1') role = 'Người thuê trọ';
     else if (role === '2') role = 'Người chủ trọ';

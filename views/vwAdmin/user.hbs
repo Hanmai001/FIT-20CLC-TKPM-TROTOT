@@ -18,16 +18,17 @@
             <div class="img-profile">
               <img
                 class="rounded-circle img-thumbnail img-avt"
-                {{#if (isEmpty this.user.image) }}
-                src="../../public/assets/images/no_avt_male.png"
+                {{!-- {{#if (isEmpty this.user.avatar) }}
+                src="../../public/assets/pictures/no_avt.jpg"
                 {{else}}
-                src="../../public/assets/images/{{this.user.image}}"
-                {{/if}}
+                src="../../public/assets/pictures/{{this.user.image}}"
+                {{/if}} --}}
+                src="../../public/assets/pictures/no-avt.jpg"
                 alt="avatar"
               />
             </div>
             <div>
-              <p class="h6 img-name">{{this.user.firstName}} {{this.user.lastName}}</p>
+              <p class="h6 img-name"></p>
             </div>
           </li>
           <li class="nav-item">
@@ -116,7 +117,7 @@
                     <td>{{this.SDT}}</td>
                     <td>{{this.Email}}</td>
                     <td>{{this.LoaiNguoiDung}}</td>
-                    {{#if (ifEqualString this.TrangThai "Hoạt động")}}
+                    {{#ifEqualString this.TrangThai "Hoạt động"}}
                       <td class="text-success">{{this.TrangThai}}</td>
                       <td class="text-center">
                         <a
@@ -140,7 +141,7 @@
                          <i class="fa fa-unlock-alt" aria-hidden="true"></i>
                         </a>
                     
-                    {{/if}}
+                    {{/ifEqualString}}
                         </>
                         <a
                           class="btn btn-sm btn-secondary"

@@ -1,4 +1,5 @@
 import userModel from '../models/user.model';
+import bcrypt from "bcryptjs";
 
 const getDate = (date) => {
     var d = new Date(date),
@@ -57,11 +58,36 @@ const updateUser = async (req, res, next) => {
     try {   
         const user = req.body;
         user.id = req.params.id;
-        console.log(user);
-
+        
         await userModel.patch(user);
 
         res.redirect('/admin/users');
+    } catch (err) {
+        next(err);
+    }
+}
+
+const updateProfile = async (req, res, next) => {
+    try {   
+        const user = req.body;
+        user.id = "1";
+
+        await userModel.patchProfile(user);
+
+        res.redirect('/admin/profile');
+    } catch (err) {
+        next(err);
+    }
+}
+
+const updateUserPassword = async (req, res, next) => {
+    try {   
+        const user = req.body;
+        user.id = req.params.id;
+
+        await userModel.patchPassword(user);
+
+        res.redirect('/admin/profile');
     } catch (err) {
         next(err);
     }
@@ -117,6 +143,39 @@ const getInfoProfile = async (req, res, next) => {
     }
 }
 
-export { getAllUsers, getDetailedUser, updateUser, 
-    countUserByRole, getNewUser, addUser, checkUsername,
-    getInfoProfile}
+const getAllPosts = async (req, res, next) => {
+    try {
+        let { page, filter } = req.query;
+        const idUser = res.locals.user.id;
+        if (!page) page = 1;
+        const { houses, pages } = await getAllHousesOfLandlord(idUser, filter);
+        //console.log(filter, page)
+        const result = await getLandlordHouseListModel(idUser, 5, (page - 1) * 5, filter);
+        for (let house of result) {
+            const temp = await findPhotosOfHouse(house.TinID);
+            house.photo = temp[0].ChiTietHinhAnh;
+            const date = new Date(house.NgayDang);
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            const vietnameseDate = date.toLocaleDateString('vi-VN', options);
+            const vietnameseTime = date.toLocaleTimeString('vi-VN');
+            house.NgayDang = vietnameseDate + ' ' + vietnameseTime;
+            let str = house.Gia.toString();
+            let result = '';
+            while (str.length > 3) {
+                result = '.' + str.slice(-3) + result;
+                str = str.slice(0, -3);
+            }
+            result = str + result;
+            house.Gia = result;
+        }
+
+        return res.render("vwAdmin/post", { page: page ? parseInt(page) : 1, pages: parseInt(pages), houses: result });
+    } catch (err) {
+        next(err);
+    }
+}
+
+export {    getAllUsers, getDetailedUser, updateUser, 
+            countUserByRole, getNewUser, addUser, checkUsername,
+            getInfoProfile, updateProfile, updateUserPassword, getAllPosts   
+}

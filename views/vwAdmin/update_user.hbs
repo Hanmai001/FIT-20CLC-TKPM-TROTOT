@@ -42,11 +42,12 @@
             <div class="img-profile">
               <img
                 class="rounded-circle img-thumbnail img-avt"
-                {{#if (isEmpty this.user.image) }}
+                {{!-- {{#if (isEmpty this.user.image) }}
                 src="../../public/assets/images/no_avt_male.png"
                 {{else}}
                 src="../../public/assets/images/{{this.user.image}}"
-                {{/if}}
+                {{/if}} --}}
+                src="../../public/assets/pictures/no-avt.jpg"
                 alt="avatar"
               />
             </div>
@@ -67,19 +68,19 @@
             </a>
             <ul class="list-group">
               <li class="d-flex justify-content-between align-items-center pl-5 pr-4">
-                <a class="sub-nav" href="/admin/users?role=1">
+                <a class="sub-nav" href="/admin/users?role=1" style="text-decoration:none;">
                   Người thuê trọ
                 </a>
                 <span class="badge badge-primary badge-pill">14</span>
               </li>
               <li class=" d-flex justify-content-between align-items-center pl-5 pr-4">
-                <a class="sub-nav" href="/admin/users?role=2">
+                <a class="sub-nav" href="/admin/users?role=2" style="text-decoration:none;">
                    Người chủ trọ
                 </a>
                 <span class="badge badge-primary badge-pill">2</span>
               </li>
-              <li class=" d-flex justify-content-between align-items-center pl-5 pr-4">
-                <a class="sub-nav" href="/admin/users?role=3">
+              <li class="d-flex justify-content-between align-items-center pl-5 pr-4">
+                <a class="sub-nav" href="/admin/users?role=3" style="text-decoration:none;">
                    Admin
                 </a>
                 <span class="badge badge-primary badge-pill">1</span>
@@ -125,8 +126,11 @@
               <div class="form-group row">
                 <label for="password"class="col-sm-2 col-form-label">Mật khẩu</label>
                 <div class="col-sm-8 form-error">
-                  <input type="password" class="form-control" id="password" placeholder="********">
+                  <input type="password" class="form-control" id="password" placeholder="********" readonly>
                 </div> 
+                <div class="col-sm-2">
+                  <button class="btn btn-secondary" type="button" data-toggle="modal" data-target="#passwordModal">Thay đổi</button>
+                </div>
               </div>
               <div class="form-group row">
                 <label for="name" class="col-sm-2 col-form-label">Họ tên</label>
@@ -153,27 +157,27 @@
                 <label for="" class="col-sm-2 col-form-label">Giới tính</label>
                 <div class="col-sm-8">
                   <div class="form-check form-check-inline h-100">
-                    {{#if (ifEqualString user.GioiTinh "Nam")}}
+                    {{#ifEqualString user.GioiTinh "Nam"}}
                     <input class="form-check-input" type="radio" checked="true" name="GioiTinh" id="inlineRadio1" value="Nam" checked>
                     {{else}}
                      <input class="form-check-input" type="radio" checked="true" name="GioiTinh" id="inlineRadio1" value="Nam">
-                    {{/if}}
+                    {{/ifEqualString}}
                     <label class="form-check-label" for="inlineRadio1">Nam</label>
                   </div>
                   <div class="form-check form-check-inline">
-                    {{#if (ifEqualString user.GioiTinh "Nữ")}}
+                    {{#ifEqualString user.GioiTinh "Nữ"}}
                     <input class="form-check-input" type="radio" checked="true" name="GioiTinh" id="inlineRadio1" value="Nữ" checked>
                     {{else}}
                      <input class="form-check-input" type="radio" checked="true" name="GioiTinh" id="inlineRadio1" value="Nữ">
-                    {{/if}}
+                    {{/ifEqualString}}
                     <label class="form-check-label" for="inlineRadio1">Nữ</label>
                   </div>
                   <div class="form-check form-check-inline">
-                    {{#if (ifEqualString user.GioiTinh "Khác")}}
+                    {{#ifEqualString user.GioiTinh "Khác"}}
                     <input class="form-check-input" type="radio" checked="true" name="GioiTinh" id="inlineRadio1" value="Khác" checked>
                     {{else}}
                      <input class="form-check-input" type="radio" checked="true" name="GioiTinh" id="inlineRadio1" value="Khác">
-                    {{/if}}
+                    {{/ifEqualString}}
                     <label class="form-check-label" for="inlineRadio1">Khác</label>
                   </div>
                 </div>
@@ -188,21 +192,21 @@
                 <label for="role" class="col-sm-2 col-form-label">Loại người dùng</label>
                 <div class="col-sm-8">
                   <select name="LoaiNguoiDung" class="custom-select mr-sm-2" id="role">
-                    {{#if (ifEqualString user.LoaiNguoiDung "Người thuê trọ")}}
+                    {{#ifEqualString user.LoaiNguoiDung "Người thuê trọ"}}
                     <option value="Người thuê trọ" selected>Người thuê trọ</option>
                     {{else}}
                     <option value="Người thuê trọ">Người thuê trọ</option>
-                    {{/if}}
-                    {{#if (ifEqualString user.LoaiNguoiDung "Người chủ trọ")}}
+                    {{/ifEqualString}}
+                    {{#ifEqualString user.LoaiNguoiDung "Người chủ trọ"}}
                     <option value="Người chủ trọ" selected>Người chủ trọ</option>
                     {{else}}
                     <option value="Người chủ trọ">Người chủ trọ</option>
-                    {{/if}}
-                    {{#if (ifEqualString user.LoaiNguoiDung "Admin")}}
+                    {{/ifEqualString}}
+                    {{#ifEqualString user.LoaiNguoiDung "Admin"}}
                      <option value="Admin" selected>Admin</option>
                     {{else}}
                      <option value="Admin">Admin</option>
-                    {{/if}}
+                    {{/ifEqualString}}
                   </select>
                 </div>
               </div>
@@ -210,20 +214,55 @@
                 <label for="role" class="col-sm-2 col-form-label">Trạng thái tài khoản</label>
                 <div class="col-sm-8">
                   <select name="TrangThai" class="custom-select mr-sm-2" id="role">
-                    {{#if (ifEqualString user.TrangThai "Bị khóa")}}
+                    {{#ifEqualString user.TrangThai "Bị khóa"}}
                     <option value="Bị khóa" selected>Bị khóa</option>
                     {{else}}
                     <option value="Bị khóa">Bị khóa</option>
-                    {{/if}}
-                    {{#if (ifEqualString user.TrangThai "Hoạt động")}}
+                    {{/ifEqualString}}
+                    {{#ifEqualString user.TrangThai "Hoạt động"}}
                     <option value="Hoạt động" selected>Hoạt động</option>
                     {{else}}
                     <option value="Hoạt động">Hoạt động</option>
-                    {{/if}}
+                    {{/ifEqualString}}
                   </select>
                 </div>
               </div>
-              <button class="btn btn-primary font-weight-bold" type="submit" style="width:100px; display:flex; margin:auto; justify-content: center;">LƯU</button>
+              <button class="btn btn-primary font-weight-bold mt-5" type="submit" style="width:100px; display:flex; margin:auto; justify-content: center;">LƯU</button>
+            
+              <div class="modal fade" id="passwordModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog" style="margin-top: 11%;">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Thay đổi mật khẩu</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <form method="post" action="/admin/users/{{user.NguoiDungID}}/password" id="form-2">
+                    <div class="modal-body">
+                      <div class="input-group">
+                      
+                        <div class="form-group input-group form-error" style="display: flex; flex-direction: column;">
+                          <input
+                            id="p2"
+                            type="password"
+                            name="MatKhau"
+                            class="form-control w-100"
+                            placeholder="Nhập mật khẩu mới"
+                          />
+                          <span class="form-message"></span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                      <button type="submit" class="btn btn-primary d-flex px-4">Xác nhận</button>
+                    </div>
+                  </form>
+              </div>
+            </div>
+            
+              </div>
             </form>
           </div>
         </div>
