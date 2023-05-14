@@ -4,7 +4,7 @@ import {
     getAllHouseAppointmentLandlord,
     getLandlordHouseAppointmentListModel,
     getDetailedHouseModel
-} from "../models/house.model";
+} from "../models/post.model";
 import { findUtilitiesOfHouse } from "../models/utility.model";
 import { findPhotosOfHouse } from "../models/photo.model";
 import { findVideosOfHouse } from "../models/video.model";
@@ -19,6 +19,9 @@ const getMainPage = async (req, res) => {
 }
 const getHouseManagementPage = async (req, res) => {
     let { page, filter } = req.query;
+    const idHouse = res.locals.user.id;
+
+    console.log(idHouse)
     if (!page) page = 1;
     const { houses, pages } = await getAllHousesOfLandlord(1, filter);
     //console.log(filter, page)

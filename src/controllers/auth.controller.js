@@ -51,7 +51,6 @@ const checkRegister = async (req, res) => {
         email,
         password,
         confirm_password,
-        type
     } = req.body;
     //  console.log(req.body)
     // Kiểm tra các trường dữ liệu có được điền đầy đủ
@@ -59,8 +58,7 @@ const checkRegister = async (req, res) => {
         !username ||
         !email ||
         !password ||
-        !confirm_password ||
-        !type
+        !confirm_password
     ) {
 
         req.flash('error', 'Vui lòng nhập đầy đủ thông tin!');
