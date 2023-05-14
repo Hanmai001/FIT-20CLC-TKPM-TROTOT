@@ -1,8 +1,7 @@
 import express from 'express';
 const initDetailsRoute = express.Router();
-import { getDetailsPage } from '../controllers/details.controller';
+import { getHousePage } from '../controllers/house.controller';
 
-initDetailsRoute.route("/").get(getDetailsPage);
-initDetailsRoute.route("/").post()
+initDetailsRoute.route("/").get(getHousePage);
 
 export default initDetailsRoute;

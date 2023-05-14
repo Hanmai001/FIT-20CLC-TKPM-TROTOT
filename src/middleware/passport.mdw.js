@@ -1,6 +1,6 @@
 import passport from 'passport';
 import LocalStrategy from 'passport-local';
-import { checkUserCredential } from '../models/auth.model';
+import { checkUserCredential } from '../models/user.model';
 
 
 passport.use(new LocalStrategy(

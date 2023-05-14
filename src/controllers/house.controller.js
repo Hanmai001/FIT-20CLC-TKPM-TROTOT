@@ -70,5 +70,11 @@ const deleteLandlordHouse = async (req, res) => {
     await deleteUtilityModel(id);
     return res.redirect('/landlord/house-management');
 }
+const getListPage = async (req, res) => {
+    res.render("vwHouse/list-houses")
+}
+const getHousePage = async (req, res) => {
+    res.render("vwHouse/details-house")
+}
 
-export { addHouse, deleteLandlordHouse, updateHouse }
+export { addHouse, deleteLandlordHouse, updateHouse, getListPage, getHousePage }

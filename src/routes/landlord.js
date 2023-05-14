@@ -14,7 +14,6 @@ import {
     getEditHousePage,
     getMainPage
 } from '../controllers/landlord.controller';
-import { isLoggedLandlord } from '../controllers/auth.controller';
 
 const initLandlordRoute = express.Router();
 //Middleware
@@ -30,15 +29,15 @@ const storage = multer.diskStorage({
 });
 
 let upload = multer({ storage: storage });
-initLandlordRoute.route("/post-house").get(isLoggedLandlord, getPostHousePage);
-initLandlordRoute.route("/house-management").get(isLoggedLandlord, getHouseManagementPage);
-initLandlordRoute.route("/manage-appointment").get(isLoggedLandlord, getManageAppointmentPage);
-initLandlordRoute.route("/profile").get(isLoggedLandlord, getProfilePage);
-initLandlordRoute.route("/change-password").get(isLoggedLandlord, getChangePassPage);
+initLandlordRoute.route("/post-house").get(getPostHousePage);
+initLandlordRoute.route("/house-management").get(getHouseManagementPage);
+initLandlordRoute.route("/manage-appointment").get(getManageAppointmentPage);
+initLandlordRoute.route("/profile").get(getProfilePage);
+initLandlordRoute.route("/change-password").get(getChangePassPage);
 initLandlordRoute.route("/edit-house/:id").get(getEditHousePage);
 initLandlordRoute.route("/profile/update/:id").post(upload.single('update-ava'), updateProfile);
 initLandlordRoute.route("/confirm-appointment/:id").patch(confirmAppointment);
 initLandlordRoute.route("/cancel-appointment/:id").patch(deleteAppointment);
-initLandlordRoute.route("/").get(isLoggedLandlord, getMainPage);
+initLandlordRoute.route("/").get(getMainPage);
 
 export default initLandlordRoute;
