@@ -106,4 +106,17 @@ const checkUsername = async (req, res, next) => {
     }
 }
 
-export { getAllUsers, getDetailedUser, updateUser, countUserByRole, getNewUser, addUser, checkUsername}
+const getInfoProfile = async (req, res, next) => {
+    try {
+        const user = await userModel.findById("1");
+        user.NgaySinh = getDate(user.NgaySinh);
+
+        res.render('vwAdmin/profile', {user});
+    } catch (err) {
+        next(err);
+    }
+}
+
+export { getAllUsers, getDetailedUser, updateUser, 
+    countUserByRole, getNewUser, addUser, checkUsername,
+    getInfoProfile}

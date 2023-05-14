@@ -2,22 +2,16 @@ import passport from 'passport';
 import LocalStrategy from 'passport-local';
 import { checkUserCredential } from '../models/user.model';
 
-
 passport.use(new LocalStrategy(
     {
         usernameField: 'TaiKhoan',
-        passwordField: 'MatKhau',
-        iduserField: 'nguoidungID',
-        typeuserField: 'loainguoidung'
+        iduserField: 'NguoiDungID',
+        typeuserField: 'LoaiNguoiDung'
     },
     async function (TaiKhoan, MatKhau, done) {
-
-        // console.log('TaiKhoan:', TaiKhoan);
-        // console.log('MatKhau:', MatKhau);
-
         const user = await checkUserCredential(TaiKhoan, MatKhau);
         if (!user) {
-            return done(null, false, { message: "Sai tài khoản hoặc mật khẩu!!" });
+            return done(null, false, { message: "Sai thông tin tài khoản." });
         }
         return done(null, user);
     }
