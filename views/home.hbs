@@ -160,6 +160,7 @@
     };
     document.addEventListener('DOMContentLoaded', init, false);
     // Lấy đối tượng các menu select và các giá trị mặc định
+    const items = document.getElementsByClassName("js-item");
     var citySelect = document.getElementById("city-select");
     var districtSelect = document.getElementById("district-select");
     var wardSelect = document.getElementById("ward-select");
@@ -167,6 +168,11 @@
     var defaultDistrictOption = districtSelect.querySelector("option[value='']");
     var defaultWardOption = wardSelect.querySelector("option[value='']");
 
+    for (let item of items) {
+        item.addEventListener('click', function (e) {
+            window.location.href = `/post/details/${this.id}`
+        })
+    }
     // Lấy dữ liệu các tỉnh/thành phố, quận/huyện và phường/xã từ API
     fetch("https://provinces.open-api.vn/api/p/")
         .then(response => response.json())
@@ -257,7 +263,7 @@
     
         </div>
         {{#each post}}
-        <div class="item js-item">
+        <div class="item js-item" id="{{this.TinID}}">
             
             <div class="row">
                 <div class="col-4 py-4">
@@ -265,12 +271,10 @@
                 </div>
                 <div class="col-7 py-4">
                     <div class="item__name mb-2 fw-bold row">
-                        <div class="col-6 item__name-name">
+                        <div class="item__name-name">
                             {{this.Ten}}
                         </div>
-                        <div class="col-6 text-end text-danger item__name-last">
-    
-                        </div>
+                       
                     </div>
                     <div class="item__type mb-1 row">
                         <div class="col-6">

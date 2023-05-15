@@ -79,6 +79,7 @@ const getListPage = async (req, res) => {
 }
 const getDetailsPage = async (req, res) => {
     const postID = req.params.id;
+    console.log(postID)
     const post = await getPostInfo(postID);
     const author = await getAuthorInfo(postID);
     const review = await getReviewInfo(postID);
