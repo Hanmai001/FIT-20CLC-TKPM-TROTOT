@@ -54,7 +54,7 @@
 
     function addPost(e) {
         e.preventDefault();
-        fetch(`tenant/favourite-list/add-favourite/`, {
+        fetch(`/tenant/add-favourite/`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -72,8 +72,7 @@
             });
     }
     function delPost(e) {
-        e.preventDefault();
-        fetch(`tenant/favourite-list/add-favourite/${idPost}`, {
+        fetch(`/tenant/delete-favourite/${idPost}`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json'
@@ -81,7 +80,7 @@
 
         })
             .then((response) => {
-                parentElement.innerHTML = '<button class="like-btn" onclick="addPost()">Thêm vào danh sách yêu thích</button>';
+                divAddFavourite.innerHTML = '<button class="like-btn" onclick="addPost()">Thêm vào danh sách yêu thích</button>';
                 // Handle the response from the server
                 console.log('Response:', response);
             })
