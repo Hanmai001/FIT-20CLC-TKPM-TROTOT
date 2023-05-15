@@ -5,7 +5,22 @@
 
 .product-img {
     max-width: 20%;
-    height: 200px;
+    height: auto;
+    border-radius: 10%;
+}
+
+.rounded-product {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(135deg, #ffffff, #f6f6f6);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    transition: box-shadow 0.3s;
+    border: 2px solid #ccc;
+    padding: 20px;
+    margin-bottom: 20px;
 }
 
 .rounded-bg {
@@ -13,7 +28,6 @@
     border-radius: 10px;
     padding: 20px;
 }
-
 
 .container-pagination {
     margin-left: 280px;
@@ -64,4 +78,82 @@
     background-image: -ms-linear-gradient(top, #D0D0D0, #EBEBEB);
     background-image: -o-linear-gradient(top, #D0D0D0, #EBEBEB);
     background-image: linear-gradient(top, #D0D0D0, #EBEBEB); */
+}
+
+
+.content {
+    
+}
+
+h5 {
+    color: #002ffe;
+}
+
+.content__header-filter {
+    position: relative;
+}
+
+.content__header-filter select {
+    position: absolute;
+    z-index: 1;
+    padding: 8px 15px;
+    right: 0;
+}
+
+.content__header-filter select option {
+    color: #666;
+    padding: 8px 15px;
+}
+
+.content__header-filter select:focus {
+    outline: none;
+}
+
+.list-group-active {
+    color: #002ffe;
+}
+
+/* CARD PROFILE */
+.item {
+    position: relative;
+    cursor: pointer; 
+    padding: 0 10px;
+}
+.item:hover {
+    background-color: rgba(249, 246, 246, 0.555);
+}
+.item .item__price {
+    color: #002ffe;
+}
+
+.item .item__name .item__name-last {
+    font-weight: 400;
+    
+}
+.item .item__name-name {
+    font-size: 20px;
+}
+.item .item__type,
+.item .item__area {
+    font-size: 14px;
+}
+
+.day-appointment {
+    font-size: 14px;
+    font-style: italic;
+    color: #002ffe;
+}
+
+#favourite-btns a {
+    text-decoration: none;
+    color: #fff;
+}
+
+#favourite-btns button:last-child {
+    text-decoration: none;
+    background-color: #fe0000;
+}
+
+.item button:hover {
+    opacity: 1;
 }

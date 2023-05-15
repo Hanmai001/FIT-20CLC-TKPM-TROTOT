@@ -18,6 +18,16 @@ p {
     margin-bottom: 10px;
 }
 
+.info {
+    display: flex;
+    justify-content: center;
+    background: linear-gradient(135deg, #ffffff, #f6f6f6);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    transition: box-shadow 0.3s;
+    border: 2px solid #ccc;     
+}
+
 /* product */
 
 .room-image {
@@ -119,11 +129,11 @@ a {
 
 /* author tab */
 .author-aside {
-    border: 1px solid #febb02;
+    border: 1px solid #f0f0f0;
     padding: 15px;
     border-radius: 5px;
     margin-bottom: 20px;
-    background-color: #febb02;
+    background-color: #f0f0f0;
 }
 
 .author-aside .author-avatar {
@@ -166,9 +176,7 @@ figure img {
     font-weight: 700;
     font-size: 1.5rem;
     width: 100%;
-    background: #16c784;
-    border-color: #16c784;
-    background: linear-gradient(to right, #16c784, #16c784);
+    border-color: #4b4b4b;
     margin-bottom: 10px;
 }
 

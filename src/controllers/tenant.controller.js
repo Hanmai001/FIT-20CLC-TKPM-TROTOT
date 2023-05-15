@@ -3,9 +3,7 @@ import {
     getTenantHouseAppointmentListModel,
     getIDLandlordOfAHouseModel
 } from "../models/post.model";
-import {
-    getFavouriteListOfTenant
-} from "../models/favourite_list.model";
+import { getFavouriteListOfTenant, getFavouriteListPageModel } from "../models/favourite_list.model";
 import { findPhotosOfHouse } from "../models/photo.model";
 import { getInfoProfileTenant, updateProfileTenantModel, getInfoProfileLandlord } from "../models/user.model";
 import { addAppointmentModel, cancelAppointmentModel } from "../models/appointment.model";
@@ -101,7 +99,7 @@ const getFavouriteListPage = async (req, res) => {
     if (!page) page = 1;
     const { houses, pages } = await getFavouriteListOfTenant(idUser, filter);
     //console.log(filter, page)
-    const result = await getFavouritePageModel(idUser, 5, (page - 1) * 5, filter);
+    const result = await getFavouriteListPageModel(idUser, 5, (page - 1) * 5, filter);
     for (let house of result) {
         const temp = await findPhotosOfHouse(house.TinID);
         house.photo = temp[0].ChiTietHinhAnh;
@@ -119,7 +117,7 @@ const getFavouriteListPage = async (req, res) => {
         result = str + result;
         house.Gia = result;
     }
-    return res.render("vwLandlord/house-management", { page: page ? parseInt(page) : 1, pages: parseInt(pages), houses: result })
+    return res.render("vwTenant/favourite-list", { page: page ? parseInt(page) : 1, pages: parseInt(pages), houses: result })
 }
 export {
     getManageAppointmentPage,
