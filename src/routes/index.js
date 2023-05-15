@@ -1,32 +1,27 @@
 import postRoute from './post';
 import tenantRoute from './tenant';
-import initDetailsRoute from './details_house';
-import initListRoute from './list-houses';
 import landlordRoute from './landlord';
 import adminRoute from './admin.route';
 import apiRoute from './api';
 import authRoute from './authRoute';
-import redirectRoute from './redirect.route';
-import favouriteList from './favourite_list';
 import { isLoggedCustomer, isLoggedAdmin, isLoggedLandlord, isLogged, logout } from '../controllers/auth.controller';
+import { getAllPostInfo } from '../models/post.model';
 
 
 export default function (app) {
   app.use("/api", apiRoute);
   app.use("/account", authRoute);
-  app.use("/redirect", redirectRoute);
   app.use("/tenant", isLoggedCustomer, tenantRoute);
   app.use("/landlord", isLoggedLandlord, landlordRoute);
   app.use("/house", postRoute);
   app.use("/admin", adminRoute);
-  app.use("/details/:id", initDetailsRoute);
-  app.use("/list", initListRoute);
-  app.use("/favourite-list", favouriteList);
+  app.use("/post", postRoute);
   app.use("/logout", logout);
 
-  app.use("/", isLogged, (req, res, next) => {
+  app.get('/', async (req, res, next) => {
     try {
-      res.render("home", { user: req.user });
+      const post = await getAllPostInfo();
+      res.render('home', { post: post });
     } catch (err) {
       next(err);
     }

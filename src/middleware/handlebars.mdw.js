@@ -37,6 +37,13 @@ export default function (app) {
                     return opts.inverse(this);
                 }
             },
+            formatDate: function(timestamp) {
+                var date = new Date(timestamp);
+                var day = date.getDate();
+                var month = date.getMonth() + 1;
+                var year = date.getFullYear();
+                return day + '/' + month + '/' + year;
+            },
             ifOr: function (a, b, opts) {
                 return (a || b) ? opts.fn(this) : opts.inverse(this);;
             },

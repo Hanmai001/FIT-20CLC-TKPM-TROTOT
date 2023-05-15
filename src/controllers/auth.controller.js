@@ -81,7 +81,7 @@ const checkRegister = async (req, res) => {
     // Kiểm tra tính hợp lệ của mật khẩu
     const checkPassword = await checkPasswordValidity(password)
     if (!checkPassword) {
-        req.flash('error', 'Mật khẩu không hợp lệ!');
+        req.flash('error', 'Mật khẩu phải đủ 6 ký tự và viết hoa chữ cái đầu!');
         return res.redirect('/account/register');
     }
     // Kiểm tra tài khoản đã tồn tại chưa

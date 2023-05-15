@@ -36,10 +36,25 @@
     btnConfCancel.addEventListener('click', closeConfirm);
     iconConfCancel.addEventListener('click', closeConfirm);
     btnOpenForm.addEventListener('click', openConfirm);
-    btnAddFavourite.addEventListener('click', addPost)
+    btnAddFavourite.addEventListener('click', addPost);
+
+    const btnReportForm = document.getElementById("btn-report-form");
+    const reportForm = document.getElementById("report-form");
+    const btnCancelReport = document.getElementById("cancel-report");
+
+
+    btnReportForm.addEventListener("click", function () {
+
+        reportForm.style.display = "block";
+    });
+
+    btnCancelReport.addEventListener("click", function () {
+        reportForm.style.display = "none";
+    });
+
     function addPost(e) {
         e.preventDefault();
-        fetch(`/favourite-list/add-favourite/`, {
+        fetch(`tenant/favourite-list/add-favourite/`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -58,7 +73,7 @@
     }
     function delPost(e) {
         e.preventDefault();
-        fetch(`/favourite-list/add-favourite/${idPost}`, {
+        fetch(`tenant/favourite-list/add-favourite/${idPost}`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json'
@@ -132,15 +147,22 @@
 <script async defer
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAeOS7IcZeQdZrFqQOWnddYHwki4xDCCBI&callback=initMap"></script>
 {{/section}}
+{{#if user}}
+{{#ifEqualString user.LoaiNguoiDung "Người chủ trọ"}}
 {{>header_landlord}}
+{{else ifEqualString user.LoaiNguoiDung "Người thuê trọ"}}
+{{>header_tenant}}
+{{else ifEqualString user.LoaiNguoiDung "Admin"}}
+{{>header_admin}}
+{{else}}
+{{>header_default}}
+{{/ifEqualString}}
+{{else}}
+{{>header_default}}
+{{/if}}
 <div class="content">
-
-    <div>
-        <button id="btn-open-form">Đặt lịch</button>
-    </div>
-    <div id="add-favourite">
-        <button id="btn-add-favourite">Thêm vào danh sách yêu thích</button>
-    </div>
+    {{!-- forms --}}
+    {{!-- form appointment --}}
     <form action="/tenant/add-appointment/{{post.TinID}}" method="post" id="post-appointment"
         class="modal-appointment-confirm">
         <div class="modal__container d-flex flex-column justify-content-between">
@@ -186,35 +208,48 @@
             </div>
         </div>
     </form>
+    {{!-- form report --}}
+    <div id="report-form" style="display: none;">
+        <h2>Báo cáo vi phạm</h2>
+        <form action="/tenant/add-report/{{post.TinID}}" method="post">
+            <label for="violation-description">Mô tả chi tiết:</label>
+            <textarea id="violation-description" name="description" required></textarea>
+            <br>
+            <button type="submit">Gửi báo cáo</button>
+            <button type="button" id="cancel-report" style="margin-left:10px; background-color: #002ffe">Hủy</button>
+        </form>
+    </div>
     <div class="infor" style="background-color: white; padding:20px; box-shadow: 4px 2px 10px rgba(0, 0, 0, 0.2);">
         <h1 style="font-size:xx-large">Chi tiết Phòng Trọ</h1>
-
-
-
         <div class="row">
             <div class="col-10 picture">
                 {{!-- image --}}
                 <div class="col-13 pic-product p-3" style="overflow: hidden;">
-                    <img src="https://pt123.cdn.static123.com/images/thumbs/900x600/fit/2023/04/04/z4237382852854-ed72464cadbd4c61b8ebe2acb970694e_1680602688.jpg"
-                        alt="">
+                    <img src="{{ image.[0].ChiTietHinhAnh }}" alt="">
                     <div class="extra-pics mt-2">
                         <i class="fa-solid fa-angle-left"></i>
-                        <img src="https://pt123.cdn.static123.com/images/thumbs/900x600/fit/2023/04/04/z4237382846029-84e0315a368c7ef490aa2a770edd8615_1680602688.jpg"
-                            alt="">
-                        <img src="https://pt123.cdn.static123.com/images/thumbs/900x600/fit/2023/04/04/z4237382843978-8512bc8537f757f03964bec36d061966_1680602689.jpg"
-                            alt="">
-                        <img src="https://pt123.cdn.static123.com/images/thumbs/900x600/fit/2023/04/04/z4237382845459-b2579c3c30203c2d1d28143c5889f8a4_1680602689.jpg"
-                            alt="">
+                        <img src="{{ image.[1].ChiTietHinhAnh}}" alt="">
+                        <img src="{{ image.[2].ChiTietHinhAnh}}" alt="">
+                        <img src="{{ image.[3].ChiTietHinhAnh}}" alt="">
                         <i class="fa-solid fa-angle-right"></i>
+                    </div>
+                    <div class="action-buttons">
+                        <button class="report-btn" id="btn-report-form"><i class="fa-solid fa-flag"
+                                style="color: #ffffff;"></i> Báo
+                            cáo</button>
+                        <div id="add-favourite">
+                            <button id="btn-add-favourite" class="like-btn"><i class="fa-solid fa-heart"
+                                    style="color: #ffffff;"></i> Thêm vào danh sách yêu thích</button>
+                        </div>
                     </div>
                 </div>
             </div>
             {{!-- landllord info --}}
             <div class="col-3" style="margin-left: -175px; margin-top:15px;">
                 <div class="author-aside">
-                    <figure class="author-avatar"><img src="https://phongtro123.com/images/default-user.png"></figure>
+                    <figure class="author-avatar"><img src="{{ author.avatar }}"></figure>
                     <span class="author-post">Được đăng bởi</span>
-                    <span class="author-name">kenshin8522</span>
+                    <span class="author-name">{{ author.HoTen }}</span> <!-- Hiển thị tên người đăng -->
                     <div style="min-height: 16px; margin-bottom: 10px;">
                         <div class="author-online-status online" author_id="">
                             <i class="fa-solid fa-circle" style="color: #45fd21;"></i>
@@ -223,43 +258,45 @@
                             </span>
                         </div>
                     </div>
-                    <a class="btn author-phone" rel="nofollow" href="tel:0906878018">
-                        <i></i> 0906878018</a>
-                    <span class="btn favorite" data-post-id="58962" title="Lưu tin này">
+                    <a class="btn author-phone" rel="nofollow" href="tel:{{ author.SDT }}">
+                        <i></i> {{ author.SDT }}</a> <!-- Hiển thị số điện thoại người đăng -->
+                    <span class="btn favorite" data-post-id="{{ post.TinID }}" title="Lưu tin này">
                         <i class="fa-light fa-heart"></i>
                         &nbspYêu thích
                     </span>
                 </div>
+                <div>
+                    <button id="btn-open-form" class="btn-booking">Đặt lịch</button>
+                </div>
             </div>
+
         </div>
     </div>
     {{!-- info --}}
     <br>
     <div class="description" style="background-color:white; padding:20px; box-shadow:4px 2px 10px rgba(0, 0, 0, 0.2);">
         <h2>Thông tin chung</h2>
-        <p><strong>Địa chỉ:</strong> 123 Đường ABC, Quận XYZ, Thành phố ABC</p>
-        <p><strong>Diện tích:</strong> 30m²</p>
-        <p><strong>Giá thuê:</strong> 5.000.000 VNĐ/tháng</p>
-
-        <h2>Tiện nghi và mô tả</h2>
-        <ul>
-            <li>Phòng có điều hòa nhiệt độ</li>
-            <li>Phòng tắm riêng</li>
-            <li>Wifi miễn phí</li>
-            <li>Bếp chung</li>
-            <li>Camera an ninh</li>
-        </ul>
-
-        <h2>Thông tin liên hệ</h2>
-        <p><strong>SĐT liên hệ:</strong> 0123456789</p>
-        <p><strong>Email:</strong> example@example.com</p>
-
-        <h2>Bản đồ vị trí</h2>
-        <div id="map">TESTING</div>
+        <li><strong>Địa chỉ:</strong> {{post.DiaChi}}</i>
+        <li><strong>Diện tích:</strong> {{post.DienTich}}m²</i>
+        <li><strong>Giá thuê:</strong> {{post.Gia}} VNĐ/tháng</i>
+        <li><strong>Người đăng tin:</strong> {{post.NguoiDangTin}}</i>
+        <li><strong>Ngày đăng tin:</strong> {{formatDate post.NgayDang}}</i>
+        <li><strong>Trạng thái kiểm duyệt:</strong> {{post.TrangThaiKiemDuyet}}</i>
+        <li><strong>Số người ở:</strong> {{post.SoNguoi}}</i>
+        <li><strong>Tiền nước:</strong> {{post.TienNuoc}} VNĐ/m3</i>
+        <li><strong>Tiền điện:</strong> {{post.TienDien}} VNĐ/kWh</i>
+            <h2>Tiện nghi và mô tả</h2>
+            <ul>
+                {{#each utilities}}
+                <li>{{this.Ten}}</li>
+                {{/each}}
+            </ul>
+            <h2>Bản đồ vị trí</h2>
+            <div id="map"></div>
     </div>
     {{!-- related --}}
     <br>
-    <div class="description" style="background-color:white; padding:20px; box-shadow:4px 2px 10px rgba(0, 0, 0, 0.2);">
+    <div class="relate" style="background-color:white; padding:20px; box-shadow:4px 2px 10px rgba(0, 0, 0, 0.2);">
         <h2>Các phòng trọ liên quan</h2>
         <div class="related-rooms">
             <a href="product-c.html" class="room">
@@ -271,63 +308,26 @@
                 <p style="color:red">Giá thuê: 4.000.000 VNĐ/tháng</p>
                 <p style="color:rgb(139, 139, 139)">8 phút trước</p>
             </a>
-            <a href="product-c.html" class="room">
-                <img src="https://pt123.cdn.static123.com/images/thumbs/900x600/fit/2023/04/04/z4237382846029-84e0315a368c7ef490aa2a770edd8615_1680602688.jpg"
-                    alt="">
-                <h3>Phòng trọ B</h3>
-                <p>Địa chỉ: 789 Đường GHI,...</p>
-                <p>Diện tích: 35m²</p>
-                <p style="color:red">Giá thuê: 6.000.000 VNĐ/tháng</p>
-                <p style="color:rgb(139, 139, 139)">8 phút trước</p>
-            </a>
-            <a href="product-c.html" class="room">
-                <img src="https://pt123.cdn.static123.com/images/thumbs/900x600/fit/2023/04/04/z4237382843978-8512bc8537f757f03964bec36d061966_1680602689.jpg"
-                    alt="">
-                <h3>Phòng trọ C</h3>
-                <p>Địa chỉ: 101 Đường JKL,...</p>
-                <p>Diện tích: 28m²</p>
-                <p style="color:red">Giá thuê: 4.500.000 VNĐ/tháng</p>
-                <p style="color:rgb(139, 139, 139)">8 phút trước</p>
-            </a>
-            <a href="product-c.html" class="room">
-                <img src="https://pt123.cdn.static123.com/images/thumbs/900x600/fit/2023/04/04/z4237382843978-8512bc8537f757f03964bec36d061966_1680602689.jpg"
-                    alt="">
-                <h3>Phòng trọ C</h3>
-                <p>Địa chỉ: 101 Đường JKL,...</p>
-                <p>Diện tích: 28m²</p>
-                <p style="color:red">Giá thuê: 4.500.000 VNĐ/tháng</p>
-                <p style="color:rgb(139, 139, 139)">8 phút trước</p>
-            </a>
-            <a href="product-c.html" class="room">
-                <img src="https://pt123.cdn.static123.com/images/thumbs/900x600/fit/2023/04/04/z4237382843978-8512bc8537f757f03964bec36d061966_1680602689.jpg"
-                    alt="">
-                <h3>Phòng trọ C</h3>
-                <p>Địa chỉ: 101 Đường JKL,...</p>
-                <p>Diện tích: 28m²</p>
-                <p style="color:red">Giá thuê: 4.500.000 VNĐ/tháng</p>
-                <p style="color:rgb(139, 139, 139)">8 phút trước</p>
-            </a>
+
         </div>
     </div>
     <br>
     <div class="description" style="background-color:white; padding:20px; box-shadow:4px 2px 10px rgba(0, 0, 0, 0.2);">
         <h2>Đánh giá</h2>
-        <div class="text-center pb-5">
-            <div class="list-review">
-                <div class="review row py-4 border-bottom">
-                    <div class="col-2 text-center">
-                        <img src="../../public/assets/pictures/icon.png" alt="">
-                    </div>
-                    <div class="col-10 text-start">
-                        <span class="name">
-                            QuangTran
-                        </span>
-                        <p class="comment">
-                            Tuyet voi
-                        </p>
-                    </div>
+        <div class="list-review">
+            {{#each review}}
+            <div class="review row py-4 border-bottom">
+                <div class="col-2 text-center">
+                    <img src="{{this.avatar}}" alt="" class="" style=";width: 30%;height: 100%;">
+                </div>
+                <div class="col-10 text-start" style="margin-left: -50px;">
+                    <span class="name">{{this.HoTen}}</span>
+                    <p>Điểm đánh giá: {{this.DiemDanhGia}}/10 - Ngày đánh giá:{{formatDate this.NgayDang}}</p>
+                    <p class="comment">{{this.ChiTietDanhGia}}</p>
+
                 </div>
             </div>
+            {{/each}}
         </div>
     </div>
 </div>

@@ -6,6 +6,7 @@ import {
 import { findPhotosOfHouse } from "../models/photo.model";
 import { getInfoProfileTenant, updateProfileTenantModel, getInfoProfileLandlord } from "../models/user.model";
 import { addAppointmentModel, cancelAppointmentModel } from "../models/appointment.model";
+import { addingReport } from "../models/report.model";
 
 const getTenantPage = async (req, res) => {
     return res.render("vwTenant/tenant-page")
@@ -82,6 +83,15 @@ const addAppointment = async (req, res) => {
 
     res.redirect('/tenant/manage-appointment');
 }
+const addReport = async (req, res) => {
+    const idUser = res.locals.user.id;
+    console.log(idUser)
+    const idPost = req.params.id;
+    await addingReport(idUser, idPost, req.body);
+
+    res.redirect('/post/details/:id');
+}
+
 const getFavouriteListPage = async (req, res) => {
     let { page, filter } = req.query;
     const idUser = res.locals.user.id;
@@ -116,5 +126,6 @@ export {
     getTenantPage,
     deleteAppointment,
     addAppointment,
-    getFavouriteListPage
+    getFavouriteListPage,
+    addReport
 }

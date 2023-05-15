@@ -1,4 +1,4 @@
-import { addHouseModel, deleteLandlordHouseModel } from "../models/post.model";
+import { addHouseModel, deleteLandlordHouseModel, getPostInfo, getAuthorInfo, getReviewInfo, getutilitiesInfo, getImageInfo, getAllPostInfo } from "../models/post.model";
 import { addPhotoModel, deletePhotoModel, findPhotoOfHouse, deletePhotosByArrayModel } from "../models/photo.model";
 import { addUtilityHouseModel, deleteUtilityModel, findUtilitiesOfHouse, findUtilityOfHouse, deleteOneUtilityModel } from "../models/utility.model";
 import { addVideoModel, deleteVideoModel, findVideoOfHouse, deleteVideosByArrayModel } from "../models/video.model";
@@ -72,4 +72,21 @@ const deleteLandlordHouse = async (req, res) => {
     return res.redirect('/landlord/house-management');
 }
 
-export { addHouse, deleteLandlordHouse, updateHouse }
+const getListPage = async (req, res) => {
+    const post = await getAllPostInfo();
+    //  const image = await getImageInfo(post.TinID);
+   // console.log(post);
+    res.render("vwPost/list-houses", { post });
+}
+const getDetailsPage = async (req, res) => {
+    const postID = req.params.id;
+    const post = await getPostInfo(postID);
+    const author = await getAuthorInfo(postID);
+    const review = await getReviewInfo(postID);
+    const utilities = await getutilitiesInfo(postID);
+    const image = await getImageInfo(postID);
+    //  console.log(review);
+    res.render("vwPost/details-house", { post, author, review, utilities, image });
+};
+
+export { addHouse, deleteLandlordHouse, updateHouse, getListPage, getDetailsPage }

@@ -140,6 +140,46 @@ const getIDLandlordOfAHouseModel = async (idHouse) => {
     const res = await db('tindangtro').where('TinID', '=', idHouse).select('NguoiDangTin');
     return res[0];
 }
+const getPostInfo = async (postID) => {
+    const post = await db('tindangtro').where('TinID', '=', postID).select('*');
+
+    return post[0];
+}
+const getAllPostInfo = async (postID) => {
+    const post = await db('tindangtro').select('*');
+
+    return post;
+}
+const getAuthorInfo = async (postID) => {
+    const author = await db('nguoidung')
+        .join('tindangtro', 'nguoidung.NguoiDungID', '=', 'tindangtro.NguoiDangTin')
+        .where('tindangtro.TinID', '=', postID)
+        .select('*');
+    return author[0];
+}
+const getutilitiesInfo = async (postID) => {
+    const tienich = await db('tien_ich')
+        .innerJoin('tienich_tindangtro', 'tien_ich.TienIchID', '=', 'tienich_tindangtro.TienIchID')
+        .where('tienich_tindangtro.TinID', '=', postID)
+        .select('*');
+    return tienich;
+}
+const getReviewInfo = async (postID) => {
+    const review = await db('danhgia')
+        .join('nguoidung', 'nguoidung.NguoiDungID', '=', 'danhgia.NguoiDanhGia')
+        .where('danhgia.TinID', '=', postID)
+        .select('*');
+
+    return review;
+}
+const getImageInfo = async (postID) => {
+    const image = await db.select('*')
+        .from('hinh_anh')
+        .join('hinhanh_tindangtro', 'hinh_anh.HinhAnhID', '=', 'hinhanh_tindangtro.HinhAnhID')
+        .where('hinhanh_tindangtro.TinID', '=', postID);
+    return image;
+}
+
 export {
     addHouseModel,
     getAllHousesOfLandlord,
@@ -151,5 +191,11 @@ export {
     updateHouseModel,
     getAllHouseAppointmentTenant,
     getTenantHouseAppointmentListModel,
-    getIDLandlordOfAHouseModel
+    getIDLandlordOfAHouseModel,
+    getPostInfo,
+    getAuthorInfo,
+    getReviewInfo,
+    getutilitiesInfo,
+    getImageInfo,
+    getAllPostInfo
 }

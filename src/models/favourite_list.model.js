@@ -24,4 +24,4 @@ const getFavouriteListPageModel = async (idUser, limit, offset, filter) => {
     return result;
 }
 
-export {addFavouritePostModel, deleteFavouritePostModel, getFavouriteListOfTenant, getFavouriteListPageModel}
+export { addFavouritePostModel, deleteFavouritePostModel, getFavouriteListOfTenant, getFavouriteListPageModel }

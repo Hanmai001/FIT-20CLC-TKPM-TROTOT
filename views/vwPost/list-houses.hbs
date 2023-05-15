@@ -233,76 +233,35 @@
 
 </script>
 {{/section}}
+{{#if user}}
+{{#ifEqualString user.LoaiNguoiDung "Người chủ trọ"}}
 {{>header_landlord}}
+{{else ifEqualString user.LoaiNguoiDung "Người thuê trọ"}}
+{{>header_tenant}}
+{{else ifEqualString user.LoaiNguoiDung "Admin"}}
+{{>header_admin}}
+{{else}}
+{{>header_default}}
+{{/ifEqualString}}
+{{else}}
+{{>header_default}}
+{{/if}}
 {{!-- fillter bar --}}
 {{>search_bar}}
 <div class="content">
     <h1 style="font-size:xx-large">Danh Sách Phòng Trọ</h1>
     <hr>
     <div class="list-rooms">
-        <a href="product-c.html" class="room">
-            <img src="https://pt123.cdn.static123.com/images/thumbs/900x600/fit/2023/04/04/z4237382852854-ed72464cadbd4c61b8ebe2acb970694e_1680602688.jpg"
-                alt="">
-            <h3>Phòng trọ A</h3>
-            <p>Địa chỉ: 456 Đường DEF...</p>
-            <p>Diện tích: 25m²</p>
-            <p style="color:red">Giá thuê: 4.000.000 VNĐ/tháng</p>
-            <p style="color:rgb(139, 139, 139)">8 phút trước</p>
+        {{#each post}}
+        <a href="/post/details/{{this.TinID}}" class="room">
+            <img src="" alt="">
+            <h3>{{this.Ten}}</h3>
+            <p>{{this.DiaChi}}</p>
+            <p>{{this.DienTich}}</p>
+            <p style="color:red">{{this.Gia}}</p>
+            <p style="color:rgb(139, 139, 139)">{{formatDate this.NgayDang}}</p>
         </a>
-        <a href="product-c.html" class="room">
-            <img src="https://pt123.cdn.static123.com/images/thumbs/900x600/fit/2023/04/04/z4237382846029-84e0315a368c7ef490aa2a770edd8615_1680602688.jpg"
-                alt="">
-            <h3>Phòng trọ B</h3>
-            <p>Địa chỉ: 789 Đường GHI,...</p>
-            <p>Diện tích: 35m²</p>
-            <p style="color:red">Giá thuê: 6.000.000 VNĐ/tháng</p>
-            <p style="color:rgb(139, 139, 139)">8 phút trước</p>
-        </a>
-        <a href="product-c.html" class="room">
-            <img src="https://pt123.cdn.static123.com/images/thumbs/900x600/fit/2023/04/04/z4237382843978-8512bc8537f757f03964bec36d061966_1680602689.jpg"
-                alt="">
-            <h3>Phòng trọ C</h3>
-            <p>Địa chỉ: 101 Đường JKL,...</p>
-            <p>Diện tích: 28m²</p>
-            <p style="color:red">Giá thuê: 4.500.000 VNĐ/tháng</p>
-            <p style="color:rgb(139, 139, 139)">8 phút trước</p>
-        </a>
-        <a href="product-c.html" class="room">
-            <img src="https://pt123.cdn.static123.com/images/thumbs/900x600/fit/2023/04/04/z4237382843978-8512bc8537f757f03964bec36d061966_1680602689.jpg"
-                alt="">
-            <h3>Phòng trọ C</h3>
-            <p>Địa chỉ: 101 Đường JKL,...</p>
-            <p>Diện tích: 28m²</p>
-            <p style="color:red">Giá thuê: 4.500.000 VNĐ/tháng</p>
-            <p style="color:rgb(139, 139, 139)">8 phút trước</p>
-        </a>
-        <a href="product-c.html" class="room">
-            <img src="https://pt123.cdn.static123.com/images/thumbs/900x600/fit/2023/04/04/z4237382843978-8512bc8537f757f03964bec36d061966_1680602689.jpg"
-                alt="">
-            <h3>Phòng trọ C</h3>
-            <p>Địa chỉ: 101 Đường JKL,...</p>
-            <p>Diện tích: 28m²</p>
-            <p style="color:red">Giá thuê: 4.500.000 VNĐ/tháng</p>
-            <p style="color:rgb(139, 139, 139)">8 phút trước</p>
-        </a>
-        <a href="product-c.html" class="room">
-            <img src="https://pt123.cdn.static123.com/images/thumbs/900x600/fit/2023/04/04/z4237382843978-8512bc8537f757f03964bec36d061966_1680602689.jpg"
-                alt="">
-            <h3>Phòng trọ C</h3>
-            <p>Địa chỉ: 101 Đường JKL,...</p>
-            <p>Diện tích: 28m²</p>
-            <p style="color:red">Giá thuê: 4.500.000 VNĐ/tháng</p>
-            <p style="color:rgb(139, 139, 139)">8 phút trước</p>
-        </a>
-        <a href="product-c.html" class="room">
-            <img src="https://pt123.cdn.static123.com/images/thumbs/900x600/fit/2023/04/04/z4237382843978-8512bc8537f757f03964bec36d061966_1680602689.jpg"
-                alt="">
-            <h3>Phòng trọ C</h3>
-            <p>Địa chỉ: 101 Đường JKL,...</p>
-            <p>Diện tích: 28m²</p>
-            <p style="color:red">Giá thuê: 4.500.000 VNĐ/tháng</p>
-            <p style="color:rgb(139, 139, 139)">8 phút trước</p>
-        </a>
+        {{/each}}
     </div>
     <div class="d-flex justify-content-center my-4 container-pagination" style="margin-left: -15px;">
         <div id="pagination"></div>

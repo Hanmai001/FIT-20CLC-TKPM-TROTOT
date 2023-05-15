@@ -1,5 +1,7 @@
 import express from 'express';
+import { addFavouritePost, deleteFavouritePost } from '../controllers/favourite_list.controller';
 const initTenantRoute = express.Router();
+
 import {
     getManageAppointmentPage,
     getProfilePage,
@@ -8,7 +10,9 @@ import {
     getTenantPage,
     deleteAppointment,
     addAppointment,
-    getFavouriteListPage
+    getFavouriteListPage,
+    addReport
+
 } from '../controllers/tenant.controller';
 import { logout } from '../controllers/auth.controller';
 import multer from 'multer';
@@ -34,6 +38,9 @@ initTenantRoute.route("/change-password").get(getChangePassPage);
 initTenantRoute.route("/profile/update/:id").post(upload.single('update-ava'), updateProfile);
 initTenantRoute.route("/cancel-appointment/:id").patch(deleteAppointment);
 initTenantRoute.route("/add-appointment/:id").post(addAppointment);
+initTenantRoute.route('/add-favourite').post(addFavouritePost);
+initTenantRoute.route('/add-report/:id').post(addReport);
+initTenantRoute.route('/delete-favourite/:id').delete(deleteFavouritePost);
 initTenantRoute.route("/logout").get(logout);
 initTenantRoute.route("/").get(getTenantPage);
 

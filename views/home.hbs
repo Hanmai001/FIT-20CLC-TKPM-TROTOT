@@ -7,158 +7,158 @@
 {{#section "js"}}
 <script src="../public/assets/js/header_landlors.js"></script>
 <script>
-     var Pagination = {
+    var Pagination = {
 
-            code: '',
+        code: '',
 
-            // --------------------
-            // Utility
-            // --------------------
+        // --------------------
+        // Utility
+        // --------------------
 
-            // converting initialize data
-            Extend: function (data) {
-                data = data || {};
-                Pagination.size = data.size || 300;
-                Pagination.page = data.page || 1;
-                Pagination.step = data.step || 3;
-            },
+        // converting initialize data
+        Extend: function (data) {
+            data = data || {};
+            Pagination.size = data.size || 300;
+            Pagination.page = data.page || 1;
+            Pagination.step = data.step || 3;
+        },
 
-            // add pages by number (from [s] to [f])
-            Add: function (s, f) {
-                for (var i = s; i < f; i++) {
-                    Pagination.code += '<a>' + i + '</a>';
-                }
-            },
-            // add last page with separator
-            Last: function () {
-                Pagination.code += '<i>...</i><a>' + Pagination.size + '</a>';
-            },
-
-            // add first page with separator
-            First: function () {
-                Pagination.code += '<a>1</a><i>...</i>';
-            },
-            // --------------------
-            // Handlers
-            // --------------------
-
-            // change page
-            Click: function () {
-                // window.location.href = "http://localhost:3000/tenant/profile"
-                Pagination.page = +this.innerHTML;
-                Pagination.Start();
-            },
-
-            // previous page
-            Prev: function () {
-                Pagination.page--;
-                if (Pagination.page < 1) {
-                    Pagination.page = 1;
-                }
-                Pagination.Start();
-            },
-
-            // next page
-            Next: function () {
-                Pagination.page++;
-                if (Pagination.page > Pagination.size) {
-                    Pagination.page = Pagination.size;
-                }
-                Pagination.Start();
-            },
-
-
-
-            // --------------------
-            // Script
-            // --------------------
-
-            // binding pages
-            Bind: function () {
-                var a = Pagination.e.getElementsByTagName('a');
-                for (var i = 0; i < a.length; i++) {
-                    if (+a[i].innerHTML === Pagination.page) a[i].className = 'current';
-                    a[i].addEventListener('click', Pagination.Click, false);
-                }
-            },
-
-            // write pagination
-            Finish: function () {
-                Pagination.e.innerHTML = Pagination.code;
-                Pagination.code = '';
-                Pagination.Bind();
-            },
-
-            // find pagination type
-            Start: function () {
-                if (Pagination.size < Pagination.step * 2 + 6) {
-                    Pagination.Add(1, Pagination.size + 1);
-                }
-                else if (Pagination.page < Pagination.step * 2 + 1) {
-                    Pagination.Add(1, Pagination.step * 2 + 4);
-                    Pagination.Last();
-                }
-                else if (Pagination.page > Pagination.size - Pagination.step * 2) {
-                    Pagination.First();
-                    Pagination.Add(Pagination.size - Pagination.step * 2 - 2, Pagination.size + 1);
-                }
-                else {
-                    Pagination.First();
-                    Pagination.Add(Pagination.page - Pagination.step, Pagination.page + Pagination.step + 1);
-                    Pagination.Last();
-                }
-                Pagination.Finish();
-            },
-
-
-
-            // --------------------
-            // Initialization
-            // --------------------
-
-            // binding buttons
-            Buttons: function (e) {
-                var nav = e.getElementsByTagName('a');
-                nav[0].addEventListener('click', Pagination.Prev, false); //nếu bấm vào nút prev thì xử lý event
-                nav[1].addEventListener('click', Pagination.Next, false); //nếu bấm vào nút prev thì xử lý event
-            },
-
-            // create skeleton
-            Create: function (e) {
-
-                var html = [
-                    '<a>&#9668;</a>', // previous button
-                    '<span></span>',  // pagination container
-                    '<a>&#9658;</a>'  // next button
-                ];
-
-                e.innerHTML = html.join(''); //thêm html vào element e
-                Pagination.e = e.getElementsByTagName('span')[0]; //Lấy a đtien
-                Pagination.Buttons(e);
-            },
-
-            // init
-            Init: function (e, data) {
-                Pagination.Extend(data);
-                Pagination.Create(e);
-                Pagination.Start();
+        // add pages by number (from [s] to [f])
+        Add: function (s, f) {
+            for (var i = s; i < f; i++) {
+                Pagination.code += '<a>' + i + '</a>';
             }
-        };
+        },
+        // add last page with separator
+        Last: function () {
+            Pagination.code += '<i>...</i><a>' + Pagination.size + '</a>';
+        },
+
+        // add first page with separator
+        First: function () {
+            Pagination.code += '<a>1</a><i>...</i>';
+        },
+        // --------------------
+        // Handlers
+        // --------------------
+
+        // change page
+        Click: function () {
+            // window.location.href = "http://localhost:3000/tenant/profile"
+            Pagination.page = +this.innerHTML;
+            Pagination.Start();
+        },
+
+        // previous page
+        Prev: function () {
+            Pagination.page--;
+            if (Pagination.page < 1) {
+                Pagination.page = 1;
+            }
+            Pagination.Start();
+        },
+
+        // next page
+        Next: function () {
+            Pagination.page++;
+            if (Pagination.page > Pagination.size) {
+                Pagination.page = Pagination.size;
+            }
+            Pagination.Start();
+        },
 
 
 
-        /* * * * * * * * * * * * * * * * *
-        * Initialization
-        * * * * * * * * * * * * * * * * */
+        // --------------------
+        // Script
+        // --------------------
 
-        var init = function () {
-            Pagination.Init(document.getElementById('pagination'), {
-                size: 30, // pages size
-                page: 1,  // selected page
-                step: 3   // pages before and after current
-            });
-        };
-        document.addEventListener('DOMContentLoaded', init, false);
+        // binding pages
+        Bind: function () {
+            var a = Pagination.e.getElementsByTagName('a');
+            for (var i = 0; i < a.length; i++) {
+                if (+a[i].innerHTML === Pagination.page) a[i].className = 'current';
+                a[i].addEventListener('click', Pagination.Click, false);
+            }
+        },
+
+        // write pagination
+        Finish: function () {
+            Pagination.e.innerHTML = Pagination.code;
+            Pagination.code = '';
+            Pagination.Bind();
+        },
+
+        // find pagination type
+        Start: function () {
+            if (Pagination.size < Pagination.step * 2 + 6) {
+                Pagination.Add(1, Pagination.size + 1);
+            }
+            else if (Pagination.page < Pagination.step * 2 + 1) {
+                Pagination.Add(1, Pagination.step * 2 + 4);
+                Pagination.Last();
+            }
+            else if (Pagination.page > Pagination.size - Pagination.step * 2) {
+                Pagination.First();
+                Pagination.Add(Pagination.size - Pagination.step * 2 - 2, Pagination.size + 1);
+            }
+            else {
+                Pagination.First();
+                Pagination.Add(Pagination.page - Pagination.step, Pagination.page + Pagination.step + 1);
+                Pagination.Last();
+            }
+            Pagination.Finish();
+        },
+
+
+
+        // --------------------
+        // Initialization
+        // --------------------
+
+        // binding buttons
+        Buttons: function (e) {
+            var nav = e.getElementsByTagName('a');
+            nav[0].addEventListener('click', Pagination.Prev, false); //nếu bấm vào nút prev thì xử lý event
+            nav[1].addEventListener('click', Pagination.Next, false); //nếu bấm vào nút prev thì xử lý event
+        },
+
+        // create skeleton
+        Create: function (e) {
+
+            var html = [
+                '<a>&#9668;</a>', // previous button
+                '<span></span>',  // pagination container
+                '<a>&#9658;</a>'  // next button
+            ];
+
+            e.innerHTML = html.join(''); //thêm html vào element e
+            Pagination.e = e.getElementsByTagName('span')[0]; //Lấy a đtien
+            Pagination.Buttons(e);
+        },
+
+        // init
+        Init: function (e, data) {
+            Pagination.Extend(data);
+            Pagination.Create(e);
+            Pagination.Start();
+        }
+    };
+
+
+
+    /* * * * * * * * * * * * * * * * *
+    * Initialization
+    * * * * * * * * * * * * * * * * */
+
+    var init = function () {
+        Pagination.Init(document.getElementById('pagination'), {
+            size: 30, // pages size
+            page: 1,  // selected page
+            step: 3   // pages before and after current
+        });
+    };
+    document.addEventListener('DOMContentLoaded', init, false);
     // Lấy đối tượng các menu select và các giá trị mặc định
     var citySelect = document.getElementById("city-select");
     var districtSelect = document.getElementById("district-select");
@@ -233,18 +233,19 @@
 {{/section}}
 
 {{#if user}}
-  {{#ifEqualString user "Người thuê trọ"}}
-    {{>header_tenant}}
-  {{/ifEqualString}}
-  {{#ifEqualString user "Người chủ trọ"}}
-    {{>header_landlord}}
-  {{/ifEqualString}}
-  {{#ifEqualString user "Admin"}}
-    {{>header_admin}}
-  {{/ifEqualString}}
+{{#ifEqualString user.LoaiNguoiDung "Người chủ trọ"}}
+{{>header_landlord}}
+{{else ifEqualString user.LoaiNguoiDung "Người thuê trọ"}}
+{{>header_tenant}}
+{{else ifEqualString user.LoaiNguoiDung "Admin"}}
+{{>header_admin}}
 {{else}}
-    {{>header_default}}
+{{>header_default}}
+{{/ifEqualString}}
+{{else}}
+{{>header_default}}
 {{/if}}
+
 
 
 {{!-- fillter bar --}}
@@ -255,8 +256,10 @@
     <div class="col-10" style="margin-top:-30px ">
         <div class="rounded-bg" style="margin-left: 2px; margin-top :20px; background-color:#ffffff">
             <div class="container">
+
                 <h1 style="font-size:xx-large">Sản phẩm nổi bật trong tháng</h1>
                 <br>
+                {{#each post}}
                 <div class="rounded-product"
                     style="background: linear-gradient(135deg, #ffffff, #f6f6f6); box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); border-radius: 10px; transition: box-shadow 0.3s; border: 2px solid #ccc;">
                     <div class="product#1">
@@ -264,21 +267,19 @@
                             <img src="https://pt123.cdn.static123.com/images/thumbs/450x300/fit/2021/03/10/z2372635816674-545794dbbc111cba4b6b0b4ed0d7d184_1615391076.jpg"
                                 alt="Featured Product" class="product-img">
                             <div class="col-8">
-                                <h2 style="font-size:x-large;  margin-top: 5px; color:red">Phòng trọ sleepbox ngay
-                                    chợ Gò Vấp
-                                    Lê Quang Định</h2>
+                                <h2 style="font-size:x-large;  margin-top: 5px; color:red">{{this.Ten}}</h2>
                                 <div class="row" style="margin-top: 20px;">
                                     <div class="col-4">
-                                        &#x1F4B0; Giá: 1.8 triệu/tháng
+                                        &#x1F4B0; Giá: {{this.Gia}} vnđ/tháng
                                     </div>
                                     <div class="col-4">
-                                        &#x25A0; 242 m2
+                                        &#x25A0; {{this.DienTich}}m2
                                     </div>
                                     <div class="col-4">
-                                        &#x1F3E0; Quận Gò Vấp
+                                        &#x1F3E0; {{this.DiaChi}}
                                     </div>
                                 </div>
-                                <div class="row" style="margin-top: 10px;">
+                                <div class="row" style="margin-top: 5px;">
                                     <div class="col-4">
                                         &#x1F464; Người đăng: Hồ Văn Duy
                                     </div>
@@ -286,7 +287,7 @@
                                         &#x1F4F1; Liên hệ: 19001009
                                     </div>
                                 </div>
-                                <a href="/details/1" class="btn btn-primary" style="margin-top: 45px;">Xem
+                                <a href="post/details/1" class="btn btn-primary" style="margin-top: 5px;">Xem
                                     chi
                                     tiết</a>
                             </div>
@@ -297,43 +298,7 @@
                 <br>
                 <hr>
                 <br>
-                <div class="rounded-product"
-                    style="background: linear-gradient(135deg, #ffffff, #f6f6f6); box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); border-radius: 10px; transition: box-shadow 0.3s; border: 2px solid #ccc;">
-                    <div class="product#2">
-                        <div class="row">
-                            <img src="https://pt123.cdn.static123.com/images/thumbs/450x300/fit/2023/04/26/839248a0-02aa-4aa1-b984-f86f68d9abf4_1682492374.jpg"
-                                alt="Featured Product" class="product-img">
-                            <div class="col-8">
-                                <h2 style="font-size:x-large;  margin-top: 5px; color:red">Phòng trọ mới rất đẹp
-                                    373/1/2A ĐƯỜNG
-                                    ...
-                                </h2>
-                                <div class="row" style="margin-top: 20px;">
-                                    <div class="col-4">
-                                        &#x1F4B0; Giá: 2 triệu/tháng
-                                    </div>
-                                    <div class="col-4">
-                                        &#x25A0; 300 m2
-                                    </div>
-                                    <div class="col-4">
-                                        &#x1F3E0; Quận 1
-                                    </div>
-                                </div>
-                                <div class="row" style="margin-top: 10px;">
-                                    <div class="col-4">
-                                        &#x1F464; Người đăng: Trần Xuân Quang
-                                    </div>
-                                    <div class="col-4" style="margin-left: -5px;">
-                                        &#x1F4F1; Liên hệ: 243144
-                                    </div>
-                                </div>
-                                <a href="/details/1" class="btn btn-primary" style="margin-top: 45px;">Xem
-                                    chi
-                                    tiết</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                {{/each}}
             </div>
         </div>
     </div>
