@@ -4,8 +4,7 @@ const addingReport = async (idTenant, idPost, data) => {
     await db('baocao').insert({
         NguoiBaoCao: idTenant,
         TinID: idPost,
-        NgayBaoCao: '2021-01-15',
-        LiDoChiTiet: data.description
+        LiDoChiTiet: data.description,
     })
 }
 

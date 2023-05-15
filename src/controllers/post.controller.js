@@ -74,8 +74,7 @@ const deleteLandlordHouse = async (req, res) => {
 
 const getListPage = async (req, res) => {
     const post = await getAllPostInfo();
-    //  const image = await getImageInfo(post.TinID);
-   // console.log(post);
+    console.log(post);
     res.render("vwPost/list-houses", { post });
 }
 const getDetailsPage = async (req, res) => {
@@ -85,8 +84,11 @@ const getDetailsPage = async (req, res) => {
     const review = await getReviewInfo(postID);
     const utilities = await getutilitiesInfo(postID);
     const image = await getImageInfo(postID);
-    //  console.log(review);
-    res.render("vwPost/details-house", { post, author, review, utilities, image });
+    const relate = await getAllPostInfo();
+    console.log(image);
+    res.render("vwPost/details-house", { post, author, review, utilities, image, relate: relate });
 };
+
+
 
 export { addHouse, deleteLandlordHouse, updateHouse, getListPage, getDetailsPage }

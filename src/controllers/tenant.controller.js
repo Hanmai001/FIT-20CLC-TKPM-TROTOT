@@ -89,7 +89,7 @@ const addReport = async (req, res) => {
     const idPost = req.params.id;
     await addingReport(idUser, idPost, req.body);
 
-    res.redirect('/post/details/:id');
+    res.redirect('/post/details/' + idPost);
 }
 
 const getFavouriteListPage = async (req, res) => {

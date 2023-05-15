@@ -222,16 +222,20 @@
     <div class="infor" style="background-color: white; padding:20px; box-shadow: 4px 2px 10px rgba(0, 0, 0, 0.2);">
         <h1 style="font-size:xx-large">Chi tiết Phòng Trọ</h1>
         <div class="row">
-            <div class="col-10 picture">
+            <div class="col-9 picture">
                 {{!-- image --}}
-                <div class="col-13 pic-product p-3" style="overflow: hidden;">
-                    <img src="{{ image.[0].ChiTietHinhAnh }}" alt="">
+                <div class="col pic-product p-3" style="overflow: hidden;">
+                    <div class="image" style="height: 400px; overflow: hidden;">
+                        <img src="{{ image.[0].ChiTietHinhAnh }}" alt="" style="">
+                    </div>
                     <div class="extra-pics mt-2">
                         <i class="fa-solid fa-angle-left"></i>
-                        <img src="{{ image.[1].ChiTietHinhAnh}}" alt="">
-                        <img src="{{ image.[2].ChiTietHinhAnh}}" alt="">
-                        <img src="{{ image.[3].ChiTietHinhAnh}}" alt="">
+                        {{#each image}}
+                        <img src="{{ this.ChiTietHinhAnh}}" alt="">
+                        <img src="{{ this.ChiTietHinhAnh}}" alt="">
+                        <img src="{{ this.ChiTietHinhAnh}}" alt="">
                         <i class="fa-solid fa-angle-right"></i>
+                        {{/each}}
                     </div>
                     <div class="action-buttons">
                         <button class="report-btn" id="btn-report-form"><i class="fa-solid fa-flag"
@@ -245,7 +249,7 @@
                 </div>
             </div>
             {{!-- landllord info --}}
-            <div class="col-3" style="margin-left: -175px; margin-top:15px;">
+            <div class="col-3" style="margin-top:15px;">
                 <div class="author-aside">
                     <figure class="author-avatar"><img src="{{ author.avatar }}"></figure>
                     <span class="author-post">Được đăng bởi</span>
@@ -269,7 +273,6 @@
                     <button id="btn-open-form" class="btn-booking">Đặt lịch</button>
                 </div>
             </div>
-
         </div>
     </div>
     {{!-- info --}}
@@ -299,18 +302,22 @@
     <div class="relate" style="background-color:white; padding:20px; box-shadow:4px 2px 10px rgba(0, 0, 0, 0.2);">
         <h2>Các phòng trọ liên quan</h2>
         <div class="related-rooms">
-            <a href="product-c.html" class="room">
-                <img src="https://pt123.cdn.static123.com/images/thumbs/900x600/fit/2023/04/04/z4237382852854-ed72464cadbd4c61b8ebe2acb970694e_1680602688.jpg"
-                    alt="">
-                <h3>Phòng trọ A</h3>
-                <p>Địa chỉ: 456 Đường DEF...</p>
-                <p>Diện tích: 25m²</p>
-                <p style="color:red">Giá thuê: 4.000.000 VNĐ/tháng</p>
-                <p style="color:rgb(139, 139, 139)">8 phút trước</p>
+            {{#each relate}}
+            <a href="/post/details/{{this.TinID}}" class="room">
+                <div class="images"
+                    style=" position: relative;background-size: cover !important;width: 250px;height: 175px;display: inline-block;margin-left: 5px;">
+                    <img src="{{this.Hinhanh}}" alt="">
+                </div>
+                <h3>{{this.Ten}}</h3>
+                <p>{{this.DiaChi}}</p>
+                <p>{{this.DienTich}}</p>
+                <p style="color:red">{{this.Gia}}</p>
+                <p style="color:rgb(139, 139, 139)">{{formatDate this.NgayDang}}</p>
             </a>
-
+            {{/each}}
         </div>
     </div>
+
     <br>
     <div class="description" style="background-color:white; padding:20px; box-shadow:4px 2px 10px rgba(0, 0, 0, 0.2);">
         <h2>Đánh giá</h2>
