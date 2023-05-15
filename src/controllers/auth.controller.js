@@ -6,14 +6,14 @@ const isLoggedCustomer = async (req, res, next) => {
     if (req.isAuthenticated() && req.session.passport.user.LoaiNguoiDung == 'Người thuê trọ') {
         return next();
     } else {
-        return res.send("Bạn không có quyền truy cập trang này!");
+        return res.render("401.hbs")
     }
 }
 const isLoggedLandlord = async (req, res, next) => {
     if (req.isAuthenticated() && req.session.passport.user.LoaiNguoiDung == 'Người chủ trọ') {
         return next();
     } else {
-        return res.send("Bạn không có quyền truy cập trang này!");
+        return res.render("401.hbs")
     }
 }
 
@@ -21,7 +21,7 @@ const isLoggedAdmin = async (req, res, next) => {
     if (req.isAuthenticated() && req.session.passport.user.LoaiNguoiDung == 'Admin') {
         return next();
     } else {
-        return res.send("Bạn không có quyền truy cập trang này!");
+        return res.render("401.hbs")
     }
 }
 const isLogged = async (req, res, next) => {

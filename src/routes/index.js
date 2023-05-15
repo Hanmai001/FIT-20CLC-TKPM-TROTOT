@@ -6,6 +6,7 @@ import apiRoute from './api';
 import authRoute from './authRoute';
 import { isLoggedCustomer, isLoggedAdmin, isLoggedLandlord, isLogged, logout } from '../controllers/auth.controller';
 import { getAllPostInfo } from '../models/post.model';
+import Layer from 'express/lib/router/layer';
 
 
 export default function (app) {
@@ -21,6 +22,7 @@ export default function (app) {
   app.get('/', async (req, res, next) => {
     try {
       const post = await getAllPostInfo();
+      console.log(post)
       res.render('home', { post: post });
     } catch (err) {
       next(err);
