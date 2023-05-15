@@ -254,47 +254,43 @@
     <div class="col-10" style="margin-top:-30px ">
         <div class="rounded-bg" style="margin-left: 2px; margin-top :20px; background-color:#ffffff">
             <div class="container m-5">
-                <h1 style="font-size:xx-large: ">Sản phẩm nổi bật trong tháng</h1>
+                <h1 style="font-size:xx-large">Sản phẩm nổi bật trong tháng</h1>
                 <br>
                 {{#each post}}
                 <div class="rounded-product" style="">
                     <div class="product ">
                         <div class="row">
-                            <img alt="Ảnh đại diện" src="{{this.Hinhanh}}" id="IMG_7" style="width:20%" />
-                            <div class="col-9 ">
-                                <div id="DIV_26">
-                                    <h3 id="H3_27">
-                                        <span id="SPAN_28"
-                                            style="font-size:x-large;  margin-top: 5px; color:red">{{this.Ten}}</span>
-                                    </h3>
-                                    <div id="DIV_29">
-                                        <div id="DIV_30">
-                                            <span id="SPAN_31"
-                                                style="font-size:medium;  margin-top: 5px; color:red">{{this.Gia}}
-                                                vnđ/tháng </span> <span id="SPAN_32">·</span><span id="SPAN_33"
-                                                style="font-size:medium;  margin-top: 5px; color:red"> {{this.DienTich}}
-                                                m²</span>
-                                        </div>
-                                        <br>
-                                        <div id="DIV_42">
-                                            <span id="SPAN_44"> {{this.DiaChi}}</span>
-                                        </div>
-                                        <br>
+                            <img src="{{this.Hinhanh}}" alt="Featured Product" class="product-img">
+                            <div class="col-9">
+                                <h2 style="font-size:x-large;  margin-top: 5px; color:red">{{this.Ten}}</h2>
+                                <div class="row" style="margin-top: 20px;">
+                                    <div class="col-4">
+                                        &#x1F4B0; Giá: {{this.Gia}} vnđ/tháng
                                     </div>
-                                    <div id="DIV_46">
-                                        Người đăng:{{this.HoTen}} - SĐT: {{this.SDT}}
+                                    <div class="col-4">
+                                        &#x25A0; {{this.DienTich}}m2
                                     </div>
-                                    <br>
-
-                                    <div style="display: flex; justify-content: center; margin-top: 5px;">
-                                        <a href="post/details/{{this.TinID}}" class="btn btn-primary"
-                                            style="display: block; width:100%">Xem chi tiết</a>
+                                    <div class="col-4">
+                                        &#x1F3E0; {{this.DiaChi}}
                                     </div>
                                 </div>
+                                <div class="row" style="margin-top: 5px;">
+                                    <div class="col-4">
+                                        &#x1F464; Người đăng: {{this.HoTen}}
+                                    </div>
+                                    <div class="col-4" style="margin-left: -5px;">
+                                        &#x1F4F1; Liên hệ: {{this.SDT}}
+                                    </div>
+                                </div>
+                                <a href="post/details/{{this.TinID}}" class="btn btn-primary"
+                                    style="margin-top: 5px;">Xem
+                                    chi
+                                    tiết</a>
                             </div>
                         </div>
                     </div>
                 </div>
+                {{!-- end of product --}}
                 <br>
                 <hr>
                 <br>
