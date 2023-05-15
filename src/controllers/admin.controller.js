@@ -1,5 +1,7 @@
 import userModel from '../models/user.model';
 import bcrypt from "bcryptjs";
+import { findAll, findByPage } from '../models/post.model'; 
+import { findPhotosOfHouse } from "../models/photo.model";
 
 const getDate = (date) => {
     var d = new Date(date),
@@ -146,11 +148,12 @@ const getInfoProfile = async (req, res, next) => {
 const getAllPosts = async (req, res, next) => {
     try {
         let { page, filter } = req.query;
-        const idUser = res.locals.user.id;
         if (!page) page = 1;
-        const { houses, pages } = await getAllHousesOfLandlord(idUser, filter);
-        //console.log(filter, page)
-        const result = await getLandlordHouseListModel(idUser, 5, (page - 1) * 5, filter);
+
+        const { houses, pages } = await findAll(filter);
+        
+        const result = await findByPage(5, (page - 1) * 5, filter);
+
         for (let house of result) {
             const temp = await findPhotosOfHouse(house.TinID);
             house.photo = temp[0].ChiTietHinhAnh;

@@ -1,5 +1,5 @@
 import bcrypt from 'bcrypt';
-import { addUser, getUserByEmail, getUserByUsername, checkPasswordValidity } from '../models/user.model'
+import { addUser, getUserByEmail, getUserByUsername } from '../models/user.model';
 
 
 const isLoggedCustomer = async (req, res, next) => {
@@ -59,6 +59,14 @@ const getLoginPage = async (req, res) => {
 const getRegisterPage = async (req, res) => {
     res.render('vwAccount/register', { messages: { error: req.flash('error'), success: req.flash('success') } });
 };
+
+const checkPasswordValidity = (password) => {
+    if (password.length < 6) {
+      return false;
+    }
+    return true;
+  }
+  
 const checkRegister = async (req, res) => {
     const {
         username,
@@ -79,9 +87,9 @@ const checkRegister = async (req, res) => {
         return res.redirect('/account/register');
     }
     // Kiểm tra tính hợp lệ của mật khẩu
-    const checkPassword = await checkPasswordValidity(password)
+    const checkPassword = checkPasswordValidity(password);
     if (!checkPassword) {
-        req.flash('error', 'Mật khẩu phải đủ 6 ký tự và viết hoa chữ cái đầu!');
+        req.flash('error', 'Mật khẩu phải đủ 6 ký tự!');
         return res.redirect('/account/register');
     }
     // Kiểm tra tài khoản đã tồn tại chưa
@@ -110,8 +118,7 @@ const checkRegister = async (req, res) => {
     const result = await addUser(
         username,
         email,
-        hashedPassword,
-        "Người thuê trọ"
+        hashedPassword
     );
     if (!result) {
         req.flash('error', 'Đã có lỗi xảy ra. Vui lòng thử lại sau!');

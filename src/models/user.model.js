@@ -1,5 +1,7 @@
 import db from "../config/db.config";
 import bcrypt from "bcrypt"
+
+
 const getUserByUsername = async (username) => {
   const user = await db('nguoidung').where('TaiKhoan', username).first();
   return user;
@@ -12,18 +14,6 @@ const getUserByPhone = async (phone) => {
   const user = await db('nguoidung').where('SDT', phone).first();
   return user;
 };
-const checkPasswordValidity = async (password) => {
-  if (password.length < 6) {
-    return false;
-  }
-
-  const firstChar = password.charAt(0);
-  if (firstChar !== firstChar.toUpperCase()) {
-    return false;
-  }
-
-  return true;
-}
 
 const addUser = async (username, email, password, dob, fullname, phone, sex, cities, district, ward, street, type) => {
   console.log(addUser)
@@ -222,7 +212,6 @@ export {
   getUserByEmail,
   getUserByUsername,
   getUserByPhone,
-  checkPasswordValidity,
   getInfoProfileLandlord,
   getInfoProfileTenant,
   updateProfileLandlordModel,

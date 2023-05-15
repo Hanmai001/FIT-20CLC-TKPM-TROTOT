@@ -80,6 +80,39 @@ const getAllHousesOfLandlord = async (idUser, filter) => {
     result = await result;
     return { houses: result, pages: Math.ceil(result.length / 5) };
 }
+
+
+const findAll = async (filter) => {
+    let result = await db('tindangtro');
+    if (filter) {
+        if (filter === "Chờ xác nhận" || filter === "Đã duyệt")
+            result = result.where('TrangThaiKiemDuyet', filter);
+        else if (filter === "Cũ nhất")
+            result = result.orderBy('NgayDang', 'asc');
+        else if (filter === "Mới nhất")
+            result = result.orderBy('NgayDang', 'desc')
+    }
+    result = await result;
+    return { houses: result, pages: Math.ceil(result.length / 5) };
+}
+
+const findByPage = async (limit, offset, filter) => {
+    let result = db('tindangtro')
+        .select('*')
+        .limit(limit)
+        .offset(offset);
+
+    if (filter) {
+        if (filter === "Chờ xác nhận" || filter === "Đã duyệt")
+            result = result.where('TrangThaiKiemDuyet', filter);
+        else if (filter === "Cũ nhất")
+            result = result.orderBy('NgayDang', 'asc');
+        else if (filter === "Mới nhất")
+            result = result.orderBy('NgayDang', 'desc')
+    }
+    return await result;
+}
+
 const getLandlordHouseListModel = async (idUser, limit, offset, filter) => {
     let result = db('tindangtro')
         .where('NguoiDangTin', '=', idUser)
@@ -197,5 +230,6 @@ export {
     getReviewInfo,
     getutilitiesInfo,
     getImageInfo,
-    getAllPostInfo
+    getAllPostInfo,
+    findAll, findByPage
 }
