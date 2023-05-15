@@ -221,8 +221,8 @@
 </script>
 {{/section}}
 
-<div class="container-fluid">
-    <di class="row">
+<div class="container-fluid" >
+    <div class="row" style="min-height:650px;">
       <nav class="col-2 bg-light sidebar">
         <ul class="nav flex-column">
           <li>
@@ -238,7 +238,7 @@
             </div>
           </li>
           <li class="nav-item">
-            <a class="nav-link active" href="">
+            <a class="nav-link" href="/admin/profile">
               <i class="fa fa-cog" aria-hidden="true"></i>
               Hồ sơ cá nhân
             </a>
@@ -250,7 +250,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/admin/posts">
+            <a class="nav-link active" href="/admin/posts">
               <i class="fa fa-user" aria-hidden="true"></i>
               Tin đăng trọ
             </a>
@@ -269,12 +269,12 @@
           </li>
         </ul>
       </nav>
-      <div class="col-10 ">
+      <div class="col-10 pl-5 pr-5">
         
         <div class="content__header mt-4 pb-3 border-bottom">
             <div class="row">
                 <div class="col-6">
-                    <h5>QUẢN LÝ TIN ĐĂNG NHÀ TRỌ</h5>
+                    <h5 style="color:black;">QUẢN LÝ TIN ĐĂNG NHÀ TRỌ</h5>
                 </div>
                 <div class="content__header-filter col-6">
 
@@ -286,6 +286,7 @@
                         <option value="Mới nhất">Mới nhất</option>
                         <option value="Chờ xác nhận">Chờ xác nhận</option>
                         <option value="Đã duyệt">Đã duyệt</option>
+                        <option value="Bị từ chối">Bị từ chối</option>
                     </select>
 
                 </div>
@@ -332,39 +333,20 @@
                     </div>
                 </div>
             </div>
-            <div class="item__btns mb-2 row">
+            <div class="mb-2 row">
                 <div class="col-6 day-posted">
                     Ngày đăng: {{this.NgayDang}}
                 </div>
                 <div class="col-5 text-end">
-                    <button id={{this.TinID}} class="edit-btn">Chỉnh sửa</button>
-                    <button id={{this.TinID}} class="del-btn">Xóa bài</button>
+                    <a id={{this.TinID}} href="posts/{{this.TinID}}" class="btn btn-primary">Xem chi tiết</a>
                 </div>
 
             </div>
 
         </div>
         {{/each}}
-
-        <div class="modal-cancel-confirm">
-            <div class="modal__container d-flex flex-column justify-content-between">
-                <div class="modal__container-header border-bottom">
-                    <div class="d-flex justify-content-between">
-                        <h5>XÓA BÀI ĐĂNG</h5>
-                        <i id="btn-close" class="fas fa-times"></i>
-                    </div>
-                </div>
-                <div class="modal__container-content">
-                    Bạn chắc muốn xóa bài đăng của mình chứ? Hãy suy nghĩ thật kĩ nhé!!
-                </div>
-                <div class="modal__container-btns text-end">
-                    <button id="btn-confirm-del">Xóa</button>
-                    <button id="btn-confirm-cancel">Hủy</button>
-                </div>
-            </div>
-        </div>
     </div>
-    <div class="d-flex justify-content-center my-4 container-pagination">
+    <div class="d-flex justify-content-center my-4 container-pagination" style="padding-right: 15%;">
         <div id="pagination"></div>
     </div>
 

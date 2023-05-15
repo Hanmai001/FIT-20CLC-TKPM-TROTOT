@@ -3,13 +3,16 @@ import {
     getTenantHouseAppointmentListModel,
     getIDLandlordOfAHouseModel
 } from "../models/post.model";
+import {
+    getFavouriteListOfTenant
+} from "../models/favourite_list.model";
 import { findPhotosOfHouse } from "../models/photo.model";
 import { getInfoProfileTenant, updateProfileTenantModel, getInfoProfileLandlord } from "../models/user.model";
 import { addAppointmentModel, cancelAppointmentModel } from "../models/appointment.model";
 import { addingReport } from "../models/report.model";
 
 const getTenantPage = async (req, res) => {
-    return res.render("vwTenant/tenant-page")
+    return res.render("vwTenant/tenant-profile")
 }
 const getManageAppointmentPage = async (req, res) => {
     let { page, filter } = req.query;

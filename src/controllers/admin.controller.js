@@ -14,7 +14,6 @@ const getDate = (date) => {
   
     return [year, month, day].join("/");
 }
-
 const getAllUsers = async (req, res, next) => {
     try {
         if (req.query.id && req.query.block) {
@@ -41,7 +40,6 @@ const getAllUsers = async (req, res, next) => {
         next(err);
     }
 }
-
 const getDetailedUser = async (req, res, next) => {
     try {
         const id = req.params.id;
@@ -55,7 +53,6 @@ const getDetailedUser = async (req, res, next) => {
         next(err);
     }
 }
-
 const updateUser = async (req, res, next) => {
     try {   
         const user = req.body;
@@ -68,7 +65,6 @@ const updateUser = async (req, res, next) => {
         next(err);
     }
 }
-
 const updateProfile = async (req, res, next) => {
     try {   
         const user = req.body;
@@ -81,7 +77,6 @@ const updateProfile = async (req, res, next) => {
         next(err);
     }
 }
-
 const updateUserPassword = async (req, res, next) => {
     try {   
         const user = req.body;
@@ -94,7 +89,6 @@ const updateUserPassword = async (req, res, next) => {
         next(err);
     }
 }
-
 const countUserByRole = async (req, res, next) => {
     try { 
         return userModel.countByRole(req.query.role);
@@ -102,7 +96,6 @@ const countUserByRole = async (req, res, next) => {
         next(err);
     }
 }
-
 const getNewUser = async (req, res, next) => {
     try { 
         res.render('vwAdmin/add_user');
@@ -110,7 +103,6 @@ const getNewUser = async (req, res, next) => {
         next(err);
     }
 }
-
 const addUser = async (req, res, next) => {
     try { 
         await userModel.add(req.body);
@@ -120,7 +112,6 @@ const addUser = async (req, res, next) => {
         next(err);
     }
 }
-
 const checkUsername = async (req, res, next) => {
     try { 
         const list = await userModel.findUsername(req.query.username);
@@ -133,7 +124,6 @@ const checkUsername = async (req, res, next) => {
         next(err);
     }
 }
-
 const getInfoProfile = async (req, res, next) => {
     try {
         const user = await userModel.findById("1");
@@ -144,7 +134,6 @@ const getInfoProfile = async (req, res, next) => {
         next(err);
     }
 }
-
 const getAllPosts = async (req, res, next) => {
     try {
         let { page, filter } = req.query;
@@ -177,8 +166,25 @@ const getAllPosts = async (req, res, next) => {
         next(err);
     }
 }
+const getPost = async (req, res, next) => {
+    try {
+        
+    } catch (err) {
+        next(err);
+    }
+}
+const updatePost = async (req, res, next) => {
+    try {
+        
+    } catch (err) {
+        next(err);
+    }
+}
+
+
 
 export {    getAllUsers, getDetailedUser, updateUser, 
             countUserByRole, getNewUser, addUser, checkUsername,
-            getInfoProfile, updateProfile, updateUserPassword, getAllPosts   
+            getInfoProfile, updateProfile, updateUserPassword, getAllPosts,   
+            getPost, updatePost
 }

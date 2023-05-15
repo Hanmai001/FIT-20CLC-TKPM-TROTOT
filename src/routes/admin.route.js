@@ -1,6 +1,8 @@
 import express from 'express';
 import { getAllUsers, getDetailedUser, updateUser, countUserByRole, getNewUser, addUser, 
-         checkUsername, getInfoProfile, updateProfile, updateUserPassword, getAllPosts } from '../controllers/admin.controller';
+         checkUsername, getInfoProfile, updateProfile, updateUserPassword, getAllPosts,
+         getPost, updatePost } 
+from '../controllers/admin.controller';
 
 const router = express.Router();
 
@@ -11,6 +13,7 @@ router.route('/users/is-available').get(checkUsername);
 router.route('/users/:id/password').post(updateUserPassword);
 router.route('/users/:id').get(getDetailedUser).post(updateUser);
 router.get('/users', getAllUsers);
+router.route('/posts').get(getPost).post(updatePost);
 router.get('/posts', getAllPosts);
 router.get('/appointment', (req, res, next) => {
   try {

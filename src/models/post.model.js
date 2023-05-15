@@ -83,7 +83,8 @@ const getAllHousesOfLandlord = async (idUser, filter) => {
 
 
 const findAll = async (filter) => {
-    let result = await db('tindangtro');
+    let result = db('tindangtro').select('*');
+
     if (filter) {
         if (filter === "Chờ xác nhận" || filter === "Đã duyệt")
             result = result.where('TrangThaiKiemDuyet', filter);

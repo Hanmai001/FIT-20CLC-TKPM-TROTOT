@@ -233,15 +233,17 @@
 {{/section}}
 
 {{#if user}}
-{{#ifEqualString user.LoaiNguoiDung "Người chủ trọ"}}
-{{>header_landlord}}
-{{else ifEqualString user.LoaiNguoiDung "Người thuê trọ"}}
-{{>header_tenant}}
-{{else ifEqualString user.LoaiNguoiDung "Admin"}}
-{{>header_admin}}
-{{else}}
-{{>header_default}}
-{{/ifEqualString}}
+    {{#ifEqualString user.LoaiNguoiDung "Người chủ trọ"}}
+    {{>header_landlord}}
+    {{/ifEqualString}}
+
+    {{#ifEqualString user.LoaiNguoiDung "Người thuê trọ"}}
+    {{>header_tenant}}
+    {{/ifEqualString}}
+
+    {{#ifEqualString user.LoaiNguoiDung "Admin"}}
+    {{>header_admin}}
+    {{/ifEqualString}}
 {{else}}
 {{>header_default}}
 {{/if}}
