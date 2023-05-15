@@ -8,7 +8,6 @@ import { findPhotosOfHouse } from "../models/photo.model";
 import { getInfoProfileTenant, updateProfileTenantModel, getInfoProfileLandlord } from "../models/user.model";
 import { addAppointmentModel, cancelAppointmentModel } from "../models/appointment.model";
 import { addingReport } from "../models/report.model";
-
 const getTenantPage = async (req, res) => {
     return res.render("vwTenant/tenant-profile")
 }
