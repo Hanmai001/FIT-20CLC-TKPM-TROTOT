@@ -62,7 +62,7 @@
             body: JSON.stringify({ idPost })
         })
             .then((response) => {
-                parentElement.innerHTML = '<button onclick="delPost()">Xóa khỏi danh sách yêu thích</button>';
+                divAddFavourite.innerHTML = '<button class="like-btn" onclick="delPost()">Xóa khỏi danh sách yêu thích</button>';
                 // Handle the response from the server
                 console.log('Response:', response);
             })
@@ -81,7 +81,7 @@
 
         })
             .then((response) => {
-                parentElement.innerHTML = '<button onclick="addPost()">Thêm vào danh sách yêu thích</button>';
+                parentElement.innerHTML = '<button class="like-btn" onclick="addPost()">Thêm vào danh sách yêu thích</button>';
                 // Handle the response from the server
                 console.log('Response:', response);
             })

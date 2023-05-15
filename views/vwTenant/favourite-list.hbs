@@ -191,9 +191,9 @@
         </div>
         {{#each houses}}
         <div class="item border-bottom js-item">
-            <div class="modal">
+            <div class="modal" id="favourite-btns">
                 <button class="show-btn">
-                    <a href="/details/{{this.TinID}}">Xem chi tiết</a></button>
+                    <a href="/post/details/{{this.TinID}}">Xem chi tiết</a></button>
                 <button class="cancel-btn"><a href="/favourite-list/delete-favourite/{{this.TinID}}">Xóa</a></button>
             </div>
             <div class="row">
