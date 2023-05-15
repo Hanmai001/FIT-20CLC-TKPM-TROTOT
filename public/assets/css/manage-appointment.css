@@ -7,6 +7,7 @@
 h5 {
     color: #002ffe;
 }
+
 .content__header-filter {
     position: relative;
 }
@@ -26,6 +27,7 @@ h5 {
 .content__header-filter select:focus {
     outline: none;
 }
+
 .list-group-active {
     color: #002ffe;
 }
@@ -77,14 +79,17 @@ h5 {
     display: inline-block;
     margin-right: 5px;
 }
+
 #favourite-btns a {
     text-decoration: none;
     color: #fff;
 }
+
 #favourite-btns button:last-child {
     text-decoration: none;
     background-color: #fe0000;
 }
+
 .item button:hover {
     opacity: 1;
 }
@@ -93,6 +98,7 @@ h5 {
 .container-pagination {
     margin-left: 280px;
 }
+
 #pagination {
     display: inline-block;
     vertical-align: middle;
@@ -138,4 +144,56 @@ h5 {
     background-image: -ms-linear-gradient(top, #D0D0D0, #EBEBEB);
     background-image: -o-linear-gradient(top, #D0D0D0, #EBEBEB);
     background-image: linear-gradient(top, #D0D0D0, #EBEBEB); */
+}
+
+.modal-cancel-confirm {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    z-index: 999;
+    background-color: rgba(0, 0, 0, 0.4);
+    align-items: center;
+    justify-content: center;
+    display: none;
+}
+
+.modal-cancel-confirm .modal__container {
+    background-color: #fff;
+    width: 400px;
+    height: 200px;
+    border-radius: 4px;
+    padding: 10px 20px;
+}
+
+.modal-cancel-confirm h5 {
+    color: #000;
+}
+
+.modal-cancel-confirm i {
+    font-size: 26px;
+}
+
+.modal-cancel-confirm i:hover {
+    cursor: pointer;
+}
+
+.modal-cancel-confirm .modal__container-btns button {
+    border: none;
+    background-color: #002ffe;
+    padding: 10px 15px;
+    color: #fff;
+    border-radius: 4px;
+    opacity: 0.8;
+    width: 100px;
+
+}
+
+.modal-cancel-confirm .modal__container-btns button:hover {
+    opacity: 1;
+}
+
+.modal-cancel-confirm .modal__container-btns button:first-child {
+    background-color: #fe0000;
 }
