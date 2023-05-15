@@ -159,7 +159,7 @@
 {{else}}
 {{>header_default}}
 {{/if}}
-<div class="content m-5">
+<div class="content" style="margin-right: 15%; margin-left:15%;">
     {{!-- forms --}}
     {{!-- form appointment --}}
     <form action="/tenant/add-appointment/{{post.TinID}}" method="post" id="post-appointment"
@@ -218,13 +218,14 @@
             <button type="button" id="cancel-report" style="margin-left:10px; background-color: #002ffe">Hủy</button>
         </form>
     </div>
-    <div class="infor" style="background-color: white; padding:80px; box-shadow: 4px 2px 10px rgba(0, 0, 0, 0.2); ">
-        <h1 style="font-size:xx-large">Chi tiết Phòng Trọ</h1>
+    <div class="infor" style="background-color: white; padding: 10px 80px; box-shadow: 4px 2px 10px rgba(0, 0, 0, 0.2); ">
+        <p class="h4 ">Chi tiết tin đăng trọ </p>
+       
         <div class="row">
             <div class="col-9 picture">
                 {{!-- image --}}
-                <div class="col pic-product p-3" style="overflow: hidden;">
-                    <div class="image" style="height: 355px; overflow: hidden;">
+                <div class="col pic-product p-3 " style="display: flex; flex-direction: column; align-items: center;">
+                    <div class="image" style="height: 300px; width:100%;">
                         <img src="{{ image.[0].ChiTietHinhAnh }}" alt="" style="">
                     </div>
 
@@ -235,16 +236,6 @@
                         {{/each}}
                         <i class="fa-solid fa-angle-right"></i>
                     </div>
-
-                    <div class="action-buttons">
-                        <button class="report-btn" id="btn-report-form"><i class="fa-solid fa-flag"
-                                style="color: #ffffff;"></i> Báo
-                            cáo</button>
-                        <div id="add-favourite">
-                            <button id="btn-add-favourite" class="like-btn"><i class="fa-solid fa-heart"
-                                    style="color: #ffffff;"></i> Thêm vào danh sách yêu thích</button>
-                        </div>
-                    </div>
                 </div>
             </div>
             {{!-- landllord info --}}
@@ -253,19 +244,19 @@
                     <figure class="author-avatar"><img src="{{ author.avatar }}"></figure>
                     <span class="author-post">Được đăng bởi</span>
                     <span class="author-name">{{ author.HoTen }}</span> <!-- Hiển thị tên người đăng -->
-                    <div style="min-height: 16px; margin-bottom: 10px;">
-                        <div class="author-online-status online" author_id="">
-                            <i class="fa-solid fa-circle" style="color: #45fd21;"></i>
-                            <span>
-                                Đang hoạt động
-                            </span>
-                        </div>
-                    </div>
-                    <a class="btn author-phone" rel="nofollow" href="tel:{{ author.SDT }}">
-                        <i></i> {{ author.SDT }}</a> <!-- Hiển thị số điện thoại người đăng -->
+                    <a class="btn author-phone" style="font-weight:400;">{{ author.SDT }}</a>
+
                 </div>
                 <div>
-                    <button id="btn-open-form" class="btn-booking">Đặt lịch</button>
+                    <button id="btn-open-form" class="btn-booking" style="font-weight:500; background-color:rgb(41, 187, 41)">Đặt lịch xem phòng</button>
+                    <div class="action-buttons">
+                        <button class="report-btn" id="btn-report-form" style="background-color:rgba(204, 50, 50, 0.795)">
+                            <i class="fa-solid fa-flag" style="color: #ffffff;"></i> Báo cáo</button>
+                        <div id="add-favourite">
+                            <button id="btn-add-favourite" class="like-btn "><i class="fa-solid fa-heart"
+                                    style="color: #ffffff;"></i> Yêu thích</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -274,23 +265,25 @@
     <br>
     <div class="description" style="background-color:white; padding:20px; box-shadow:4px 2px 10px rgba(0, 0, 0, 0.2);">
         <h2>Thông tin chung</h2>
-        <li><strong>Địa chỉ:</strong> {{post.DiaChi}}</i>
-        <li><strong>Diện tích:</strong> {{post.DienTich}}m²</i>
-        <li><strong>Giá thuê:</strong> {{post.Gia}} VNĐ/tháng</i>
-        <li><strong>Người đăng tin:</strong> {{post.NguoiDangTin}}</i>
-        <li><strong>Ngày đăng tin:</strong> {{formatDate post.NgayDang}}</i>
-        <li><strong>Trạng thái kiểm duyệt:</strong> {{post.TrangThaiKiemDuyet}}</i>
-        <li><strong>Số người ở:</strong> {{post.SoNguoi}}</i>
-        <li><strong>Tiền nước:</strong> {{post.TienNuoc}} VNĐ/m3</i>
-        <li><strong>Tiền điện:</strong> {{post.TienDien}} VNĐ/kWh</i>
-            <h2>Tiện nghi và mô tả</h2>
-            <ul>
-                {{#each utilities}}
-                <li>{{this.Ten}}</li>
-                {{/each}}
-            </ul>
-            <h2>Bản đồ vị trí</h2>
-            <div id="map"></div>
+        <ul>
+            <li><strong>Địa chỉ:</strong> {{post.DiaChi}}</li>
+            <li><strong>Diện tích:</strong> {{post.DienTich}}m²</li>
+            <li><strong>Giá thuê:</strong> {{post.Gia}} VNĐ/tháng</li>
+            <li><strong>Người đăng tin:</strong> {{post.NguoiDangTin}}</li>
+            <li><strong>Ngày đăng tin:</strong> {{formatDate post.NgayDang}}</li>
+            <li><strong>Trạng thái kiểm duyệt:</strong> {{post.TrangThaiKiemDuyet}}</li>
+            <li><strong>Số người ở:</strong> {{post.SoNguoi}}</li>
+            <li><strong>Tiền nước:</strong> {{post.TienNuoc}} VNĐ/m3</li>
+            <li><strong>Tiền điện:</strong> {{post.TienDien}} VNĐ/kWh</li>
+        </ul>
+        <h2>Tiện ích</h2>
+        <ul>
+            {{#each utilities}}
+            <li>{{this.Ten}}</li>
+            {{/each}}
+        </ul>
+        <h2>Bản đồ vị trí</h2>
+        <div id="map"></div>
     </div>
     {{!-- related --}}
     <br>
