@@ -1,12 +1,11 @@
 {{#section "css"}}
-<link rel="stylesheet" type="text/css" href="../public/assets/css/landlord/header_landlord.css" />
-<link rel="stylesheet" type="text/css" href="../public/assets/css/fill_search.css">
-<link rel="stylesheet" type="text/css" href="../public/assets/css/home-page.css" />
-
+<link rel="stylesheet" href="../../public/assets/css/home-page.css" />
+<link rel="stylesheet" href="../../public/assets/css/fill_search.css" />
+<link rel="stylesheet" href="../../public/assets/css/landlord/header_landlord.css" />
+<link rel="stylesheet" href="../../public/assets/css/list.css" />
 {{/section}}
-
 {{#section "js"}}
-<script src="../public/assets/js/header_landlors.js"></script>
+<script src="../../public/assets/js/header_landlors.js"></script>
 <script>
     $("#filter-select").change(function () {
         let selectedVal = $("#filter-select option:selected").val();
@@ -176,8 +175,9 @@
         });
     };
     document.addEventListener('DOMContentLoaded', init, false);
+</script>
+<script>
     // Lấy đối tượng các menu select và các giá trị mặc định
-    const items = document.getElementsByClassName("js-item");
     var citySelect = document.getElementById("city-select");
     var districtSelect = document.getElementById("district-select");
     var wardSelect = document.getElementById("ward-select");
@@ -185,16 +185,11 @@
     var defaultDistrictOption = districtSelect.querySelector("option[value='']");
     var defaultWardOption = wardSelect.querySelector("option[value='']");
 
-    for (let item of items) {
-        item.addEventListener('click', function (e) {
-            window.location.href = `/post/details/${this.id}`
-        })
-    }
-
+    // Lấy dữ liệu các tỉnh/thành phố, quận/huyện và phường/xã từ API
     fetch("https://provinces.open-api.vn/api/p/")
         .then(response => response.json())
         .then(data => {
-
+            // Thêm các tỉnh/thành phố vào menu select
             data.forEach(city => {
                 var option = document.createElement("option");
                 option.text = city.name;
@@ -203,21 +198,22 @@
             });
         });
 
-
+    // Lấy danh sách các quận/huyện khi tỉnh/thành phố được chọn
     citySelect.addEventListener("change", function () {
-
+        // Xóa các quận/huyện và phường/xã đã chọn trước đó
         districtSelect.innerHTML = "";
         wardSelect.innerHTML = "";
         districtSelect.add(defaultDistrictOption);
         wardSelect.add(defaultWardOption);
 
-
+        // Lấy mã tỉnh/thành phố được chọn
         var cityCode = this.value;
 
+        // Lấy dữ liệu các quận/huyện của tỉnh/thành phố được chọn từ API
         fetch(`https://provinces.open-api.vn/api/p/${cityCode}?depth=2`)
             .then(response => response.json())
             .then(data => {
-
+                // Thêm các quận/huyện vào menu select
                 data.districts.forEach(district => {
                     var option = document.createElement("option");
                     option.text = district.name;
@@ -227,20 +223,20 @@
             });
     });
 
-
+    // Lấy danh sách các phường/xã khi quận/huyện được chọn
     districtSelect.addEventListener("change", function () {
-
+        // Xóa các phường/xã đã chọn trước đó
         wardSelect.innerHTML = "";
         wardSelect.add(defaultWardOption);
 
-
+        // Lấy mã quận/huyện được chọn
         var districtCode = this.value;
 
-
+        // Lấy dữ liệu các phường/xã của quận/huyện được chọn từ API
         fetch(`https://provinces.open-api.vn/api/d/${districtCode}?depth=2`)
             .then(response => response.json())
             .then(data => {
-
+                // Thêm các phường/xã vào menu select
                 data.wards.forEach(ward => {
                     var option = document.createElement("option");
                     option.text = ward.name;
@@ -253,79 +249,43 @@
 
 </script>
 {{/section}}
-
 {{#if user}}
 {{#ifEqualString user.LoaiNguoiDung "Người chủ trọ"}}
-{{>header_landlord user=user}}
-{{/ifEqualString}}
-
-{{#ifEqualString user.LoaiNguoiDung "Người thuê trọ"}}
-{{>header_tenant user=user}}
-{{/ifEqualString}}
-
-{{#ifEqualString user.LoaiNguoiDung "Admin"}}
-{{>header_admin user=user}}
+{{>header_landlord}}
+{{else ifEqualString user.LoaiNguoiDung "Người thuê trọ"}}
+{{>header_tenant}}
+{{else ifEqualString user.LoaiNguoiDung "Admin"}}
+{{>header_admin}}
+{{else}}
+{{>header_default}}
 {{/ifEqualString}}
 {{else}}
-{{>header_default user=user}}
+{{>header_default}}
 {{/if}}
-
-
 {{!-- fillter bar --}}
 {{>search_bar}}
-{{!-- content --}}
-<div class="content m-5" style="background-color:white; padding:20px;">
-    {{!-- start of product --}}
-    <div class="content">
-        <div class="content__header mt-4 pb-3 border-bottom">
-            <h5>PHÒNG TRỌ NỔI BẬT</h5>
-
+<div class="content m-5">
+    <div class="" style="background-color:white; padding:20px; box-shadow:4px 2px 10px rgba(0, 0, 0, 0.2);">
+        <h1 style="font-size:xx-large">Kết Quả Tìm Kiếm</h1>
+        <hr>
+        <div class="list-rooms">
+            {{#if results.length}}
+            {{#each results}}
+            <a href="/post/details/{{this.TinID}}" class="room">
+                <img src="{{this.ChiTietHinhAnh}}" alt="" style="display:block; margin:-5px">
+                <h3>{{this.Ten}}</h3>
+                <p>{{this.DiaChi}}</p>
+                <p>{{this.DienTich}}</p>
+                <p style="color:red">{{this.Gia}}</p>
+                <p style="color:rgb(139, 139, 139)">{{formatDate this.NgayDang}}</p>
+            </a>
+            {{/each}}
+            {{else}}
+            <p>Không có kết quả tìm kiếm.</p>
+            {{/if}}
         </div>
-        {{#each post}}
-        <div class="item js-item" id="{{this.TinID}}">
-
-            <div class="row">
-                <div class="col-4 py-4">
-                    <img src="{{this.Hinhanh}}" alt="" width="100%" height="200px">
-                </div>
-                <div class="col-7 py-4">
-                    <div class="item__name mb-2 fw-bold row">
-                        <div class="item__name-name">
-                            {{this.Ten}}
-                        </div>
-
-                    </div>
-                    <div class="item__type mb-1 row">
-                        <div class="col-6">
-                            <img src="../../public/assets/pictures/home.png" alt="" width="16px" height="16px">
-                            <span>Loại trọ: {{this.LoaiTro}}</span>
-                        </div>
-                        <div class="col-6 text-end">
-
-                        </div>
-                    </div>
-                    <div class="item__area mb-1">
-                        <img src="../../public/assets/pictures/area-graph.png" alt="" width="16px" height="16px">
-                        Diện tích: {{this.DienTich}}m2
-                    </div>
-                    <div class="item__price mb-1 fw-bolder">
-                        <img src="../../public/assets/pictures/best-price.png" alt="" width="16px" height="16px">
-                        {{this.Gia}} VNĐ
-                    </div>
-                    <div class="item__address mb-1">
-                        <img src="../../public/assets/pictures/location.png" alt="" width="16px" height="16px">
-                        Địa chỉ: {{this.DiaChi}}
-                    </div>
-                </div>
-            </div>
-
-        </div>
-        {{/each}}
-
-
     </div>
-</div>
-</div>
-<div class="d-flex justify-content-center my-4 container-pagination" style="margin-left: -100px;">
-    <div id="pagination"></div>
+    <div class="d-flex justify-content-center my-4 container-pagination" style="margin-left: -15px;">
+        <div id="pagination"></div>
+    </div>
 </div>

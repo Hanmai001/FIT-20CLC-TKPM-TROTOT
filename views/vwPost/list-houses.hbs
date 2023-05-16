@@ -7,6 +7,15 @@
 {{#section "js"}}
 <script src="../../public/assets/js/header_landlors.js"></script>
 <script>
+    $("#filter-select").change(function () {
+        let selectedVal = $("#filter-select option:selected").val();
+        if (selectedVal != "") {
+            const currentUrl = new URL(window.location.href);
+            currentUrl.searchParams.set('filter', selectedVal);
+            const updatedUrl = currentUrl.toString();
+            window.location.href = updatedUrl;
+        }
+    })
     var Pagination = {
 
         code: '',
@@ -18,7 +27,7 @@
         // converting initialize data
         Extend: function (data) {
             data = data || {};
-            Pagination.size = data.size || 300;
+            Pagination.size = data.size || 1;
             Pagination.page = data.page || 1;
             Pagination.step = data.step || 3;
         },
@@ -44,9 +53,12 @@
 
         // change page
         Click: function () {
-            // window.location.href = "http://localhost:3000/tenant/profile"
-            Pagination.page = +this.innerHTML;
-            Pagination.Start();
+            const currentUrl = new URL(window.location.href);
+            currentUrl.searchParams.set('page', this.innerHTML);
+            const updatedUrl = currentUrl.toString();
+            window.location.href = updatedUrl;
+            //Pagination.page = +this.innerHTML;
+            //Pagination.Start();
         },
 
         // previous page
@@ -55,7 +67,10 @@
             if (Pagination.page < 1) {
                 Pagination.page = 1;
             }
-            Pagination.Start();
+            const currentUrl = new URL(window.location.href);
+            currentUrl.searchParams.set('page', Pagination.page);
+            const updatedUrl = currentUrl.toString();
+            window.location.href = updatedUrl;
         },
 
         // next page
@@ -64,7 +79,11 @@
             if (Pagination.page > Pagination.size) {
                 Pagination.page = Pagination.size;
             }
-            Pagination.Start();
+            //Pagination.Start();
+            const currentUrl = new URL(window.location.href);
+            currentUrl.searchParams.set('page', Pagination.page);
+            const updatedUrl = currentUrl.toString();
+            window.location.href = updatedUrl;
         },
 
 
@@ -131,7 +150,6 @@
                 '<span></span>',  // pagination container
                 '<a>&#9658;</a>'  // next button
             ];
-
             e.innerHTML = html.join(''); //thêm html vào element e
             Pagination.e = e.getElementsByTagName('span')[0]; //Lấy a đtien
             Pagination.Buttons(e);
@@ -144,17 +162,15 @@
             Pagination.Start();
         }
     };
-
-
-
     /* * * * * * * * * * * * * * * * *
     * Initialization
     * * * * * * * * * * * * * * * * */
-
     var init = function () {
+        const pageSize = '{{pages}}';
+        const pageCurr = '{{page}}';
         Pagination.Init(document.getElementById('pagination'), {
-            size: 30, // pages size
-            page: 1,  // selected page
+            size: parseInt(pageSize), // pages size
+            page: parseInt(pageCurr),  // selected page
             step: 3   // pages before and after current
         });
     };

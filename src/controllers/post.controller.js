@@ -1,4 +1,4 @@
-import { addHouseModel, deleteLandlordHouseModel, getPostInfo, getAuthorInfo, getReviewInfo, getutilitiesInfo, getImageInfo, getAllPostInfo } from "../models/post.model";
+import { addHouseModel, deleteLandlordHouseModel, getPostInfo, getAuthorInfo, getReviewInfo, getutilitiesInfo, getImageInfo, getAllPostInfo, performFullTextSearch } from "../models/post.model";
 import { addPhotoModel, deletePhotoModel, findPhotoOfHouse, deletePhotosByArrayModel } from "../models/photo.model";
 import { addUtilityHouseModel, deleteUtilityModel, findUtilitiesOfHouse, findUtilityOfHouse, deleteOneUtilityModel } from "../models/utility.model";
 import { addVideoModel, deleteVideoModel, findVideoOfHouse, deleteVideosByArrayModel } from "../models/video.model";
@@ -77,6 +77,14 @@ const getListPage = async (req, res) => {
     //console.log(post);
     res.render("vwPost/list-houses", { post });
 }
+const getResultPage = async (req, res) => {
+    const keyword = req.query.q;
+    const results = await performFullTextSearch(keyword)
+    // console.log(res.locals.TienIchID)
+    // const image = await getImageInfo()
+
+    res.render('vwPost/search-results', { results: results });
+};
 const getDetailsPage = async (req, res) => {
     const postID = req.params.id;
     console.log(postID)
@@ -91,4 +99,4 @@ const getDetailsPage = async (req, res) => {
 
 
 
-export { addHouse, deleteLandlordHouse, updateHouse, getListPage, getDetailsPage }
+export { addHouse, deleteLandlordHouse, updateHouse, getListPage, getDetailsPage, getResultPage }

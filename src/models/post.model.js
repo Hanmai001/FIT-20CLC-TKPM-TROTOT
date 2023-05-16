@@ -187,6 +187,7 @@ const getAllPostInfo = async () => {
         .innerJoin('hinh_anh', 'hinhanh_tindangtro.HinhAnhID', 'hinh_anh.HinhAnhID')
         .innerJoin('nguoidung', 'post.NguoiDangTin', 'nguoidung.NguoiDungID')
         .groupBy('post.TinID', 'post.Ten', 'post.DiaChi', 'post.DienTich', 'post.Gia', 'post.NgayDang', 'nguoidung.HoTen', 'nguoidung.SDT');
+   // console.log(post)
     return post;
 
 }
@@ -219,6 +220,14 @@ const getImageInfo = async (postID) => {
         .where('hinhanh_tindangtro.TinID', '=', postID);
     return image;
 }
+const performFullTextSearch = async (keyword) => {
+    const results = await db('tindangtro')
+        .select('*')
+        .whereRaw(`MATCH(Ten) AGAINST(? IN BOOLEAN MODE)`, [keyword]);
+    return results;
+};
+
+
 
 export {
     addHouseModel,
@@ -238,5 +247,6 @@ export {
     getutilitiesInfo,
     getImageInfo,
     getAllPostInfo,
-    findAll, findByPage
+    findAll, findByPage,
+    performFullTextSearch
 }
