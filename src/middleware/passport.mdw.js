@@ -13,7 +13,7 @@ passport.use(new LocalStrategy(
     async function (TaiKhoan, MatKhau, done) {
         const user = await checkUserCredential(TaiKhoan, MatKhau);
         if (!user) {
-            return done(null, false, { message: "Sai thông tin tài khoản." });
+            return done(null, false, { message: "Sai tài khoản hoặc mật khẩu!!" });
         }
         return done(null, user);
     }

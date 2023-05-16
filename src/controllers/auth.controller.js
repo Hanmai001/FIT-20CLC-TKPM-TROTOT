@@ -61,11 +61,11 @@ const getRegisterPage = async (req, res) => {
 
 const checkPasswordValidity = (password) => {
     if (password.length < 6) {
-      return false;
+        return false;
     }
     return true;
-  }
-  
+}
+
 const checkRegister = async (req, res) => {
     const {
         username,
@@ -88,7 +88,7 @@ const checkRegister = async (req, res) => {
     // Kiểm tra tính hợp lệ của mật khẩu
     const checkPassword = checkPasswordValidity(password);
     if (!checkPassword) {
-        req.flash('error', 'Mật khẩu phải đủ 6 ký tự!');
+        req.flash('error', 'Mật khẩu phải đủ 6 ký tự và viết hoa chữ cái đầu!');
         return res.redirect('/account/register');
     }
     // Kiểm tra tài khoản đã tồn tại chưa
@@ -117,7 +117,8 @@ const checkRegister = async (req, res) => {
     const result = await addUser(
         username,
         email,
-        hashedPassword
+        hashedPassword,
+        "Người thuê trọ"
     );
     if (!result) {
         req.flash('error', 'Đã có lỗi xảy ra. Vui lòng thử lại sau!');
