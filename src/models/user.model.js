@@ -33,7 +33,7 @@ const addUser = async (username, email, password, type) => {
 
 const checkUserCredential = async (TaiKhoan, MatKhau, id) => {
   const user = await getUserByUsername(TaiKhoan);
-  console.log(user)
+  //console.log(user)
   if (!user) {
     return null;
   }

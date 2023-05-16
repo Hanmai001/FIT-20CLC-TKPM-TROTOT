@@ -2,6 +2,7 @@
 <link rel="stylesheet" type="text/css" href="../public/assets/css/landlord/header_landlord.css" />
 <link rel="stylesheet" type="text/css" href="../public/assets/css/fill_search.css">
 <link rel="stylesheet" type="text/css" href="../public/assets/css/home-page.css" />
+
 {{/section}}
 
 {{#section "js"}}
@@ -239,20 +240,21 @@
 {{/section}}
 
 {{#if user}}
-    {{#ifEqualString user.LoaiNguoiDung "Người chủ trọ"}}
-    {{>header_landlord}}
-    {{/ifEqualString}}
+{{#ifEqualString user.LoaiNguoiDung "Người chủ trọ"}}
+{{>header_landlord user=user}}
+{{/ifEqualString}}
 
-    {{#ifEqualString user.LoaiNguoiDung "Người thuê trọ"}}
-    {{>header_tenant}}
-    {{/ifEqualString}}
+{{#ifEqualString user.LoaiNguoiDung "Người thuê trọ"}}
+{{>header_tenant user=user}}
+{{/ifEqualString}}
 
-    {{#ifEqualString user.LoaiNguoiDung "Admin"}}
-    {{>header_admin}}
-    {{/ifEqualString}}
+{{#ifEqualString user.LoaiNguoiDung "Admin"}}
+{{>header_admin user=user}}
+{{/ifEqualString}}
 {{else}}
-{{>header_default}}
+{{>header_default user=user}}
 {{/if}}
+
 
 {{!-- fillter bar --}}
 {{>search_bar}}
@@ -262,11 +264,11 @@
     <div class="content">
         <div class="content__header mt-4 pb-3 border-bottom">
             <h5>PHÒNG TRỌ NỔI BẬT</h5>
-    
+
         </div>
         {{#each post}}
         <div class="item js-item" id="{{this.TinID}}">
-            
+
             <div class="row">
                 <div class="col-4 py-4">
                     <img src="{{this.Hinhanh}}" alt="" width="100%" height="200px">
@@ -276,7 +278,7 @@
                         <div class="item__name-name">
                             {{this.Ten}}
                         </div>
-                       
+
                     </div>
                     <div class="item__type mb-1 row">
                         <div class="col-6">
@@ -284,7 +286,7 @@
                             <span>Loại trọ: {{this.LoaiTro}}</span>
                         </div>
                         <div class="col-6 text-end">
-                           
+
                         </div>
                     </div>
                     <div class="item__area mb-1">
@@ -301,11 +303,11 @@
                     </div>
                 </div>
             </div>
-    
+
         </div>
         {{/each}}
-    
-    
+
+
     </div>
 </div>
 </div>

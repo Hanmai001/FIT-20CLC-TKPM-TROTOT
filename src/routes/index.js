@@ -22,7 +22,7 @@ export default function (app) {
   app.get('/', async (req, res, next) => {
     try {
       const post = await getAllPostInfo();
-      console.log(post)
+      //console.log(req.ú)
       for (let house of post) {
         let date = new Date(house.NgayDatHen);
         const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };

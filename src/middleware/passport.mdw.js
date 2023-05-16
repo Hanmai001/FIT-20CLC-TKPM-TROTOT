@@ -20,7 +20,7 @@ passport.use(new LocalStrategy(
 ));
 passport.serializeUser(function (user, done) {
     process.nextTick(function () {
-        done(null, { id: user.NguoiDungID, username: user.TaiKhoan, LoaiNguoiDung: user.LoaiNguoiDung });
+        done(null, { id: user.NguoiDungID, username: user.TaiKhoan, LoaiNguoiDung: user.LoaiNguoiDung, HoTen: user.HoTen, avatar: user.avatar });
     });
 });
 passport.deserializeUser(function (user, done) {
