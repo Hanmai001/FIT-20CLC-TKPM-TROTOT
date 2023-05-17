@@ -12,6 +12,8 @@ import {
     confirmAppointment,
     deleteAppointment,
     getEditHousePage,
+    checkCurrentPassword,
+    updatePassword
 } from '../controllers/landlord.controller';
 import { logout } from '../controllers/auth.controller';
 
@@ -38,6 +40,8 @@ initLandlordRoute.route("/edit-house/:id").get(getEditHousePage);
 initLandlordRoute.route("/profile/update/:id").post(upload.single('update-ava'), updateProfile);
 initLandlordRoute.route("/confirm-appointment/:id").patch(confirmAppointment);
 initLandlordRoute.route("/cancel-appointment/:id").patch(deleteAppointment);
+initLandlordRoute.route('/check-current-password').post(checkCurrentPassword);
+initLandlordRoute.route('/update-password').post(updatePassword);
 initLandlordRoute.route("/logout").get(logout);
 
 export default initLandlordRoute;

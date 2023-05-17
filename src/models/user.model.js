@@ -31,7 +31,7 @@ const addUser = async (username, email, password, type) => {
   }
 };
 
-const checkUserCredential = async (TaiKhoan, MatKhau, id) => {
+const checkUserCredential = async (TaiKhoan, MatKhau) => {
   const user = await getUserByUsername(TaiKhoan);
   //console.log(user)
   if (!user) {
@@ -44,7 +44,13 @@ const checkUserCredential = async (TaiKhoan, MatKhau, id) => {
     return null;
   }
 };
+const updatePasswordModel = async (idUser, newPass) => {
+  const hashedPassword = await bcrypt.hash(newPass, 10);
+  await db('nguoidung').where('NguoiDungID', '=', idUser).update({
+    MatKhau: hashedPassword
+  })
 
+}
 const findUserById = async (id) => {
   const user = await db('nguoidung').where('NguoiDungID', id).first();
   return user;
@@ -210,5 +216,6 @@ export {
   getInfoProfileLandlord,
   getInfoProfileTenant,
   updateProfileLandlordModel,
-  updateProfileTenantModel
+  updateProfileTenantModel,
+  updatePasswordModel
 }

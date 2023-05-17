@@ -11,7 +11,9 @@ import {
     getFavouriteListPage,
     addReport,
     deleteFavouritePost,
-    addFavouritePost
+    addFavouritePost,
+    checkCurrentPassword,
+    updatePassword
 
 } from '../controllers/tenant.controller';
 import { logout } from '../controllers/auth.controller';
@@ -42,6 +44,8 @@ initTenantRoute.route("/add-appointment/:id").post(addAppointment);
 initTenantRoute.route('/add-favourite').post(addFavouritePost);
 initTenantRoute.route('/add-report/:id').post(addReport);
 initTenantRoute.route('/delete-favourite/:id').delete(deleteFavouritePost);
+initTenantRoute.route('/check-current-password').post(checkCurrentPassword);
+initTenantRoute.route('/update-password').post(updatePassword);
 initTenantRoute.route("/logout").get(logout);
 
 export default initTenantRoute;

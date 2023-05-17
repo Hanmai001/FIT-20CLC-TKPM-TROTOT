@@ -120,6 +120,23 @@ const deleteAppointment = async (req, res) => {
     await cancelAppointmentModel(id);
     return res.redirect('/landlord/manage-appointment');
 }
+const checkCurrentPassword = async (req, res) => {
+    const password = req.body.password;
+    console.log(req.body)
+    const username = res.locals.user.username;
+    const user = await checkUserCredential(username, password);
+    console.log(user)
+    if (user)
+        return res.status(200).json({ ok: true });
+    req.flash('errorChangePass', 'Mật khẩu không đúng');
+    res.status(201).json({ ok: false });
+}
+const updatePassword = async (req, res) => {
+    const { newPass } = req.body;
+    const idUser = res.locals.user.id;
+    await updatePasswordModel(idUser, newPass);
+    res.redirect("/tenant/profile");
+}
 export {
     getPostHousePage,
     getHouseManagementPage,
@@ -130,4 +147,6 @@ export {
     confirmAppointment,
     deleteAppointment,
     getEditHousePage,
+    checkCurrentPassword,
+    updatePassword
 }

@@ -5,7 +5,7 @@ import {
 } from "../models/post.model";
 import { getFavouriteListOfTenant, getFavouriteListPageModel, addFavouritePostModel, deleteFavouritePostModel } from "../models/favourite_list.model";
 import { findPhotosOfHouse } from "../models/photo.model";
-import { getInfoProfileTenant, updateProfileTenantModel, getInfoProfileLandlord } from "../models/user.model";
+import { getInfoProfileTenant, updateProfileTenantModel, getInfoProfileLandlord, checkUserCredential, updatePasswordModel } from "../models/user.model";
 import { addAppointmentModel, cancelAppointmentModel } from "../models/appointment.model";
 import { addingReport } from "../models/report.model";
 
@@ -56,6 +56,23 @@ const getProfilePage = async (req, res) => {
 }
 const getChangePassPage = async (req, res) => {
     res.render("vwTenant/change-password")
+}
+const checkCurrentPassword = async (req, res) => {
+    const password = req.body.password;
+    console.log(req.body)
+    const username = res.locals.user.username;
+    const user = await checkUserCredential(username, password);
+    console.log(user)
+    if (user)
+        return res.status(200).json({ ok: true });
+    req.flash('errorChangePass', 'Mật khẩu không đúng');
+    res.status(201).json({ok: false});
+}
+const updatePassword = async (req, res) => {
+    const {newPass} = req.body;
+    const idUser = res.locals.user.id;
+    await updatePasswordModel(idUser, newPass);
+    res.redirect("/tenant/profile");
 }
 const updateProfile = async (req, res) => {
     const idUser = res.locals.user.id;
@@ -142,5 +159,7 @@ export {
     getFavouriteListPage,
     addReport,
     deleteFavouritePost,
-    addFavouritePost
+    addFavouritePost,
+    checkCurrentPassword,
+    updatePassword
 }
