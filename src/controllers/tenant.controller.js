@@ -3,14 +3,12 @@ import {
     getTenantHouseAppointmentListModel,
     getIDLandlordOfAHouseModel
 } from "../models/post.model";
-import { getFavouriteListOfTenant, getFavouriteListPageModel } from "../models/favourite_list.model";
+import { getFavouriteListOfTenant, getFavouriteListPageModel, addFavouritePostModel, deleteFavouritePostModel } from "../models/favourite_list.model";
 import { findPhotosOfHouse } from "../models/photo.model";
 import { getInfoProfileTenant, updateProfileTenantModel, getInfoProfileLandlord } from "../models/user.model";
 import { addAppointmentModel, cancelAppointmentModel } from "../models/appointment.model";
 import { addingReport } from "../models/report.model";
-const getTenantPage = async (req, res) => {
-    return res.render("vwTenant/tenant-profile")
-}
+
 const getManageAppointmentPage = async (req, res) => {
     let { page, filter } = req.query;
     const idUser = res.locals.user.id;
@@ -18,7 +16,7 @@ const getManageAppointmentPage = async (req, res) => {
     const { houses, pages } = await getAllHouseAppointmentTenant(idUser, filter);
 
     const result = await getTenantHouseAppointmentListModel(idUser, 5, (page - 1) * 5, filter);
-    console.log(filter, page, result)
+    //console.log(filter, page, result)
     for (let house of result) {
         const temp = await findPhotosOfHouse(house.TinID);
         house.photo = temp[0].ChiTietHinhAnh;
@@ -70,6 +68,7 @@ const updateProfile = async (req, res) => {
 }
 const deleteAppointment = async (req, res) => {
     const { id } = req.params;
+    console.log(id)
     await cancelAppointmentModel(id);
     return res.redirect('/tenant/manage-appointment');
 }
@@ -85,7 +84,7 @@ const addAppointment = async (req, res) => {
 }
 const addReport = async (req, res) => {
     const idUser = res.locals.user.id;
-    console.log(idUser)
+    //console.log(idUser)
     const idPost = req.params.id;
     await addingReport(idUser, idPost, req.body);
 
@@ -118,14 +117,30 @@ const getFavouriteListPage = async (req, res) => {
     }
     return res.render("vwTenant/favourite-list", { page: page ? parseInt(page) : 1, pages: parseInt(pages), houses: result })
 }
+
+const addFavouritePost = async (req, res) => {
+    const { idPost } = req.body;
+    console.log(req.body)
+    const idUser = res.locals.user.id;
+    await addFavouritePostModel(idPost, idUser);
+    res.redirect('/');
+}
+const deleteFavouritePost = async (req, res) => {
+    const idPost = req.params.id;
+    console.log(req.body)
+    const idUser = res.locals.user.id;
+    await deleteFavouritePostModel(idPost, idUser);
+    res.redirect('/');
+}
 export {
     getManageAppointmentPage,
     getProfilePage,
     getChangePassPage,
     updateProfile,
-    getTenantPage,
     deleteAppointment,
     addAppointment,
     getFavouriteListPage,
-    addReport
+    addReport,
+    deleteFavouritePost,
+    addFavouritePost
 }

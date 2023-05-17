@@ -7,6 +7,7 @@
 {{#section "js"}}
 <script src="../../public/assets/js/header_landlors.js"></script>
 <script>
+
     $("#filter-select").change(function () {
         let selectedVal = $("#filter-select option:selected").val();
         if (selectedVal != "") {
@@ -175,8 +176,6 @@
         });
     };
     document.addEventListener('DOMContentLoaded', init, false);
-</script>
-<script>
     // Lấy đối tượng các menu select và các giá trị mặc định
     var citySelect = document.getElementById("city-select");
     var districtSelect = document.getElementById("district-select");

@@ -187,7 +187,7 @@ const getAllPostInfo = async () => {
         .innerJoin('hinh_anh', 'hinhanh_tindangtro.HinhAnhID', 'hinh_anh.HinhAnhID')
         .innerJoin('nguoidung', 'post.NguoiDangTin', 'nguoidung.NguoiDungID')
         .groupBy('post.TinID', 'post.Ten', 'post.DiaChi', 'post.DienTich', 'post.Gia', 'post.NgayDang', 'nguoidung.HoTen', 'nguoidung.SDT');
-   // console.log(post)
+    // console.log(post)
     return post;
 
 }

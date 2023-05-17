@@ -6,7 +6,10 @@ const addFavouritePostModel = async (idPost, idUser) => {
         NguoiDungID: idUser
     })
 }
-
+const checkFavouritePostModel = async (idPost, idUser) => {
+    const res = await db('tindangtro_nguoithuetro').where('TinID', '=', idPost).andWhere('NguoiDungID', '=', idUser).select("*");
+    return res.length > 0;
+}
 const deleteFavouritePostModel = async (idPost, idUser) => {
     await db('tindangtro_nguoithuetro').where('TinID', '=', idPost).andWhere('NguoiDungID', '=', idUser).del();
 }
@@ -24,4 +27,4 @@ const getFavouriteListPageModel = async (idUser, limit, offset, filter) => {
     return result;
 }
 
-export { addFavouritePostModel, deleteFavouritePostModel, getFavouriteListOfTenant, getFavouriteListPageModel }
+export { addFavouritePostModel, deleteFavouritePostModel, getFavouriteListOfTenant, getFavouriteListPageModel, checkFavouritePostModel }

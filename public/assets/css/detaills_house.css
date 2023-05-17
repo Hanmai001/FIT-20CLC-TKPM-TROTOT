@@ -307,6 +307,10 @@ span.btn.favorite {
     cursor: pointer;
     transition: background-color 0.2s ease-in-out;
 }
+.like-btn a {
+    text-decoration: none;
+    color: #fff;
+}
 
 .report-btn {
     background-color: #f44336;
@@ -338,6 +342,10 @@ span.btn.favorite {
     cursor: pointer;
     border-radius: 10px;
     width: 100%;
+}
+.btn-booking a {
+    text-decoration: none;
+    color: #fff;
 }
 
 .btn-booking:hover {

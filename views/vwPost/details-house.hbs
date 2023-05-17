@@ -35,25 +35,28 @@
     const btnAddFavourite = document.getElementById("btn-add-favourite");
     btnConfCancel.addEventListener('click', closeConfirm);
     iconConfCancel.addEventListener('click', closeConfirm);
-    btnOpenForm.addEventListener('click', openConfirm);
-    btnAddFavourite.addEventListener('click', addPost);
+    if (btnOpenForm)
+        btnOpenForm.addEventListener('click', openConfirm);
+    if (btnAddFavourite)
+        btnAddFavourite.addEventListener('click', addPost);
 
     const btnReportForm = document.getElementById("btn-report-form");
     const reportForm = document.getElementById("report-form");
     const btnCancelReport = document.getElementById("cancel-report");
 
+    if (btnReportForm) {
+        btnReportForm.addEventListener("click", function () {
+            reportForm.style.display = "block";
+        });
 
-    btnReportForm.addEventListener("click", function () {
-
-        reportForm.style.display = "block";
-    });
+    }
 
     btnCancelReport.addEventListener("click", function () {
         reportForm.style.display = "none";
     });
 
     function addPost(e) {
-        e.preventDefault();
+        //e.preventDefault();
         fetch(`/tenant/add-favourite/`, {
             method: 'POST',
             headers: {
@@ -62,7 +65,7 @@
             body: JSON.stringify({ idPost })
         })
             .then((response) => {
-                divAddFavourite.innerHTML = '<button class="like-btn" onclick="delPost()">Xóa khỏi danh sách yêu thích</button>';
+                divAddFavourite.innerHTML = '<button id="btn-add-favourite" class="like-btn "><i class="fa-solid fa-heart" style = "color: #ffffff;" onClick="delPost()"></i > Xóa khỏi danh sách yêu thích</button > ';
                 // Handle the response from the server
                 console.log('Response:', response);
             })
@@ -80,7 +83,7 @@
 
         })
             .then((response) => {
-                divAddFavourite.innerHTML = '<button class="like-btn" onclick="addPost()">Thêm vào danh sách yêu thích</button>';
+                divAddFavourite.innerHTML = '<button id="btn-add-favourite" class="like-btn "><i class="fa-solid fa-heart" style = "color: #ffffff;" onClick="addPost()"></i > Yêu thích</button > ';
                 // Handle the response from the server
                 console.log('Response:', response);
             })
@@ -214,13 +217,19 @@
             <label for="violation-description">Mô tả chi tiết:</label>
             <textarea id="violation-description" name="description" required></textarea>
             <br>
-            <button type="submit">Gửi báo cáo</button>
+            {{#if user}}
+                <button type="submit">Gửi báo cáo</button>
+            {{else}}
+                <a href="/account/login">Gửi báo cáo</a>
+            {{/if}}
+            
             <button type="button" id="cancel-report" style="margin-left:10px; background-color: #002ffe">Hủy</button>
         </form>
     </div>
-    <div class="infor" style="background-color: white; padding: 10px 80px; box-shadow: 4px 2px 10px rgba(0, 0, 0, 0.2); ">
+    <div class="infor"
+        style="background-color: white; padding: 10px 80px; box-shadow: 4px 2px 10px rgba(0, 0, 0, 0.2); ">
         <p class="h4 ">Chi tiết tin đăng trọ </p>
-       
+
         <div class="row">
             <div class="col-9 picture">
                 {{!-- image --}}
@@ -248,13 +257,39 @@
 
                 </div>
                 <div>
-                    <button id="btn-open-form" class="btn-booking" style="font-weight:500; background-color:rgb(41, 187, 41)">Đặt lịch xem phòng</button>
+                    {{#if user}}
+                    <button id="btn-open-form" class="btn-booking"
+                        style="font-weight:500; background-color:rgb(41, 187, 41)">Đặt lịch xem phòng</button>
+
+                    {{else}}
+                    <button class="btn-booking" style="font-weight:500; background-color:rgb(41, 187, 41)">
+                        <a href="/account/login">Đặt lịch xem phòng</a>
+                    </button>
+                    {{/if}}
                     <div class="action-buttons">
-                        <button class="report-btn" id="btn-report-form" style="background-color:rgba(204, 50, 50, 0.795)">
+                        <button class="report-btn" id="btn-report-form"
+                            style="background-color:rgba(204, 50, 50, 0.795)">
                             <i class="fa-solid fa-flag" style="color: #ffffff;"></i> Báo cáo</button>
+
+                        </button>
+
+
                         <div id="add-favourite">
+
+                            {{#if user}}
                             <button id="btn-add-favourite" class="like-btn "><i class="fa-solid fa-heart"
-                                    style="color: #ffffff;"></i> Yêu thích</button>
+                                    style="color: #ffffff;"></i>
+                                {{#if checkFavourite}}
+                                Xóa khỏi danh sách yêu thích
+                                {{else}}
+                                Yêu thích
+                                {{/if}}
+                            </button>
+                            {{else}}
+                            <button class="like-btn "><i class="fa-solid fa-heart" style="color: #ffffff;"></i>
+                                <a href="/account/login"> Yêu thích</a>
+                            </button>
+                            {{/if}}
                         </div>
                     </div>
                 </div>

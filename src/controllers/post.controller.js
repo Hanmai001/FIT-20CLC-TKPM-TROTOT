@@ -2,6 +2,7 @@ import { addHouseModel, deleteLandlordHouseModel, getPostInfo, getAuthorInfo, ge
 import { addPhotoModel, deletePhotoModel, findPhotoOfHouse, deletePhotosByArrayModel } from "../models/photo.model";
 import { addUtilityHouseModel, deleteUtilityModel, findUtilitiesOfHouse, findUtilityOfHouse, deleteOneUtilityModel } from "../models/utility.model";
 import { addVideoModel, deleteVideoModel, findVideoOfHouse, deleteVideosByArrayModel } from "../models/video.model";
+import { checkFavouritePostModel } from "../models/favourite_list.model";
 
 const addHouse = async (req, res) => {
     const { utilities } = req.body;
@@ -87,6 +88,11 @@ const getResultPage = async (req, res) => {
 };
 const getDetailsPage = async (req, res) => {
     const postID = req.params.id;
+    let idUser, checkFavourite;
+    if (res.locals.user) {
+        idUser = res.locals.user.id;
+        checkFavourite = await checkFavouritePostModel(postID, idUser);
+    }   
     console.log(postID)
     const post = await getPostInfo(postID);
     const author = await getAuthorInfo(postID);
@@ -94,7 +100,7 @@ const getDetailsPage = async (req, res) => {
     const utilities = await getutilitiesInfo(postID);
     const image = await getImageInfo(postID);
     const relate = await getAllPostInfo();
-    res.render("vwPost/details-house", { post, author, review, utilities, image, relate: relate });
+    res.render("vwPost/details-house", { post, author, review, utilities, image, relate: relate, checkFavourite });
 };
 
 

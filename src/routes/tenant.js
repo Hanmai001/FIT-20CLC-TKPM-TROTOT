@@ -1,22 +1,23 @@
 import express from 'express';
-import { addFavouritePost, deleteFavouritePost } from '../controllers/favourite_list.controller';
 const initTenantRoute = express.Router();
 
 import {
     getManageAppointmentPage,
-    getProfilePage,
     getChangePassPage,
     updateProfile,
-    getTenantPage,
+    getProfilePage,
     deleteAppointment,
     addAppointment,
     getFavouriteListPage,
-    addReport
+    addReport,
+    deleteFavouritePost,
+    addFavouritePost
 
 } from '../controllers/tenant.controller';
 import { logout } from '../controllers/auth.controller';
 import multer from 'multer';
 import appRoot from 'app-root-path';
+import path from 'path';
 
 //Middleware
 const storage = multer.diskStorage({
@@ -42,6 +43,5 @@ initTenantRoute.route('/add-favourite').post(addFavouritePost);
 initTenantRoute.route('/add-report/:id').post(addReport);
 initTenantRoute.route('/delete-favourite/:id').delete(deleteFavouritePost);
 initTenantRoute.route("/logout").get(logout);
-initTenantRoute.route("/").get(getTenantPage);
 
 export default initTenantRoute;

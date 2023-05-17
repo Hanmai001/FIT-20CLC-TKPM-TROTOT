@@ -172,6 +172,7 @@
     const btnConfDel = document.getElementById("btn-confirm-del");
     const delBtns = document.getElementsByClassName("cancel-btn");
     const showBtns = document.getElementsByClassName("show-btn");
+    let id = '';
     for (let btn of delBtns) {
         btn.addEventListener('click', openConfirm);
     }
@@ -191,15 +192,19 @@
         })
     }
     function openConfirm(e) {
+        id = e.target.id;
+        console.log(id)
         let modal = document.querySelector(".modal-cancel-confirm");
         modal.style.display = 'flex';
     }
     function closeConfirm(e) {
+        id = '';
         let modal = document.querySelector(".modal-cancel-confirm");
         modal.style.display = 'none';
     }
     function delAppointment(e) {
         const idAppointment = id;
+        console.log(id)
         fetch(`/tenant/cancel-appointment/${idAppointment}`, {
             method: 'PATCH',
             headers: {
@@ -247,9 +252,13 @@
         {{#each houses}}
         <div class="item border-bottom js-item">
             <div class="modal">
-                <button class="show-btn"> 
-                    <a href="">Xem chi tiết</a></button>
-                <button class="cancel-btn">Hủy hẹn</button>
+                <button class="show-btn">
+                    <a href="/post/details/{{this.TinID}}">Xem chi tiết</a></button>
+                {{#ifNotEqualString this.TrangThaiLichHen "Đã hủy"}}
+                    <button id="{{this.DdhID}}" class="cancel-btn">Hủy hẹn</button>
+                {{else}}
+                {{/ifNotEqualString}}
+                
             </div>
             <div class="row">
                 <div class="col-2 py-4">
@@ -261,7 +270,7 @@
                             {{this.Ten}}
                         </div>
                         <div class="col-6 text-end text-danger item__name-last">
-                            {{this.TrangThaiKiemDuyet}}
+                            {{this.TrangThaiLichHen}}
                         </div>
                     </div>
                     <div class="item__type row">

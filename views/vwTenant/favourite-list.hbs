@@ -165,8 +165,28 @@
         });
     };
     document.addEventListener('DOMContentLoaded', init, false);
-
+    const btnDelPost = document.getElementsByClassName("del-btn");
     const items = document.getElementsByClassName("js-item");
+    for (let item of btnDelPost) {
+        item.addEventListener('click', function (e) {
+            fetch(`/tenant/delete-favourite/${e.target.id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+
+            })
+                .then((response) => {
+                    window.location.reload();
+                    // Handle the response from the server
+                    console.log('Response:', response);
+                })
+                .catch((error) => {
+                    // Handle any errors that occur
+                    console.error('Error:', error);
+                });
+        })
+    }
     for (let item of items) {
         item.addEventListener('mouseover', function (e) {
             let modal = item.querySelector(".modal");
@@ -194,7 +214,7 @@
             <div class="modal" id="favourite-btns">
                 <button class="show-btn">
                     <a href="/post/details/{{this.TinID}}">Xem chi tiết</a></button>
-                <button class="cancel-btn"><a href="/tenant/delete-favourite/{{this.TinID}}">Xóa</a></button>
+                <button id="{{this.TinID}}" class="del-btn">Xóa</button>
             </div>
             <div class="row">
                 <div class="col-2 py-4">
