@@ -82,7 +82,7 @@ const getListPage = async (req, res) => {
     const { post, pages } = await getAllPostInfo();
     //console.log(post);
     const result = await getPostListModel(8, (page - 1) * 8);
-    for (let house of post) {
+    for (let house of result.post) {
         let date = new Date(house.NgayDatHen);
         const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
         let vietnameseDate = date.toLocaleDateString('vi-VN', options);
@@ -111,7 +111,7 @@ const getResultPage = async (req, res) => {
     if (!page) page = 1;
     //console.log(post);
     const result = await performFullTextSearchModel(keyword, 8, (page - 1) * 8);
-    for (let house of results) {
+    for (let house of result.results) {
         let date = new Date(house.NgayDatHen);
         const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
         let vietnameseDate = date.toLocaleDateString('vi-VN', options);
@@ -141,7 +141,7 @@ const getDetailsPage = async (req, res) => {
         idUser = res.locals.user.id;
         checkFavourite = await checkFavouritePostModel(postID, idUser);
     }
-    console.log(postID)
+    //console.log(postID)
     const post = await getPostInfo(postID);
     const author = await getAuthorInfo(postID);
     const review = await getReviewInfo(postID);

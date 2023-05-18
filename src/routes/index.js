@@ -26,7 +26,7 @@ export default function (app) {
       //console.log(post)
       const result = await getPostListModel(5, (page - 1) * 5);
       //console.log(result)
-      for (let house of post) {
+      for (let house of result.post) {
         let date = new Date(house.NgayDatHen);
         const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
         let vietnameseDate = date.toLocaleDateString('vi-VN', options);
