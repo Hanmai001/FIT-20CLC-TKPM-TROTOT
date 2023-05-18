@@ -1,4 +1,7 @@
-import { addHouseModel, deleteLandlordHouseModel, getPostInfo, getAuthorInfo, getReviewInfo, getutilitiesInfo, getImageInfo, getAllPostInfo, performFullTextSearch } from "../models/post.model";
+import {
+    addHouseModel, deleteLandlordHouseModel, getPostInfo, getAuthorInfo, getReviewInfo, getutilitiesInfo,
+    getImageInfo, getAllPostInfo, performFullTextSearch, getPostListModel, performFullTextSearchModel
+} from "../models/post.model";
 import { addPhotoModel, deletePhotoModel, findPhotoOfHouse, deletePhotosByArrayModel } from "../models/photo.model";
 import { addUtilityHouseModel, deleteUtilityModel, findUtilitiesOfHouse, findUtilityOfHouse, deleteOneUtilityModel } from "../models/utility.model";
 import { addVideoModel, deleteVideoModel, findVideoOfHouse, deleteVideosByArrayModel } from "../models/video.model";
@@ -74,8 +77,11 @@ const deleteLandlordHouse = async (req, res) => {
 }
 
 const getListPage = async (req, res) => {
-    const post = await getAllPostInfo();
+    let { page } = req.query;
+    if (!page) page = 1;
+    const { post, pages } = await getAllPostInfo();
     //console.log(post);
+    const result = await getPostListModel(5, (page - 1) * 5);
     for (let house of post) {
         let date = new Date(house.NgayDatHen);
         const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
@@ -97,12 +103,15 @@ const getListPage = async (req, res) => {
         house.Hinhanh = house.Hinhanh.slice(3)
     }
 
-    res.render("vwPost/list-houses", { post });
+    res.render("vwPost/list-houses", { post: result.post });
 }
 const getResultPage = async (req, res) => {
     const keyword = req.query.q;
-    const results = await performFullTextSearch(keyword);
-    // console.log(results)
+    const { results, pages } = await performFullTextSearch(keyword);
+    let { page } = req.query;
+    if (!page) page = 1;
+    //console.log(post);
+    const result = await performFullTextSearchModel(keyword, 5, (page - 1) * 5);
     for (let house of results) {
         let date = new Date(house.NgayDatHen);
         const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
@@ -122,7 +131,7 @@ const getResultPage = async (req, res) => {
         result = str + result;
         house.Gia = result;
     }
-    res.render('vwPost/search-results', { results: results });
+    res.render('vwPost/search-results', { results: result.results, pages: Math.ceil(result.length / 5) });
 };
 
 

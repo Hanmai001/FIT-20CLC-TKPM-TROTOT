@@ -1,7 +1,7 @@
 <div class="container" style="margin-top: 10px;">
     <div class="d-flex align-items-center justify-content-center">
         <div class="col-md-11" style="margin-left: 4px;">
-            <form class="search-container" method="GET" action="">
+            <form class="search-container" method="GET" action="/post/search-results">
                 <div class="input-group">
                     <input class="form-control" type="text" placeholder="Search &#x1F50D;" aria-label="Tìm kiếm"
                         name="q">
@@ -19,17 +19,17 @@
                 </button>
                 <div class="cities me-2">
                     <select class="form-select" name="cities" id="city-select">
-                        <option value="" data-text="">--Chọn tỉnh/thành phố--</option>
+                        <option value="">--Chọn Tỉnh/TP--</option>
                     </select>
                 </div>
                 <div class="district me-2">
                     <select class="form-select" name="district" id="district-select">
-                        <option value="" data-text="">--Chọn quận/huyện--</option>
+                        <option value="">--Chọn Quận/Huyện--</option>
                     </select>
                 </div>
                 <div class="ward me-2">
                     <select class="form-select" name="ward" id="ward-select">
-                        <option value="" data-text="">--Chọn phường/xã--</option>
+                        <option value="">--Chọn Phường/Xã--</option>
                     </select>
                 </div>
                 <div class="prices me-2">
@@ -56,6 +56,29 @@
     </div>
 </div>
 <hr>
+<div class="d-flex align-items-center row justify-content-center">
+    <div class="container-fluid text-center d-flex justify-content-center">
+        <form class="filter-container d-flex" method="GET" action="">
+            <div style="display: flex; align-items: center;">
+                <div class="cities me-2">
+                    <button type="button" class="btn btn-secondary" id="Price">Giá</button>
+                </div>
+                <div class="cities me-2">
+                    <button type="button" class="btn btn-secondary" id="Area">Diện tích</button>
+                </div>
+                <div class="cities me-2">
+                    <button type="button" class="btn btn-secondary" id="Date">Ngày đăng</button>
+                </div>
+                <div class="cities me-2">
+                    <select class="form-select" name="sort" id="sort-select">
+                        <option value="" data-text="">Cao đến thấp &nbsp;</option>
+                        <option value="" data-text="">Thấp đến cao &nbsp;</option>
+                    </select>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
 
 <head>
     <style>

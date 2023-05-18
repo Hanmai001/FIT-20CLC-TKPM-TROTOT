@@ -187,9 +187,19 @@ const getAllPostInfo = async () => {
         .innerJoin('hinh_anh', 'hinhanh_tindangtro.HinhAnhID', 'hinh_anh.HinhAnhID')
         .innerJoin('nguoidung', 'post.NguoiDangTin', 'nguoidung.NguoiDungID')
         .groupBy('post.TinID', 'post.Ten', 'post.DiaChi', 'post.DienTich', 'post.Gia', 'post.NgayDang', 'nguoidung.HoTen', 'nguoidung.SDT');
-    // console.log(post)
-    return post;
-
+    return { post: post, pages: Math.ceil(post.length / 5) };
+}
+const getPostListModel = async (limit, offset) => {
+    const post = await db('tindangtro as post')
+        .limit(limit)
+        .offset(offset)
+        .select('post.TinID', 'post.Ten', 'post.DiaChi', 'post.DienTich', 'post.Gia', 'post.NgayDang', 'nguoidung.HoTen', 'nguoidung.SDT', 'post.SoNguoi', 'post.LoaiTro')
+        .select(db.raw('SUBSTRING_INDEX(GROUP_CONCAT(hinh_anh.ChiTietHinhAnh SEPARATOR ","), ",", 1) as Hinhanh'))
+        .innerJoin('hinhanh_tindangtro as hinhanh_tindangtro', 'post.TinID', 'hinhanh_tindangtro.TinID')
+        .innerJoin('hinh_anh', 'hinhanh_tindangtro.HinhAnhID', 'hinh_anh.HinhAnhID')
+        .innerJoin('nguoidung', 'post.NguoiDangTin', 'nguoidung.NguoiDungID')
+        .groupBy('post.TinID', 'post.Ten', 'post.DiaChi', 'post.DienTich', 'post.Gia', 'post.NgayDang', 'nguoidung.HoTen', 'nguoidung.SDT');
+    return { post: post, pages: Math.ceil(post.length / 5) };
 }
 const getAuthorInfo = async (postID) => {
     const author = await db('nguoidung')
@@ -228,7 +238,19 @@ const performFullTextSearch = async (keyword) => {
         .whereRaw(`MATCH(Ten) AGAINST(? IN BOOLEAN MODE)`, [keyword])
         .groupBy('tindangtro.TinID')
 
-    return results;
+    return { results: results, pages: Math.ceil(results.length / 5) };
+};
+const performFullTextSearchModel = async (keyword, limit, offset) => {
+    const results = await db('tindangtro')
+        .limit(limit)
+        .offset(offset)
+        .select('*')
+        .join('hinhanh_tindangtro', 'hinhanh_tindangtro.TinID', '=', 'tindangtro.TinID')
+        .join('hinh_anh', 'hinh_anh.HinhAnhID', '=', 'hinhanh_tindangtro.HinhAnhID')
+        .whereRaw(`MATCH(Ten) AGAINST(? IN BOOLEAN MODE)`, [keyword])
+        .groupBy('tindangtro.TinID')
+
+    return { results: results, pages: Math.ceil(results.length / 5) };
 };
 
 export {
@@ -250,5 +272,7 @@ export {
     getImageInfo,
     getAllPostInfo,
     findAll, findByPage,
-    performFullTextSearch
+    performFullTextSearch,
+    getPostListModel,
+    performFullTextSearchModel
 }

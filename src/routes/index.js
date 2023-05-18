@@ -5,7 +5,7 @@ import adminRoute from './admin.route';
 import apiRoute from './api';
 import authRoute from './authRoute';
 import { isLoggedCustomer, isLoggedAdmin, isLoggedLandlord, isLogged, logout } from '../controllers/auth.controller';
-import { getAllPostInfo } from '../models/post.model';
+import { getAllPostInfo, getPostListModel } from '../models/post.model';
 
 
 export default function (app) {
@@ -20,8 +20,12 @@ export default function (app) {
 
   app.get('/', async (req, res, next) => {
     try {
-      const post = await getAllPostInfo();
-      //console.log(req.ú)
+      let { page } = req.query;
+      if (!page) page = 1;
+      const { post, pages } = await getAllPostInfo();
+      //console.log(post)
+      const result = await getPostListModel(5, (page - 1) * 5);
+      //console.log(result)
       for (let house of post) {
         let date = new Date(house.NgayDatHen);
         const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
@@ -42,7 +46,8 @@ export default function (app) {
         house.Gia = result;
         house.Hinhanh = house.Hinhanh.slice(3)
       }
-      res.render('home', { post: post });
+
+      res.render('home', { page: page ? parseInt(page) : 1, pages: parseInt(pages), post: result.post });
     } catch (err) {
       next(err);
     }
