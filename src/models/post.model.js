@@ -223,11 +223,13 @@ const getImageInfo = async (postID) => {
 const performFullTextSearch = async (keyword) => {
     const results = await db('tindangtro')
         .select('*')
-        .whereRaw(`MATCH(Ten) AGAINST(? IN BOOLEAN MODE)`, [keyword]);
+        .join('hinhanh_tindangtro', 'hinhanh_tindangtro.TinID', '=', 'tindangtro.TinID')
+        .join('hinh_anh', 'hinh_anh.HinhAnhID', '=', 'hinhanh_tindangtro.HinhAnhID')
+        .whereRaw(`MATCH(Ten) AGAINST(? IN BOOLEAN MODE)`, [keyword])
+        .groupBy('tindangtro.TinID')
+
     return results;
 };
-
-
 
 export {
     addHouseModel,

@@ -80,19 +80,19 @@ const getListPage = async (req, res) => {
 }
 const getResultPage = async (req, res) => {
     const keyword = req.query.q;
-    const results = await performFullTextSearch(keyword)
-    // console.log(res.locals.TienIchID)
-    // const image = await getImageInfo()
-
+    const results = await performFullTextSearch(keyword);
+    // console.log(results)
     res.render('vwPost/search-results', { results: results });
 };
+
+
 const getDetailsPage = async (req, res) => {
     const postID = req.params.id;
     let idUser, checkFavourite;
     if (res.locals.user) {
         idUser = res.locals.user.id;
         checkFavourite = await checkFavouritePostModel(postID, idUser);
-    }   
+    }
     console.log(postID)
     const post = await getPostInfo(postID);
     const author = await getAuthorInfo(postID);
