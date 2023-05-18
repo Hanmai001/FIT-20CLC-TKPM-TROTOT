@@ -1,6 +1,6 @@
 import {
     addHouseModel, deleteLandlordHouseModel, getPostInfo, getAuthorInfo, getReviewInfo, getutilitiesInfo,
-    getImageInfo, getAllPostInfo, performFullTextSearch, getPostListModel, performFullTextSearchModel, getRelatePostInfo
+    getImageInfo, getAllPostInfo, performFullTextSearch, performFullTextSearchModel, getRelatePostInfo, sortPosts
 } from "../models/post.model";
 import { addPhotoModel, deletePhotoModel, findPhotoOfHouse, deletePhotosByArrayModel } from "../models/photo.model";
 import { addUtilityHouseModel, deleteUtilityModel, findUtilitiesOfHouse, findUtilityOfHouse, deleteOneUtilityModel } from "../models/utility.model";
@@ -77,21 +77,29 @@ const deleteLandlordHouse = async (req, res) => {
 }
 
 const getListPage = async (req, res) => {
-    let { page } = req.query;
+    let { page, sortBy, sortOrder } = req.query;
     if (!page) page = 1;
+
     const { post, pages } = await getAllPostInfo();
-    //console.log(post);
-    const result = await getPostListModel(8, (page - 1) * 8);
-    for (let house of result.post) {
+
+    sortPosts(post, sortBy, sortOrder);
+
+    const perPage = 8;
+    const startIdx = (page - 1) * perPage;
+    const paginatedPosts = post.slice(startIdx, startIdx + perPage);
+
+    for (let house of paginatedPosts) {
         let date = new Date(house.NgayDatHen);
         const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
         let vietnameseDate = date.toLocaleDateString('vi-VN', options);
         let vietnameseTime = date.toLocaleTimeString('vi-VN');
         house.NgayDatHen = vietnameseDate + ' ' + vietnameseTime;
+
         date = new Date(house.NgayGap);
         vietnameseDate = date.toLocaleDateString('vi-VN', options);
         vietnameseTime = date.toLocaleTimeString('vi-VN');
         house.NgayGap = vietnameseDate + ' ' + vietnameseTime;
+
         let str = house.Gia.toString();
         let result = '';
         while (str.length > 3) {
@@ -100,10 +108,16 @@ const getListPage = async (req, res) => {
         }
         result = str + result;
         house.Gia = result;
-        house.Hinhanh = house.Hinhanh.slice(3)
+
+        house.Hinhanh = house.Hinhanh.slice(3);
     }
-    res.render("vwPost/list-houses", { post: result.post, page: page ? parseInt(page) : 1, pages: parseInt(pages) });
-}
+
+    res.render('vwPost/list-houses', {
+        page: parseInt(page),
+        pages: Math.ceil(post.length / perPage),
+        post: paginatedPosts
+    });
+};
 const getResultPage = async (req, res) => {
     const keyword = req.query.q;
     const { results, pages } = await performFullTextSearch(keyword);
@@ -112,7 +126,7 @@ const getResultPage = async (req, res) => {
     //console.log(post);
     const result = await performFullTextSearchModel(keyword, 8, (page - 1) * 8);
     for (let house of result.results) {
-        let date = new Date(house.NgayDatHen);
+        let date = new Date(house.NgayDatHen);  
         const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
         let vietnameseDate = date.toLocaleDateString('vi-VN', options);
         let vietnameseTime = date.toLocaleTimeString('vi-VN');

@@ -196,20 +196,9 @@ const getRelatePostInfo = async () => {
         .innerJoin('hinhanh_tindangtro as hinhanh_tindangtro', 'post.TinID', 'hinhanh_tindangtro.TinID')
         .innerJoin('hinh_anh', 'hinhanh_tindangtro.HinhAnhID', 'hinh_anh.HinhAnhID')
         .innerJoin('nguoidung', 'post.NguoiDangTin', 'nguoidung.NguoiDungID')
-        .groupBy('post.TinID', 'post.Ten', 'post.DiaChi', 'post.DienTich', 'post.Gia', 'post.NgayDang', 'nguoidung.HoTen', 'nguoidung.SDT');
+        .groupBy('post.TinID', 'post.Ten', 'post.DiaChi', 'post.DienTich', 'post.Gia', 'post.NgayDang', 'nguoidung.HoTen', 'nguoidung.SDT')
+        .orderByRaw('RAND()');
     return post;
-}
-const getPostListModel = async (limit, offset) => {
-    const post = await db('tindangtro as post')
-        .limit(limit)
-        .offset(offset)
-        .select('post.TinID', 'post.Ten', 'post.DiaChi', 'post.DienTich', 'post.Gia', 'post.NgayDang', 'nguoidung.HoTen', 'nguoidung.SDT', 'post.SoNguoi', 'post.LoaiTro')
-        .select(db.raw('SUBSTRING_INDEX(GROUP_CONCAT(hinh_anh.ChiTietHinhAnh SEPARATOR ","), ",", 1) as Hinhanh'))
-        .innerJoin('hinhanh_tindangtro as hinhanh_tindangtro', 'post.TinID', 'hinhanh_tindangtro.TinID')
-        .innerJoin('hinh_anh', 'hinhanh_tindangtro.HinhAnhID', 'hinh_anh.HinhAnhID')
-        .innerJoin('nguoidung', 'post.NguoiDangTin', 'nguoidung.NguoiDungID')
-        .groupBy('post.TinID', 'post.Ten', 'post.DiaChi', 'post.DienTich', 'post.Gia', 'post.NgayDang', 'nguoidung.HoTen', 'nguoidung.SDT');
-    return { post: post, pages: Math.ceil(post.length / 8) };
 }
 const getAuthorInfo = async (postID) => {
     const author = await db('nguoidung')
@@ -262,7 +251,36 @@ const performFullTextSearchModel = async (keyword, limit, offset) => {
 
     return { results: results, pages: Math.ceil(results.length / 8) };
 };
-
+//sorting
+// Hàm sắp xếp bài đăng
+const sortPosts = async (posts, sortBy, sortOrder) => {
+    if (sortBy === 'price') {
+        posts.sort((a, b) => {
+            if (sortOrder === 'up') {
+                return a.Gia - b.Gia;
+            } else {
+                return b.Gia - a.Gia;
+            }
+        });
+    } else if (sortBy === 'area') {
+        posts.sort((a, b) => {
+            if (sortOrder === 'up') {
+                return a.DienTich - b.DienTich;
+            } else {
+                return b.DienTich - a.DienTich;
+            }
+        });
+    } else if (sortBy === 'date') {
+        posts.sort((a, b) => {
+            if (sortOrder === 'up') {
+                return new Date(a.NgayDang) - new Date(b.NgayDang);
+            } else {
+                return new Date(b.NgayDang) - new Date(a.NgayDang);
+            }
+        });
+    }
+}
+//
 export {
     addHouseModel,
     getAllHousesOfLandlord,
@@ -283,7 +301,7 @@ export {
     getAllPostInfo,
     findAll, findByPage,
     performFullTextSearch,
-    getPostListModel,
     performFullTextSearchModel,
-    getRelatePostInfo
+    getRelatePostInfo,
+    sortPosts
 }

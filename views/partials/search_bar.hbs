@@ -8,6 +8,7 @@
                     <button class="btn btn-primary" type="submit">Tìm kiếm</button>
                 </div>
             </form>
+
         </div>
     </div>
     <div class="d-flex align-items-center row justify-content-center" style="">
@@ -51,7 +52,6 @@
                     </select>
                 </div>
             </form>
-
         </div>
     </div>
 </div>
@@ -59,20 +59,14 @@
 <div class="d-flex align-items-center row justify-content-center">
     <div class="container-fluid text-center d-flex justify-content-center">
         <form class="filter-container d-flex" method="GET" action="">
-            <div style="display: flex; align-items: center;">
-                <div class="cities me-2">
-                    <button type="button" class="btn btn-secondary" id="Price">Giá</button>
-                </div>
-                <div class="cities me-2">
-                    <button type="button" class="btn btn-secondary" id="Area">Diện tích</button>
-                </div>
-                <div class="cities me-2">
-                    <button type="button" class="btn btn-secondary" id="Date">Ngày đăng</button>
-                </div>
-                <div class="cities me-2">
-                    <select class="form-select" name="sort" id="sort-select">
-                        <option value="" data-text="">Cao đến thấp &nbsp;</option>
-                        <option value="" data-text="">Thấp đến cao &nbsp;</option>
+            <div class="p-3">
+                <div class="d-inline-block">
+                    <button type="submit" name="sortBy" value="price">Giá</button>
+                    <button type="submit" name="sortBy" value="area">Diện tích</button>
+                    <button type="submit" name="sortBy" value="date">Ngày đăng</button>
+                    <select name="sortOrder">
+                        <option value="up">Thấp đến cao</option>
+                        <option value="down">Cao đến thấp</option>
                     </select>
                 </div>
             </div>
