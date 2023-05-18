@@ -81,7 +81,7 @@ const getListPage = async (req, res) => {
     if (!page) page = 1;
     const { post, pages } = await getAllPostInfo();
     //console.log(post);
-    const result = await getPostListModel(5, (page - 1) * 5);
+    const result = await getPostListModel(8, (page - 1) * 8);
     for (let house of post) {
         let date = new Date(house.NgayDatHen);
         const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
@@ -102,8 +102,7 @@ const getListPage = async (req, res) => {
         house.Gia = result;
         house.Hinhanh = house.Hinhanh.slice(3)
     }
-
-    res.render("vwPost/list-houses", { post: result.post });
+    res.render("vwPost/list-houses", { post: result.post, page: page ? parseInt(page) : 1, pages: parseInt(pages) });
 }
 const getResultPage = async (req, res) => {
     const keyword = req.query.q;
@@ -111,7 +110,7 @@ const getResultPage = async (req, res) => {
     let { page } = req.query;
     if (!page) page = 1;
     //console.log(post);
-    const result = await performFullTextSearchModel(keyword, 5, (page - 1) * 5);
+    const result = await performFullTextSearchModel(keyword, 8, (page - 1) * 8);
     for (let house of results) {
         let date = new Date(house.NgayDatHen);
         const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
@@ -131,7 +130,7 @@ const getResultPage = async (req, res) => {
         result = str + result;
         house.Gia = result;
     }
-    res.render('vwPost/search-results', { results: result.results, pages: Math.ceil(result.length / 5) });
+    res.render('vwPost/search-results', { results: result.results, page: page ? parseInt(page) : 1, pages: parseInt(pages) });
 };
 
 

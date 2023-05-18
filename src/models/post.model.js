@@ -209,7 +209,7 @@ const getPostListModel = async (limit, offset) => {
         .innerJoin('hinh_anh', 'hinhanh_tindangtro.HinhAnhID', 'hinh_anh.HinhAnhID')
         .innerJoin('nguoidung', 'post.NguoiDangTin', 'nguoidung.NguoiDungID')
         .groupBy('post.TinID', 'post.Ten', 'post.DiaChi', 'post.DienTich', 'post.Gia', 'post.NgayDang', 'nguoidung.HoTen', 'nguoidung.SDT');
-    return { post: post, pages: Math.ceil(post.length / 5) };
+    return { post: post, pages: Math.ceil(post.length / 8) };
 }
 const getAuthorInfo = async (postID) => {
     const author = await db('nguoidung')
@@ -248,7 +248,7 @@ const performFullTextSearch = async (keyword) => {
         .whereRaw(`MATCH(Ten) AGAINST(? IN BOOLEAN MODE)`, [keyword])
         .groupBy('tindangtro.TinID')
 
-    return { results: results, pages: Math.ceil(results.length / 5) };
+    return { results: results, pages: Math.ceil(results.length / 8) };
 };
 const performFullTextSearchModel = async (keyword, limit, offset) => {
     const results = await db('tindangtro')
@@ -260,7 +260,7 @@ const performFullTextSearchModel = async (keyword, limit, offset) => {
         .whereRaw(`MATCH(Ten) AGAINST(? IN BOOLEAN MODE)`, [keyword])
         .groupBy('tindangtro.TinID')
 
-    return { results: results, pages: Math.ceil(results.length / 5) };
+    return { results: results, pages: Math.ceil(results.length / 8) };
 };
 
 export {
