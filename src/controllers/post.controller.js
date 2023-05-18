@@ -1,6 +1,6 @@
 import {
     addHouseModel, deleteLandlordHouseModel, getPostInfo, getAuthorInfo, getReviewInfo, getutilitiesInfo,
-    getImageInfo, getAllPostInfo, performFullTextSearch, getPostListModel, performFullTextSearchModel
+    getImageInfo, getAllPostInfo, performFullTextSearch, getPostListModel, performFullTextSearchModel, getRelatePostInfo
 } from "../models/post.model";
 import { addPhotoModel, deletePhotoModel, findPhotoOfHouse, deletePhotosByArrayModel } from "../models/photo.model";
 import { addUtilityHouseModel, deleteUtilityModel, findUtilitiesOfHouse, findUtilityOfHouse, deleteOneUtilityModel } from "../models/utility.model";
@@ -148,7 +148,7 @@ const getDetailsPage = async (req, res) => {
     const review = await getReviewInfo(postID);
     const utilities = await getutilitiesInfo(postID);
     const image = await getImageInfo(postID);
-    const relate = await getAllPostInfo();
+    const relate = await getRelatePostInfo();
     for (let house of relate) {
         let date = new Date(house.NgayDatHen);
         const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
