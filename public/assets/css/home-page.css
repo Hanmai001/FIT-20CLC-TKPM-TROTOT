@@ -81,12 +81,12 @@
 }
 
 
-.content {
-    
-}
+.content {}
 
 h5 {
+    margin-top: -20px;
     color: #002ffe;
+    font-size: 30px;
 }
 
 .content__header-filter {
@@ -116,23 +116,27 @@ h5 {
 /* CARD PROFILE */
 .item {
     position: relative;
-    cursor: pointer; 
+    cursor: pointer;
     padding: 0 10px;
 }
+
 .item:hover {
     background-color: rgba(249, 246, 246, 0.555);
 }
+
 .item .item__price {
     color: #002ffe;
 }
 
 .item .item__name .item__name-last {
     font-weight: 400;
-    
+
 }
+
 .item .item__name-name {
     font-size: 20px;
 }
+
 .item .item__type,
 .item .item__area {
     font-size: 14px;
