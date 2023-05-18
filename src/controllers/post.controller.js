@@ -76,12 +76,52 @@ const deleteLandlordHouse = async (req, res) => {
 const getListPage = async (req, res) => {
     const post = await getAllPostInfo();
     //console.log(post);
+    for (let house of post) {
+        let date = new Date(house.NgayDatHen);
+        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        let vietnameseDate = date.toLocaleDateString('vi-VN', options);
+        let vietnameseTime = date.toLocaleTimeString('vi-VN');
+        house.NgayDatHen = vietnameseDate + ' ' + vietnameseTime;
+        date = new Date(house.NgayGap);
+        vietnameseDate = date.toLocaleDateString('vi-VN', options);
+        vietnameseTime = date.toLocaleTimeString('vi-VN');
+        house.NgayGap = vietnameseDate + ' ' + vietnameseTime;
+        let str = house.Gia.toString();
+        let result = '';
+        while (str.length > 3) {
+            result = '.' + str.slice(-3) + result;
+            str = str.slice(0, -3);
+        }
+        result = str + result;
+        house.Gia = result;
+        house.Hinhanh = house.Hinhanh.slice(3)
+    }
+
     res.render("vwPost/list-houses", { post });
 }
 const getResultPage = async (req, res) => {
     const keyword = req.query.q;
     const results = await performFullTextSearch(keyword);
     // console.log(results)
+    for (let house of results) {
+        let date = new Date(house.NgayDatHen);
+        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        let vietnameseDate = date.toLocaleDateString('vi-VN', options);
+        let vietnameseTime = date.toLocaleTimeString('vi-VN');
+        house.NgayDatHen = vietnameseDate + ' ' + vietnameseTime;
+        date = new Date(house.NgayGap);
+        vietnameseDate = date.toLocaleDateString('vi-VN', options);
+        vietnameseTime = date.toLocaleTimeString('vi-VN');
+        house.NgayGap = vietnameseDate + ' ' + vietnameseTime;
+        let str = house.Gia.toString();
+        let result = '';
+        while (str.length > 3) {
+            result = '.' + str.slice(-3) + result;
+            str = str.slice(0, -3);
+        }
+        result = str + result;
+        house.Gia = result;
+    }
     res.render('vwPost/search-results', { results: results });
 };
 
@@ -100,6 +140,25 @@ const getDetailsPage = async (req, res) => {
     const utilities = await getutilitiesInfo(postID);
     const image = await getImageInfo(postID);
     const relate = await getAllPostInfo();
+    for (let house of relate) {
+        let date = new Date(house.NgayDatHen);
+        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        let vietnameseDate = date.toLocaleDateString('vi-VN', options);
+        let vietnameseTime = date.toLocaleTimeString('vi-VN');
+        house.NgayDatHen = vietnameseDate + ' ' + vietnameseTime;
+        date = new Date(house.NgayGap);
+        vietnameseDate = date.toLocaleDateString('vi-VN', options);
+        vietnameseTime = date.toLocaleTimeString('vi-VN');
+        house.NgayGap = vietnameseDate + ' ' + vietnameseTime;
+        let str = house.Gia.toString();
+        let result = '';
+        while (str.length > 3) {
+            result = '.' + str.slice(-3) + result;
+            str = str.slice(0, -3);
+        }
+        result = str + result;
+        house.Gia = result;
+    }
     res.render("vwPost/details-house", { post, author, review, utilities, image, relate: relate, checkFavourite });
 };
 
