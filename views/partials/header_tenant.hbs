@@ -15,11 +15,11 @@
             <ul class="text-white ms-2 nav-profile">
                 <li class="js-option-profile" onmouseover="hoverAva()">
                     <div class="text-center">
-                        <img src="{{user.avatar}}" alt="">
+                        <img src="{{user.avatar}}" alt=""
+                            onerror="this.src='https://cdn-icons-png.flaticon.com/512/1946/1946429.png'">
                     </div>
-
                     <div>
-                        {{user.HoTen}}
+                        {{extractName user.HoTen}}
                         <i class="fas fa-sort-down"></i>
                     </div>
 
