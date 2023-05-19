@@ -10,21 +10,12 @@
 {{#section "js"}}
 <script src="https://cdn.jsdelivr.net/gh/bbbootstrap/libraries@main/choices.min.js"></script>
 <script>
-
     let imagesArray = [];
-    let photos = '{{photos}}';
-    let videos = '{{videos}}';
-    photos = JSON.parse(photos.replace(/&quot;/g, '"'));
-    videos = JSON.parse(videos.replace(/&quot;/g, '"'));
-
-    const form = document.getElementById('form');
     const fileUploader = document.getElementById('house-file');
     const reader = new FileReader();
     const outputFiles = document.querySelector('.content__files')
     const imageGrid = document.getElementById('profile-ava');
     const citySelect = document.getElementById('city-select');
-    const typeSelect = document.getElementById('type-select');
-    const statusSelect = document.getElementById('status-select');
     const districtSelect = document.getElementById('district-select');
     const wardSelect = document.getElementById('ward-select');
     const detailAddress = document.getElementById('detailed-address');
@@ -36,34 +27,13 @@
     const utilitySelect = document.getElementById('utility-select');
     const water = document.getElementById('water');
     const electricity = document.getElementById('electricity');
+    const userID = document.getElementById('user-id');
 
     $(document).ready(function () {
-        const dt = new DataTransfer();
-        Promise.all([
-            Promise.all(photos.map(async function (item) {
-                const url = item.ChiTietHinhAnh;
-                const file = await getFileFromUrl(url, url.substring(url.lastIndexOf('/') + 1));
-                file.HinhAnhID = item.HinhAnhID;
-                imagesArray.push(file);
-                dt.items.add(file);
-            })),
-            Promise.all(videos.map(async function (item) {
-                const url = item.ChiTietVideo;
-                const file = await getFileFromUrl(url, url.substring(url.lastIndexOf('/') + 1));
-                file.VideoID = item.VideoID;
-                imagesArray.push(file);
-                dt.items.add(file);
-            }))
-        ]).then(() => {
-            fileUploader.files = dt.files;
-            displayImages();
-        });
-
         let utilitySelect = new Choices('#utility-select', {
             removeItemButton: true,
             maxItemCount: 20,
             searchResultLimit: 5,
-            renderSelectedChoices: true, // enable rendering of selected choices
         });
         $.ajax({
             url: "http://localhost:3000/api/utilities",
@@ -71,59 +41,37 @@
             dateType: "json",
 
             success: function (result) {
-                const utilities = "{{utilities}}"
-
-                const videos = "{{videos}}";
-                //console.log(utilities)
                 $.each(result, function (key, value) {
                     //utilitySelect.setChoiceByValue(value);
                     utilitySelect.setChoices([{ value: value.TienIchID, label: value.Ten }], "value", "label", false);
                 });
-                let choices = utilitySelect._currentState.choices;
-                choices.forEach(function (choice) {
-                    if (utilities.includes(choice.value)) {
-                        utilitySelect.setChoiceByValue(choice.value);
-                    }
-                });
-
             }
         });
+        $.ajax({
+            url: "http://localhost:3000/api/users",
+            type: "get",
+            dateType: "json",
+
+            success: function (result) {
+                $.each(result, function (key, value) {
+                    let item = $(`<option value='${value.NguoiDungID}'>${value.NguoiDungID} - ${value.HoTen}</option>`);
+                    $("#user-id").append(item);
+                });
+            }
+        });
+
         $.ajax({
             url: "https://provinces.open-api.vn/api/p",
             type: "get",
             dateType: "json",
 
             success: function (result) {
+                console.log(result)
                 $.each(result, function (key, value) {
                     const valueName = value.name;
-                    const curAddress = `{{house.ThanhPho}}`;
                     let item = $(`<option key='${value.code}' value='${valueName}'>${valueName}</option>`);
-                    if (valueName === curAddress) {
-                        item.attr('selected', 'selected');
-                        $("#city-select").append(item).trigger('change');
-                    }
-                    else
-                        $("#city-select").append(item);
-
+                    $("#city-select").append(item);
                 });
-            }
-        });
-
-
-        const typeSelected = "{{house.LoaiTro}}";
-        $("#type-select option").each(function () {
-            if ($(this).val() === typeSelected) {
-                $(this).attr("selected", true);
-                $("#type-select").trigger('change');
-                return false;
-            }
-        });
-        const statusSelected = "{{house.TrangThaiPhong}}";
-        $("#status-select option").each(function () {
-            if ($(this).val() === statusSelected) {
-                $(this).attr("selected", true);
-                $("#status-select").trigger('change');
-                return false;
             }
         });
     });
@@ -145,17 +93,12 @@
                 type: "get",
                 dateType: "json",
                 success: function (result) {
+                    console.log(result)
                     $.each(result, function (key, value) {
                         if (value.province_code == selectedVal) {
                             const valueName = value.name;
-                            const curAddress = "{{house.Quan}}";
                             item = $(`<option key='${value.code}' value='${valueName}'>${valueName}</option>`);
-                            if (valueName === curAddress) {
-                                item.attr('selected', 'selected');
-                                $("#district-select").append(item).trigger('change');
-                            }
-                            else
-                                $("#district-select").append(item);
+                            $("#district-select").append(item);
                         }
                     });
                 }
@@ -178,17 +121,12 @@
                 type: "get",
                 dateType: "json",
                 success: function (result) {
+                    console.log(result)
                     $.each(result, function (key, value) {
                         if (value.district_code == selectedVal) {
                             const valueName = value.name;
-                            const curAddress = "{{house.Phuong}}"
                             item = $(`<option key='${value.code}' value='${valueName}'>${valueName}</option>`);
-                            if (valueName === curAddress) {
-                                item.attr('selected', 'selected');
-                                $("#ward-select").append(item).trigger('change');
-                            }
-                            else
-                                $("#ward-select").append(item);
+                            $("#ward-select").append(item);
                         }
                     });
                 }
@@ -224,20 +162,6 @@
             $('#note7').hide()
 
         }
-        
-        
-    })
-    
-    utilitySelect.addEventListener('change', function(event) {
-        const options = utilitySelect.options;
-        const unselectedOptions = [];
-        for (let i = 0; i < options.length; i++) {
-            if (!options[i].selected) {
-                
-                unselectedOptions.push(options[i].value);
-            }
-        }
-        console.log(unselectedOptions)
     })
     function dropHandler(event) {
         event.preventDefault();
@@ -289,6 +213,18 @@
         }
         else {
             let note = document.getElementById('description-note');
+            note.style.display = 'none';
+        }
+    })
+    title.addEventListener('change', function (event) {
+        const val = title.value;
+
+        if (val == "") {
+            let note = document.getElementById('title-note');
+            note.style.display = 'block';
+        }
+        else {
+            let note = document.getElementById('title-note');
             note.style.display = 'none';
         }
     })
@@ -355,6 +291,8 @@
         console.log(event.target.files)
         const files = event.target.files;
         const dt = new DataTransfer();
+
+        console.log(files)
         if (imagesArray.length >= 10) {
             alert("Bạn chỉ có thể tải tối đa 10 files:(");
         }
@@ -374,11 +312,9 @@
 
     });
     function displayImages() {
-        let images = "";
-        console.log("display files")
+        let images = ""
         imagesArray.forEach((file, index) => {
             const fileType = file.type;
-            console.log(file)
             if (fileType.startsWith('image/')) {
                 images += `<div class="image">
                 <img src="${URL.createObjectURL(file)}" alt="image">
@@ -392,71 +328,27 @@
             }
 
         })
-        outputFiles.innerHTML = images;
+        outputFiles.innerHTML = images
     }
     function deleteImage(index) {
-        if (imagesArray.length < 2) {
-            alert("Tin đăng phải có ít nhất một hình bạn nhé");
-            return;
-        }
-        const temp = imagesArray[index];
-        let idFile;
-        if (temp.HinhAnhID) idFile = temp.HinhAnhID;
-        else if (temp.VideoID) idFile = temp.VideoID;
-        if (temp.HinhAnhID) {
-            const input = document.createElement('input');
-            input.setAttribute('type', 'hidden');
-            input.setAttribute('name', 'deletedPhotos');
-            input.setAttribute('value', idFile);
-            form.appendChild(input);
-        }
-        else if (temp.VideoID) {
-            const input = document.createElement('input');
-            input.setAttribute('type', 'hidden');
-            input.setAttribute('name', 'deletedVideos');
-            input.setAttribute('value', idFile);
-            form.appendChild(input);
-        }
         imagesArray.splice(index, 1);
         const files = fileUploader.files;
         const dt = new DataTransfer();
 
-        //console.log(files)
+        console.log(files)
         if (imagesArray.length >= 10) {
             alert("Bạn chỉ có thể tải tối đa 10 files:(");
         }
         else {
             for (let i = 0; i < imagesArray.length; i++) {
                 const file = imagesArray[i]
-                
                 dt.items.add(file) // here you exclude the file. thus removing it.
             }
             fileUploader.files = dt.files;
-            console.log(fileUploader.files);
+            console.log(fileUploader.files)
             displayImages()
         }
     }
-    function deleteExistedFile(id, type) {
-        if (type === 1) {
-            if (!selectedPhotos.includes(id)) {
-                selectedPhotos.push(id);
-            }
-        }
-        else {
-            if (!selectedVideos.includes(id)) {
-                selectedVideos.push(id);
-            }
-        }
-        displayImages();
-    }
-    async function getFileFromUrl(url, name, defaultType = 'image/jpeg') {
-        const response = await fetch(url);
-        const data = await response.blob();
-        return new File([data], name, {
-            type: data.type || defaultType,
-        });
-    }
-
 </script>
 {{/section}}
 
@@ -510,54 +402,43 @@
         </nav>
         <div class="col-10 pl-5 pr-5">
             <div class="content__header mt-4 pb-3 border-bottom">
-                <h5>CHI TIẾT TIN ĐĂNG TRỌ</h5>
+                <h5>THÊM TIN ĐĂNG TRỌ</h5>
             </div>
-            <div class="mt-4">
-                <h6>THÔNG TIN CHỦ TRỌ</h6>
-                <div class="row">
-                    <label for="name" class="col-sm-2 col-form-label">Họ tên</label>
-                    <div class="col-sm-8">
-                        <p style="margin: 0; padding-top:7px">{{house.NguoiDangTin.HoTen}}</p>
-                    </div>
-                </div>
-                <div class="row">
-                    <label for="name" class="col-sm-2 col-form-label">Email</label>
-                    <div class="col-sm-8">
-                        <p style="margin: 0; padding-top:7px">{{house.NguoiDangTin.Email}}</p>
-                    </div>
-                </div>
-                <div class="row">
-                    <label for="name" class="col-sm-2 col-form-label">Số điện thoại</label>
-                    <div class="col-sm-8">
-                        <p style="margin: 0; padding-top:7px">{{house.NguoiDangTin.SDT}}</p>
-                    </div>
-                </div>
-                <div class="row">
-                    <a href="/admin/users/{{house.NguoiDangTin.NguoiDungID}}">Xem thông tin chi tiết</a>
-                </div>
+                 
             <form id="form" method="post" enctype="multipart/form-data">
                <div class="mt-4">
-                    <h6>TRẠNG THÁI TIN ĐĂNG</h6>
+                    <h6>THÔNG TIN CƠ BẢN</h6>
                 </div>
-                <div>
-                    <select required name="TrangThaiKiemDuyet" id="" style="padding: 5px; width: 26%;">
-                        {{#ifEqualString house.TrangThaiKiemDuyet "Chờ xác nhận"}}
-                        <option value="Chờ xác nhận" selected>Chờ xác nhận</option>
-                        <option value="Đã duyệt">Đã duyệt</option>
-                        <option value="Bị từ chối">Bị từ chối</option>
-                        {{/ifEqualString}}
-                        {{#ifEqualString house.TrangThaiKiemDuyet "Đã duyệt"}}
-                        <option value="Chờ xác nhận">Chờ xác nhận</option>
-                        <option value="Đã duyệt" selected>Đã duyệt</option>
-                        <option value="Bị từ chối">Bị từ chối</option>
-                        {{/ifEqualString}}
-                        {{#ifEqualString house.TrangThaiKiemDuyet "Bị từ chối"}}
-                        <option value="Chờ xác nhận">Chờ xác nhận</option>
-                        <option value="Đã duyệt">Đã duyệt</option>
-                        <option value="Bị từ chối" selected>Bị từ chối</option>
-                        {{/ifEqualString}}
-                    </select>
+                <div class="d-flex justify-content-between">
+                    <div class="address-item">
+                        <div class="">
+                            <label for="user-id">Chủ trọ<span style="color:red">*</span></label>
+                        </div>
+                        <select required name="NguoiDangTin" id="user-id">
+                            <option class="text-center" value="">--Chọn chủ trọ--</option>
+                        </select>
+                        <div class="text-center text-danger content__note" id="note1">
+                            Vui lòng chọn chủ trọ
+                        </div>
+                    </div>
+                    <div class="address-item">
+                        <div class="">
+                            <label for="">Trạng thái tin đăng<span style="color:red">*</span></label>
+                        </div>
+                        <select required name="TrangThaiKiemDuyet" id="">
+                            <option value="Chờ xác nhận">Chờ xác nhận</option>
+                            <option value="Đã duyệt" selected>Đã duyệt</option>
+                            <option value="Bị từ chối">Bị từ chối</option>
+                        </select>
+                    </div>
+                    <div class="address-item" id="item-hidden">
+                        <div class="">
+                            <label>Trạng thái phòng<span style="color:red">*</span></label>
+                        </div>
+                
+                    </div>
                 </div>
+                
                 <div class="mt-4 pb-2">
                     <h6>ĐỊA CHỈ CHO THUÊ</h6>
                 </div>
@@ -566,8 +447,7 @@
                         <div class="">
                             <label for="city-select">Tỉnh/Thành phố<span style="color:red">*</span></label>
                         </div>
-                        <select required name="cities" id="city-select" onfocus='this.size=5;' onblur='this.size=1;'
-                            onchange='this.size=1; this.blur();'>
+                        <select required name="cities" id="city-select">
                             <option class="text-center" value="">--Chọn Tỉnh/TP--</option>
                         </select>
                         <div class="text-center text-danger content__note" id="note1">
@@ -578,8 +458,7 @@
                         <div class="">
                             <label for="district-select">Quận/Huyện<span style="color:red">*</span></label>
                         </div>
-                        <select required name="districts" id="district-select" onfocus='this.size=5;' onblur='this.size=1;'
-                            onchange='this.size=1; this.blur();'>
+                        <select required name="districts" id="district-select" >
                             <option class="text-center" value="">--Chọn Quận/Huyện--</option>
                         </select>
                         <div class="text-center text-danger content__note" id="note2">
@@ -590,8 +469,7 @@
                         <div class="">
                             <label for="ward-select">Phường/Xã<span style="color:red">*</span></label>
                         </div>
-                        <select required name="wards" id="ward-select" onfocus='this.size=5;' onblur='this.size=1;'
-                            onchange='this.size=1; this.blur();'>
+                        <select required name="wards" id="ward-select" >
                             <option class="text-center" value="">--Chọn Phường/Xã--</option>
                         </select>
                         <div class="text-center text-danger content__note" id="note3">
@@ -604,7 +482,7 @@
                     <label class="d-block mb-2" for="detailed-address">Địa chỉ cụ thể<span
                             style="color:red">*</span></label>
                     <input type="text" id="detailed-address" name="detailed_address" placeholder="Nhập số nhà, tên đường"
-                        value="{{house.DiaChiCuThe}}" required>
+                        required>
                     <div class="text-center text-danger content__note" id="detailed-address-note">
                         Vui lòng nhập địa chỉ cụ thể
                     </div>
@@ -615,7 +493,7 @@
                 <div>
                     <label class="d-block mb-2" for="title">Tiêu đề<span style="color:red">*</span></label>
                     <input type="text" id="title" name="title" placeholder="Nhập tiêu đề tin đăng nhà trọ"
-                        value="{{house.Ten}}" required>
+                        required>
                     <div class="text-center text-danger content__note" id="title-note">
                         Vui lòng nhập tiêu đề cho bài viết
                     </div>
@@ -625,8 +503,7 @@
                         <div class="">
                             <label for="type-select">Loại trọ<span style="color:red">*</span></label>
                         </div>
-                        <select required name="type_house" id="type-select" onfocus='this.size=5;' onblur='this.size=1;'
-                            onchange='this.size=1; this.blur();'>
+                        <select required name="type_house" id="type-select" >
                             <option class="text-center" value="">--Chọn loại trọ--</option>
                             <option value="Homestay">Homestay</option>
                             <option value="Nhà nguyên căn">Nhà nguyên căn</option>
@@ -661,7 +538,7 @@
                 </div>
                 <div class="mt-4 pb-2">
                     <label class="d-block mb-2" for="description">Nội dung mô tả<span style="color:red">*</span></label>
-                    <textarea id="description" name="description" rows="6">{{house.Ten}}</textarea>
+                    <textarea id="description" name="description" rows="6"></textarea>
                     <div class="text-center text-danger content__note" id="description-note">
                         Vui lòng nhập mô tả nhà cho thuê
                     </div>
@@ -682,7 +559,7 @@
                     <div class="mt-4 content__area">
                         <label class="d-block mb-2" for="area">Diện tích (m2)<span style="color:red">*</span></label>
                         <input type="number" id="area" name="area" placeholder="Nhập diện tích trọ"
-                            value="{{house.DienTich}}" required>
+                            required>
                         <div class="text-center text-danger content__note" id="area-note">
                             Vui lòng nhập diện tích
                         </div>
@@ -690,7 +567,7 @@
                     <div class="mt-4 content__people">
                         <label class="d-block mb-2" for="num_people">Số người<span style="color:red">*</span></label>
                         <input type="number" min="1" id="num_people" name="num_people" placeholder="Số người ở"
-                            value="{{house.SoNguoi}}" required>
+                            required>
                         <div class="text-center text-danger content__note" id="note5">
                             Vui lòng chọn nhập số người ở
                         </div>
@@ -706,8 +583,7 @@
                 <div class="d-flex justify-content-between content__prices">
                     <div class="mt-4">
                         <label class="d-block mb-2" for="price">Giá cho thuê (VNĐ)<span style="color:red">*</span></label>
-                        <input type="number" id="price" name="price" placeholder="Nhập giá nhà trọ" value="{{house.Gia}}"
-                            required>
+                        <input type="number" id="price" name="price" placeholder="Nhập giá nhà trọ" required>
                         <div class="text-center text-danger content__note" id="price-note">
                             Vui lòng nhập giá cho thuê
                         </div>
@@ -715,7 +591,7 @@
                     <div class="mt-4">
                         <label class="d-block mb-2" for="water">Tiền nước (VNĐ/m3)<span style="color:red">*</span></label>
                         <input type="number" id="water" name="water" placeholder="Nhập tiền nước"
-                            value="{{house.TienNuoc}}">
+                            >
                         <div class="text-center text-danger content__note" id="note8">
                             Vui lòng nhập tiền nước
                         </div>
@@ -723,7 +599,7 @@
                     <div class="mt-4">
                         <label class="d-block mb-2" for="electricity">Tiền điện (VNĐ/kWh)<span style="color:red">*</span></label>
                         <input type="number" id="electricity" name="electricity" placeholder="Nhập tiền điện"
-                            value="{{house.TienDien}}">
+                            >
                         <div class="text-center text-danger content__note" id="note9">
                             Vui lòng nhập tiền điện
                         </div>

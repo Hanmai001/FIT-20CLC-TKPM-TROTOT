@@ -62,11 +62,8 @@ export default {
   },
 
   async findById(id) {
-    const list = await db('nguoidung').where('NguoiDungID', id);
-    if (list.length === 0)
-      return null;
-
-    return list[0];
+    const user = await db('nguoidung').where('NguoiDungID', id).first();
+    return user;
   },
 
   add(user) {
@@ -133,7 +130,8 @@ export default {
   async findByRole(role) {
     if (role === '1') role = 'Người thuê trọ';
     else if (role === '2') role = 'Người chủ trọ';
-    else role = 'Admin';
+    else if (role === '3') role = 'Admin';
+    else return db('nguoidung');
 
     return db('nguoidung').where('LoaiNguoiDung', role);
   },
@@ -146,8 +144,12 @@ export default {
     return list[0].amount;
   },
 
-  findUsername(username) {
+  async findUsername(username) {
     return db('nguoidung').where('TaiKhoan', username);
+  },
+
+  async findAllUserID() {
+    return db('nguoidung').select('NguoiDungID', 'HoTen');
   }
 }
 

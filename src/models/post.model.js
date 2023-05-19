@@ -6,7 +6,7 @@ const addHouseModel = async (idUser, data) => {
         {
             Ten: title,
             DiaChi: detailed_address + ', ' + wards + ', ' + districts + ', ' + cities,
-            TrangThaiKiemDuyet: "Chờ xác nhận",
+            TrangThaiKiemDuyet: data.TrangThaiKiemDuyet || "Chờ xác nhận",
             Gia: price,
             MoTa: description,
             SoNguoi: parseInt(num_people),
@@ -19,13 +19,14 @@ const addHouseModel = async (idUser, data) => {
         }, 'TinID').returning('TinID')
     return id;
 }
-const updateHouseModel = async (data, idHouse) => {
+const updateHouseModel = async (idHouse, data) => {
     const { cities, districts, wards, type_house, status, detailed_address, title, description, utilities, area, num_people, price, water, electricity } = data;
-    const [id] = await db('tindangtro').where('TinID', '=', idHouse).update(
+    
+    await db('tindangtro').where('TinID', '=', idHouse).update(
         {
             Ten: title,
             DiaChi: detailed_address + ', ' + wards + ', ' + districts + ', ' + cities,
-            TrangThaiKiemDuyet: "Chờ xác nhận",
+            TrangThaiKiemDuyet: data.TrangThaiKiemDuyet || "Chờ xác nhận",
             Gia: price,
             MoTa: description,
             SoNguoi: parseInt(num_people),
@@ -35,7 +36,6 @@ const updateHouseModel = async (data, idHouse) => {
             TienDien: parseFloat(electricity),
             TienNuoc: parseFloat(water)
         }, 'TinID').returning('TinID')
-    return id;
 }
 const getAllHouseAppointmentLandlord = async (idUser, filter) => {
     let result = db('dondathen').select('*').where('ChuTro', '=', idUser);
@@ -91,7 +91,7 @@ const findAll = async (filter) => {
         else if (filter === "Cũ nhất")
             result = result.orderBy('NgayDang', 'asc');
         else if (filter === "Mới nhất")
-            result = result.orderBy('NgayDang', 'desc')
+            result = result.orderBy('NgayDang', 'desc')    
     }
     result = await result;
     return { houses: result, pages: Math.ceil(result.length / 5) };

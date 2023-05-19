@@ -1,7 +1,14 @@
 import userModel from '../models/user.model';
 import bcrypt from "bcryptjs";
-import { findAll, findByPage } from '../models/post.model'; 
-import { findPhotosOfHouse } from "../models/photo.model";
+import {
+    getDetailedHouseModel,
+    findAll, findByPage,
+    updateHouseModel,
+    addHouseModel, 
+} from "../models/post.model";
+import { addPhotoModel, deletePhotoModel, findPhotoOfHouse, deletePhotosByArrayModel, findPhotosOfHouse } from "../models/photo.model";
+import { addUtilityHouseModel, deleteUtilityModel, findUtilitiesOfHouse, findUtilityOfHouse, deleteOneUtilityModel } from "../models/utility.model";
+import { addVideoModel, deleteVideoModel, findVideoOfHouse, deleteVideosByArrayModel, findVideosOfHouse } from "../models/video.model";
 
 const getDate = (date) => {
     var d = new Date(date),
@@ -37,6 +44,14 @@ const getAllUsers = async (req, res, next) => {
             })
         }
     } catch(err) {
+        next(err);
+    }
+}
+const getAllUsersID = async (req, res, next) => {
+    try {
+        const users = await userModel.findAllUserID();
+        res.status(200).json(users);
+    } catch (err) {
         next(err);
     }
 }
@@ -139,7 +154,7 @@ const getAllPosts = async (req, res, next) => {
         let { page, filter } = req.query;
         if (!page) page = 1;
 
-        const { houses, pages } = await findAll(filter);
+        const { pages } = await findAll(filter);
         
         const result = await findByPage(5, (page - 1) * 5, filter);
 
@@ -159,6 +174,7 @@ const getAllPosts = async (req, res, next) => {
             }
             result = str + result;
             house.Gia = result;
+            house.NguoiDangTin = await userModel.findById(house.NguoiDangTin);
         }
 
         return res.render("vwAdmin/post", { page: page ? parseInt(page) : 1, pages: parseInt(pages), houses: result });
@@ -168,23 +184,106 @@ const getAllPosts = async (req, res, next) => {
 }
 const getPost = async (req, res, next) => {
     try {
+        const id = req.params.id;
+        const house = await getDetailedHouseModel(id);
+        let photos = await findPhotosOfHouse(id);
+        let videos = await findVideosOfHouse(id);
+        let utilities = await findUtilitiesOfHouse(id);
+        house.DiaChi = house.DiaChi.split(', ');
+        house.ThanhPho = house.DiaChi[3];
+        house.Quan = house.DiaChi[2];
+        house.Phuong = house.DiaChi[1];
+        house.DiaChiCuThe = house.DiaChi[0];
+        utilities = utilities.map(item => item.TienIchID);
+        house.NguoiDangTin = await userModel.findById(house.NguoiDangTin);
         
+        res.render("vwAdmin/update_post", { house, photos: JSON.stringify(photos), utilities, videos: JSON.stringify(videos) });
     } catch (err) {
         next(err);
     }
 }
 const updatePost = async (req, res, next) => {
     try {
-        
+        let { utilities, deletedPhotos, deletedVideos } = req.body;
+        const id = req.params.id;
+        for (let file of req.files) {
+            if (file.mimetype.startsWith('video/')) {
+                if (!await findVideoOfHouse('../.' + file.destination + file.filename))
+                    await addVideoModel(file.destination, file.filename, id);
+            }
+            else {
+                if (!await findPhotoOfHouse('../.' + file.destination + file.filename))
+                    await addPhotoModel(file.destination, file.filename, id);
+            }
+
+        }
+        if (deletedPhotos) {
+            if (typeof deletedPhotos === 'string')
+                deletedPhotos = [deletedPhotos]
+            await deletePhotosByArrayModel(id, deletedPhotos);
+
+        }
+        if (deletedVideos) {
+            if (typeof deletedVideos === 'string')
+                deletedVideos = [deletedVideos]
+            await deleteVideosByArrayModel(id, deletedVideos);
+        }
+        let deletedUtilities = [];
+        let oldUtilities = await findUtilitiesOfHouse(id);
+        oldUtilities = oldUtilities.map(item => {
+            if (!utilities.includes('' + item.TienIchID))
+                deletedUtilities.push(item.TienIchID);
+            return '' + item.TienIchID;
+        });
+        for (let x of deletedUtilities) {
+            await deleteOneUtilityModel(id, x);
+        }
+        for (let utility of utilities) {
+            if (!await findUtilityOfHouse(id, parseInt(utility)))
+                await addUtilityHouseModel(utility, id);
+        }
+        updateHouseModel(id, req.body);
+
+        res.redirect('/admin/posts');
+    } catch (err) {
+        next(err);
+    }
+}
+const getNewPost = async (req, res, next) => {
+    try {
+        res.render("vwAdmin/add_post")
+    } catch (err) {
+        next(err);
+    }
+}
+
+const addPost = async (req, res, next) => {
+    try {
+        console.log(req.body);
+        const { utilities } = req.body;
+        const id = await addHouseModel(req.body.NguoiDangTin, req.body);
+        for (let file of req.files) {
+            if (file.mimetype.startsWith('video/')) {
+                await addVideoModel(file.destination, file.filename, id);
+            }
+            else {
+                await addPhotoModel(file.destination, file.filename, id);
+            }
+        }
+
+        for (let utility of utilities) {
+            await addUtilityHouseModel(utility, id);
+        }
+
+        res.redirect("/admin/posts")
     } catch (err) {
         next(err);
     }
 }
 
 
-
 export {    getAllUsers, getDetailedUser, updateUser, 
             countUserByRole, getNewUser, addUser, checkUsername,
             getInfoProfile, updateProfile, updateUserPassword, getAllPosts,   
-            getPost, updatePost
+            getPost, updatePost, getNewPost, addPost, getAllUsersID
 }
