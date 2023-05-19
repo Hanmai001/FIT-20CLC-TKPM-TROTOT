@@ -7,6 +7,7 @@
 
 {{#section "js"}}
 <script src="../public/assets/js/header_landlors.js"></script>
+{{!-- paging script --}}
 <script>
     $("#filter-select").change(function () {
         let selectedVal = $("#filter-select option:selected").val();
@@ -176,81 +177,98 @@
         });
     };
     document.addEventListener('DOMContentLoaded', init, false);
-    // Lấy đối tượng các menu select và các giá trị mặc định
-    const items = document.getElementsByClassName("js-item");
-    var citySelect = document.getElementById("city-select");
-    var districtSelect = document.getElementById("district-select");
-    var wardSelect = document.getElementById("ward-select");
-    var defaultCityOption = citySelect.querySelector("option[value='']");
-    var defaultDistrictOption = districtSelect.querySelector("option[value='']");
-    var defaultWardOption = wardSelect.querySelector("option[value='']");
+</script>
+{{!-- get address script --}}
+<script>
+    const citySelect = document.getElementById('city-select');
+    const districtSelect = document.getElementById('district-select');
+    const wardSelect = document.getElementById('ward-select');
 
-    for (let item of items) {
-        item.addEventListener('click', function (e) {
-            window.location.href = `/post/details/${this.id}`
-        })
-    }
 
-    fetch("https://provinces.open-api.vn/api/p/")
-        .then(response => response.json())
-        .then(data => {
+    $(document).ready(function () {
+        $.ajax({
+            url: "https://provinces.open-api.vn/api/p",
+            type: "get",
+            dateType: "json",
 
-            data.forEach(city => {
-                var option = document.createElement("option");
-                option.text = city.name;
-                option.value = city.code;
-                citySelect.add(option);
-            });
+            success: function (result) {
+                console.log(result)
+                $.each(result, function (key, value) {
+                    const valueName = value.name;
+                    let item = $(`<option key='${value.code}' value='${valueName}'>${valueName}</option>`);
+                    $("#city-select").append(item);
+                });
+            }
         });
-
-
-    citySelect.addEventListener("change", function () {
-
-        districtSelect.innerHTML = "";
-        wardSelect.innerHTML = "";
-        districtSelect.add(defaultDistrictOption);
-        wardSelect.add(defaultWardOption);
-
-
-        var cityCode = this.value;
-
-        fetch(`https://provinces.open-api.vn/api/p/${cityCode}?depth=2`)
-            .then(response => response.json())
-            .then(data => {
-
-                data.districts.forEach(district => {
-                    var option = document.createElement("option");
-                    option.text = district.name;
-                    option.value = district.code;
-                    districtSelect.add(option);
-                });
-            });
     });
-
-
-    districtSelect.addEventListener("change", function () {
-
-        wardSelect.innerHTML = "";
-        wardSelect.add(defaultWardOption);
-
-
-        var districtCode = this.value;
-
-
-        fetch(`https://provinces.open-api.vn/api/d/${districtCode}?depth=2`)
-            .then(response => response.json())
-            .then(data => {
-
-                data.wards.forEach(ward => {
-                    var option = document.createElement("option");
-                    option.text = ward.name;
-                    option.value = ward.code;
-                    wardSelect.add(option);
-                });
+    $("#city-select").change(function () {
+        let selectedVal = $("#city-select option:selected").attr('key');
+        $("#district-select").empty();
+        let item = $("<option key='' class='text-center' value=''>--Chọn Quận/Huyện--</option>");
+        $("#district-select").append(item);
+        $("#ward-select").empty();
+        item = $("<option key='' class='text-center' value=''>--Chọn Phường/Xã--</option>");
+        $("#ward-select").append(item);
+        if (selectedVal == "") {
+            $('#note1').show()
+        }
+        else {
+            $('#note1').hide()
+            $.ajax({
+                url: "https://provinces.open-api.vn/api/d/",
+                type: "get",
+                dateType: "json",
+                success: function (result) {
+                    console.log(result)
+                    $.each(result, function (key, value) {
+                        if (value.province_code == selectedVal) {
+                            const valueName = value.name;
+                            item = $(`<option key='${value.code}' value='${valueName}'>${valueName}</option>`);
+                            $("#district-select").append(item);
+                        }
+                    });
+                }
             });
-    });
+        }
 
+    })
+    $("#district-select").change(function () {
+        let selectedVal = $("#district-select option:selected").attr('key');
+        $("#ward-select").empty();
+        let item = $("<option key='' class='text-center' value=''>--Chọn Phường/Xã--</option>");
+        $("#ward-select").append(item);
+        if (selectedVal == "") {
+            $('#note2').show()
+        }
+        else {
+            $('#note2').hide()
+            $.ajax({
+                url: "https://provinces.open-api.vn/api/w/",
+                type: "get",
+                dateType: "json",
+                success: function (result) {
+                    console.log(result)
+                    $.each(result, function (key, value) {
+                        if (value.district_code == selectedVal) {
+                            const valueName = value.name;
+                            item = $(`<option key='${value.code}' value='${valueName}'>${valueName}</option>`);
+                            $("#ward-select").append(item);
+                        }
+                    });
+                }
+            });
+        }
+    })
+    $("#ward-select").change(function (e) {
+        let selectedVal = $("#district-select option:selected").attr('key');
+        if (selectedVal == "") {
+            $('#note3').show()
+        }
+        else {
+            $('#note3').hide()
 
+        }
+    })
 </script>
 {{/section}}
 
@@ -276,53 +294,55 @@
 {{!-- content --}}
 <div class="content m-5" style="background-color:white; padding:20px;">
     {{!-- start of product --}}
-    <div class="content">
-        <div class="content__header mt-4 pb-3 border-bottom">
-            <h5>PHÒNG TRỌ NỔI BẬT</h5>
+    <div class="" style="background-color:white; padding:20px; box-shadow:4px 2px 10px rgba(0, 0, 0, 0.2);">
+        <div class="content">
+            <div class="content__header mt-4 pb-3 border-bottom">
+                <h5>PHÒNG TRỌ NỔI BẬT</h5>
 
-        </div>
-        {{#each post}}
-        <div class="item js-item" id="{{this.TinID}}">
-
-            <div class="row">
-                <div class="col-4 py-4">
-                    <img src="{{this.Hinhanh}}" alt="" width="100%" height="200px">
-                </div>
-                <div class="col-7 py-4">
-                    <div class="item__name mb-2 fw-bold row">
-                        <div class="item__name-name">
-                            {{this.Ten}}
-                        </div>
-
-                    </div>
-                    <div class="item__type mb-1 row">
-                        <div class="col-6">
-                            <img src="../../public/assets/pictures/home.png" alt="" width="16px" height="16px">
-                            <span>Loại trọ: {{this.LoaiTro}}</span>
-                        </div>
-                        <div class="col-6 text-end">
-
-                        </div>
-                    </div>
-                    <div class="item__area mb-1">
-                        <img src="../../public/assets/pictures/area-graph.png" alt="" width="16px" height="16px">
-                        Diện tích: {{this.DienTich}}m2
-                    </div>
-                    <div class="item__price mb-1 fw-bolder">
-                        <img src="../../public/assets/pictures/best-price.png" alt="" width="16px" height="16px">
-                        {{this.Gia}} VNĐ
-                    </div>
-                    <div class="item__address mb-1">
-                        <img src="../../public/assets/pictures/location.png" alt="" width="16px" height="16px">
-                        Địa chỉ: {{this.DiaChi}}
-                    </div>
-                </div>
             </div>
+            {{#each post}}
+            <a href="/post/details/{{this.TinID}}" class="room" style="color:black; text-decoration:none">
+                <div class="item js-item" id="{{this.TinID}}" style="margin-top;">
+                    <div class="row" style="border-top: 0.5px outset rgb(232, 232, 232);">
+                        <div class="col-4 py-4">
+                            <img src="{{this.Hinhanh}}" alt="" width="100%" height="200px">
+                        </div>
+                        <div class="col-7 py-4" style="margin-bottom: auto;">
+                            <div class="item__name mb-2 fw-bold row">
+                                <div class="item__name-name">
+                                    {{this.Ten}}
+                                </div>
 
+                            </div>
+                            <div class="item__type mb-1 row">
+                                <div class="col-6">
+                                    <img src="../../public/assets/pictures/home.png" alt="" width="16px" height="16px">
+                                    <span>Loại trọ: {{this.LoaiTro}}</span>
+                                </div>
+                                <div class="col-6 text-end">
+
+                                </div>
+                            </div>
+                            <div class="item__area mb-1">
+                                <img src="../../public/assets/pictures/area-graph.png" alt="" width="16px"
+                                    height="16px">
+                                Diện tích: {{this.DienTich}}m2
+                            </div>
+                            <div class="item__price mb-1 fw-bolder">
+                                <img src="../../public/assets/pictures/best-price.png" alt="" width="16px"
+                                    height="16px">
+                                {{this.Gia}} VNĐ
+                            </div>
+                            <div class="item__address mb-1">
+                                <img src="../../public/assets/pictures/location.png" alt="" width="16px" height="16px">
+                                Địa chỉ: {{this.DiaChi}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+            {{/each}}
         </div>
-        {{/each}}
-
-
     </div>
 </div>
 </div>

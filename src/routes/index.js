@@ -5,7 +5,7 @@ import adminRoute from './admin.route';
 import apiRoute from './api';
 import authRoute from './authRoute';
 import { isLoggedCustomer, isLoggedAdmin, isLoggedLandlord, isLogged, logout } from '../controllers/auth.controller';
-import { getAllPostInfo } from '../models/post.model';
+import { getAllPostInfo, sortPosts } from '../models/post.model';
 
 
 export default function (app) {
@@ -20,18 +20,29 @@ export default function (app) {
 
   app.get('/', async (req, res, next) => {
     try {
-      const post = await getAllPostInfo();
-      //console.log(req.ú)
-      for (let house of post) {
+      let { page, sortBy, sortOrder } = req.query;
+      if (!page) page = 1;
+
+      const { post, pages } = await getAllPostInfo();
+
+      sortPosts(post, sortBy, sortOrder);
+
+      const perPage = 5;
+      const startIdx = (page - 1) * perPage;
+      const paginatedPosts = post.slice(startIdx, startIdx + perPage);
+
+      for (let house of paginatedPosts) {
         let date = new Date(house.NgayDatHen);
         const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
         let vietnameseDate = date.toLocaleDateString('vi-VN', options);
         let vietnameseTime = date.toLocaleTimeString('vi-VN');
         house.NgayDatHen = vietnameseDate + ' ' + vietnameseTime;
+
         date = new Date(house.NgayGap);
         vietnameseDate = date.toLocaleDateString('vi-VN', options);
         vietnameseTime = date.toLocaleTimeString('vi-VN');
         house.NgayGap = vietnameseDate + ' ' + vietnameseTime;
+
         let str = house.Gia.toString();
         let result = '';
         while (str.length > 3) {
@@ -40,14 +51,19 @@ export default function (app) {
         }
         result = str + result;
         house.Gia = result;
-        house.Hinhanh = house.Hinhanh.slice(3)
+
+        house.Hinhanh = house.Hinhanh.slice(3);
       }
-      res.render('home', { post: post });
+      // Render view
+      res.render('home', {
+        page: parseInt(page),
+        pages: Math.ceil(post.length / perPage),
+        post: paginatedPosts
+      });
     } catch (err) {
       next(err);
     }
   });
-
   app.use(function (req, res, next) {
     res.render("404", { layout: false });
   });

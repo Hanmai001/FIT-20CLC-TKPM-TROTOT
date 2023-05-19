@@ -25,7 +25,7 @@ p {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     border-radius: 10px;
     transition: box-shadow 0.3s;
-    border: 2px solid #ccc;     
+    border: 2px solid #ccc;
 }
 
 /* product */
@@ -58,7 +58,7 @@ p {
 }
 
 .extra-pics img {
-    width: 175px;
+    width: 147.18px;
     height: 125px;
     margin: 0.3rem 0;
     object-fit: cover;
@@ -266,7 +266,6 @@ span.btn.favorite {
 
 /* review */
 .list-review {
-    background-color: #f2f2f2;
     padding: 20px;
 }
 
@@ -275,7 +274,10 @@ span.btn.favorite {
 }
 
 .review img {
-    border-radius: 80%;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+
 }
 
 .review .name {
@@ -307,6 +309,7 @@ span.btn.favorite {
     cursor: pointer;
     transition: background-color 0.2s ease-in-out;
 }
+
 .like-btn a {
     text-decoration: none;
     color: #fff;
@@ -343,6 +346,7 @@ span.btn.favorite {
     border-radius: 10px;
     width: 100%;
 }
+
 .btn-booking a {
     text-decoration: none;
     color: #fff;
@@ -391,4 +395,70 @@ span.btn.favorite {
     border: none;
     border-radius: 4px;
     cursor: pointer;
+}
+
+.room {
+    display: inline-block;
+    width: 300px;
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    text-align: start;
+    text-decoration: none;
+    color: #333;
+}
+
+.room img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4/3;
+    /* Thay thế tỉ lệ 16/9 bằng tỉ lệ mong muốn */
+    object-fit: cover;
+    margin-bottom: 10px;
+}
+
+.room h3 {
+    font-size: 18px;
+    margin-bottom: 5px;
+}
+
+.room p {
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+.room p:last-child {
+    margin-bottom: 0;
+}
+
+.truncate {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.inline {
+    display: inline;
+    margin-left: 7px;
+    /* Điều chỉnh khoảng cách theo ý muốn */
+}
+
+@media screen and (max-width: 600px) {
+    div {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 10px;
+    }
+
+    img {
+        width: 12px;
+        height: 12px;
+        margin-right: 5px;
+    }
+
+    p {
+        font-size: 12px;
+        margin: 0;
+    }
 }
