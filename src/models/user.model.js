@@ -15,11 +15,11 @@ const getUserByPhone = async (phone) => {
   return user;
 };
 
-const addUser = async (username, email, password, type) => {
+const addUser = async (username, phone, password, type) => {
   console.log(addUser)
   try {
     await db('nguoidung').insert({
-      Email: email,
+      SDT: phone,
       TaiKhoan: username,
       MatKhau: password,
       LoaiNguoiDung: type,
