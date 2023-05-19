@@ -7,22 +7,27 @@
 h5 {
     color: #002ffe;
 }
-.content__header-filter{
+
+.content__header-filter {
     position: relative;
 }
+
 .content__header-filter select {
     position: absolute;
     z-index: 1;
     padding: 8px 15px;
     right: 0;
 }
+
 .content__header-filter select option {
     color: #666;
     padding: 8px 15px;
 }
+
 .content__header-filter select:focus {
     outline: none;
 }
+
 .list-group-active {
     color: #002ffe;
 }
@@ -30,6 +35,13 @@ h5 {
 /* CARD PROFILE */
 .item .item__price {
     color: #002ffe;
+}
+
+.item .item__photo img {
+    width: 150px;
+    height: 120px;
+    overflow: hidden;
+    margin: auto;
 }
 
 .item .item__name .item__name-last {

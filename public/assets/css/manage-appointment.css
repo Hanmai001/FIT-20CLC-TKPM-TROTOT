@@ -36,7 +36,12 @@ h5 {
 .item {
     position: relative;
 }
-
+.item .item__photo img {
+    width: 150px;
+    height: 120px;
+    overflow: hidden;
+    margin: auto;
+}
 .item .item__price {
     color: #002ffe;
 }

@@ -207,6 +207,27 @@ const updateProfileLandlordModel = async (idUser, data, file) => {
   }
 
 }
+const getAllListReviewModel = async (idUser) => {
+  console.log(idUser)
+  const res = await db('danhgia')
+    .join('tindangtro', 'danhgia.TinID', '=', 'tindangtro.TinID')
+    .join('nguoidung', 'danhgia.NguoiDanhGia', '=', 'nguoidung.NguoiDungID')
+    .where('tindangtro.NguoiDangTin', idUser)
+    .select('*');
+  return { houses: res, pages: Math.ceil(res.length / 5) };
+
+}
+const getListReviewPageModel = async (idUser, limit, offset) => {
+  const res = await db('danhgia')
+    .join('tindangtro', 'danhgia.TinID', '=', 'tindangtro.TinID')
+    .join('nguoidung', 'danhgia.NguoiDanhGia', '=', 'nguoidung.NguoiDungID')
+    .where('tindangtro.NguoiDangTin', idUser)
+    .select('*')
+    .limit(limit)
+    .offset(offset)
+  return res;
+
+}
 
 export {
   checkUserCredential,
@@ -219,5 +240,7 @@ export {
   getInfoProfileTenant,
   updateProfileLandlordModel,
   updateProfileTenantModel,
-  updatePasswordModel
+  updatePasswordModel,
+  getAllListReviewModel,
+  getListReviewPageModel
 }
