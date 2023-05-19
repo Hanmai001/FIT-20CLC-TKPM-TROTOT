@@ -95,7 +95,7 @@ const addAppointment = async (req, res) => {
     const idHouse = req.params.id;
     console.log(idHouse)
     const idLandlord = await getIDLandlordOfAHouseModel(idHouse);
-    await addAppointmentModel(idUser, idLandlord, req.body);
+    await addAppointmentModel(idUser, idLandlord, idHouse, req.body);
 
     res.redirect('/tenant/manage-appointment');
 }

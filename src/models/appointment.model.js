@@ -10,11 +10,12 @@ const cancelAppointmentModel = async (idAppointment) => {
         TrangThaiLichHen: "Đã hủy"
     });
 }
-const addAppointmentModel = async (idTenant, idLandlord, data) => {
+const addAppointmentModel = async (idTenant, idLandlord, idPost, data) => {
     await db('dondathen').insert({
         NguoiDatHen: idTenant,
         NgayGap: data.date + ' ' + data.time,
         ChuTro: idLandlord,
+        TinID: idPost,
         TrangThaiLichHen: 'Chưa xác nhận'
     })
 }
