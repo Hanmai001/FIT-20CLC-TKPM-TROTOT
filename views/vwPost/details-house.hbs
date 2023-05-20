@@ -248,17 +248,22 @@
                 </div>
                 <div>
                     {{#if user}}
+
                     {{#if checkAppointment}}
-                    <button class="btn-booking" style="font-weight:500; background-color:rgb(41, 187, 41)">
-                        <a href="/tenant/favourite-list">Chỉnh sửa lịch xem phòng</a>
-                        {{else}}
-                        <button id="btn-open-form" class="btn-booking"
-                            style="font-weight:500; background-color:rgb(41, 187, 41)">Đặt lịch xem phòng</button>
-                        {{/if}}
+                    <a href="/tenant/favourite-list">
+                        <button class="btn-booking" style="font-weight:500; background-color:rgb(41, 187, 41)">Xem chi
+                            tiết
+                            lịch xem phòng</button>
+                    </a>
+                    {{else}}
+                    <button id="btn-open-form" class="btn-booking"
+                        style="font-weight:500; background-color:rgb(41, 187, 41)">Đặt lịch xem phòng</button>
+                    {{/if}}
                     {{else}}
                     <button class="btn-booking" style="font-weight:500; background-color:rgb(41, 187, 41)">
                         <a href="/account/login">Đặt lịch xem phòng</a>
                     </button>
+
                     {{/if}}
                     <div class="action-buttons">
                         <button class="report-btn" id="btn-report-form"
@@ -271,17 +276,19 @@
                         <div id="add-favourite">
 
                             {{#if user}}
-                            
-                                {{#if checkFavourite}}
-                                <button id="btn-add-favourite" class="like-btn" onClick="delPost()"><i class="fa-solid fa-heart" style="color: #ffffff;"></i>
+
+                            {{#if checkFavourite}}
+                            <button id="btn-add-favourite" class="like-btn" onClick="delPost()"><i
+                                    class="fa-solid fa-heart" style="color: #ffffff;"></i>
                                 Xóa khỏi danh sách yêu thích
-                                </button>
-                                {{else}}
-                                <button id="btn-add-favourite" class="like-btn" onClick="addPost()"><i class="fa-solid fa-heart" style="color: #ffffff;"></i>
-                                   Yêu thích
-                                </button>
-                                {{/if}}
-                            
+                            </button>
+                            {{else}}
+                            <button id="btn-add-favourite" class="like-btn" onClick="addPost()"><i
+                                    class="fa-solid fa-heart" style="color: #ffffff;"></i>
+                                Yêu thích
+                            </button>
+                            {{/if}}
+
                             {{else}}
                             <button class="like-btn "><i class="fa-solid fa-heart" style="color: #ffffff;"></i>
                                 <a href="/account/login"> Yêu thích</a>
