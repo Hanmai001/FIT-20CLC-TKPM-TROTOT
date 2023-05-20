@@ -1,6 +1,6 @@
 import {
     addHouseModel, deleteLandlordHouseModel, getPostInfo, getAuthorInfo, getReviewInfo, getutilitiesInfo,
-    getImageInfo, getAllPostInfo, performFullTextSearch, performFullTextSearchModel, getRelatePostInfo, sortPosts
+    getImageInfo, getAllPostInfo, performFullTextSearch, getRelatePostInfo
 } from "../models/post.model";
 import { addPhotoModel, deletePhotoModel, findPhotoOfHouse, deletePhotosByArrayModel } from "../models/photo.model";
 import { addUtilityHouseModel, deleteUtilityModel, findUtilitiesOfHouse, findUtilityOfHouse, deleteOneUtilityModel } from "../models/utility.model";
@@ -77,12 +77,10 @@ const deleteLandlordHouse = async (req, res) => {
 }
 
 const getListPage = async (req, res) => {
-    let { page, sortBy, sortOrder } = req.query;
+    let { page, sort, type, status, area, price } = req.query;
     if (!page) page = 1;
 
-    const { post, pages } = await getAllPostInfo();
-
-    sortPosts(post, sortBy, sortOrder);
+    const { post, pages } = await getAllPostInfo(sort, type, status, area, price);
 
     const perPage = 8;
     const startIdx = (page - 1) * perPage;
@@ -119,22 +117,27 @@ const getListPage = async (req, res) => {
     });
 };
 const getResultPage = async (req, res) => {
+    let { page, sort, type, status, area, price } = req.query;
     const keyword = req.query.q;
-    const { results, pages } = await performFullTextSearch(keyword);
-    let { page } = req.query;
+    const { results } = await performFullTextSearch(keyword, sort, type, status, area, price);
+
     if (!page) page = 1;
-    //console.log(post);
-    const result = await performFullTextSearchModel(keyword, 8, (page - 1) * 8);
-    for (let house of result.results) {
-        let date = new Date(house.NgayDatHen);  
+    const perPage = 8;
+    const startIdx = (page - 1) * perPage;
+    const paginatedPosts = results.slice(startIdx, startIdx + perPage);
+
+    for (let house of paginatedPosts) {
+        let date = new Date(house.NgayDatHen);
         const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
         let vietnameseDate = date.toLocaleDateString('vi-VN', options);
         let vietnameseTime = date.toLocaleTimeString('vi-VN');
         house.NgayDatHen = vietnameseDate + ' ' + vietnameseTime;
+
         date = new Date(house.NgayGap);
         vietnameseDate = date.toLocaleDateString('vi-VN', options);
         vietnameseTime = date.toLocaleTimeString('vi-VN');
         house.NgayGap = vietnameseDate + ' ' + vietnameseTime;
+
         let str = house.Gia.toString();
         let result = '';
         while (str.length > 3) {
@@ -144,7 +147,12 @@ const getResultPage = async (req, res) => {
         result = str + result;
         house.Gia = result;
     }
-    res.render('vwPost/search-results', { results: result.results, page: page ? parseInt(page) : 1, pages: parseInt(pages) });
+
+    res.render('vwPost/search-results', {
+        page: parseInt(page),
+        pages: Math.ceil(results.length / perPage),
+        results: paginatedPosts
+    });
 };
 
 

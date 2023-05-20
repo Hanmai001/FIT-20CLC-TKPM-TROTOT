@@ -3,7 +3,7 @@
         <div class="col-md-11" style="margin-left: 4px;">
             <form class="search-container" method="GET" action="/post/search-results">
                 <div class="input-group">
-                    <input class="form-control" type="text" placeholder="Search &#x1F50D;" aria-label="Tìm kiếm"
+                    <input class="form-control" type="text" placeholder="Tìm kiếm &#x1F50D;" aria-label="Tìm kiếm"
                         name="q">
                     <button class="btn btn-primary" type="submit">Tìm kiếm</button>
                 </div>
@@ -14,65 +14,58 @@
     <div class="d-flex align-items-center row justify-content-center" style="">
         <div class="container-fluid text-center d-flex justify-content-start">
             <form class="filter-container d-flex" method="GET" action="" style="margin-bottom: 7px;
-                margin-left: 70px;">
+        margin-left: 70px;">
                 <button class="btn btn-outline-secondary me-1" type="submit">
                     <i class="fas fa-filter"></i> Lọc
                 </button>
-                <div class="cities me-2">
-                    <select class="form-select" name="cities" id="city-select">
-                        <option value="">--Chọn Tỉnh/TP--</option>
+                <div class="type me-2">
+                    <select class="form-select" name="type" id="type-select">
+                        <option class="" value="">--Chọn loại trọ--</option>
+                        <option value="Homestay">Homestay</option>
+                        <option value="Nhà nguyên căn">Nhà nguyên căn</option>
+                        <option value="Căn hộ">Căn hộ</option>
+                        <option value="Kí túc xá">Kí túc xá</option>
+                        <option value="Phòng trọ">Phòng trọ</option>
                     </select>
                 </div>
-                <div class="district me-2">
-                    <select class="form-select" name="district" id="district-select">
-                        <option value="">--Chọn Quận/Huyện--</option>
+                <div class="status me-2">
+                    <select class="form-select" name="status" id="status-select">
+                        <option value="">--Chọn trạng thái phòng--</option>
+                        <option value="Còn phòng">Còn phòng</option>
+                        <option value="Hết phòng">Hết phòng</option>
                     </select>
                 </div>
-                <div class="ward me-2">
-                    <select class="form-select" name="ward" id="ward-select">
-                        <option value="">--Chọn Phường/Xã--</option>
+                <div class="area me-2">
+                    <select class="form-select" name="area" id="area-select">
+                        <option value="">--Chọn khoảng diện tích--</option>
+                        <option value="20-40">Từ 20m2 - 40m2</option>
+                        <option value="40-60">Từ 40m2 - 60m2</option>
+                        <option value="60-100">Từ 60m2 - 100m2</option>
                     </select>
                 </div>
-                <div class="prices me-2">
-                    <select class="form-select" name="prices" id="price-select">
-                        <option value="">&#x1F4B0; --Chọn Giá--</option>
-                        <option value="1">&#x1F4B0; Dưới 10 triệu đồng</option>
-                        <option value="24">&#x1F4B0; Từ 20-40 triệu đồng</option>
-                        <option value="46">&#x1F4B0; Từ 40-60 triệu đồng</option>
-                        <option value="6">&#x1F4B0; Trên 60 triệu đồng</option>
-                    </select>
-                </div>
-                <div class="square me-2">
-                    <select class="form-select" name="squares" id="square-select">
-                        <option value="">&#x25A0; --Chọn Diện Tích--</option>
-                        <option value="1">&#x25A0; Dưới 10m2</option>
-                        <option value="12">&#x25A0; Từ 10m2-20m2</option>
-                        <option value="23">&#x25A0; Từ 20m2-30m2</option>
-                        <option value="3">&#x25A0; Trên 30m2</option>
+                <div class="price me-2">
+                    <select class="form-select" name="price" id="price-select">
+                        <option value="">--Chọn khoảng giá--</option>
+                        <option value="2000000-4000000">Từ 2 triệu - 4 triệu</option>
+                        <option value="4000000-6000000">Từ 4 triệu - 6 triệu</option>
+                        <option value="6000000-10000000">Từ 6 triệu - 10 triệu</option>
+                        <option value=">10000000">Trên 10 triệu</option>
                     </select>
                 </div>
             </form>
+            <div class="sort me-2">
+                <select required class="form-select" name="sort" id="sort-select">
+                    <option class="text-center" value="">--Sắp xếp theo--</option>
+                    <option value="price-down">Giá cao đến thấp</option>
+                    <option value="price-up">Giá thấp đến cao</option>
+                    <option value="newest">Đăng gần đây</option>
+                </select>
+            </div>
         </div>
+
     </div>
 </div>
 <hr>
-<div class="d-flex align-items-center row justify-content-center">
-    <div class="container-fluid text-center d-flex justify-content-center">
-        <form class="filter-container d-flex" method="GET" action="">
-            <div class="p-3">
-                <div class="d-inline-block">
-                    <button type="submit" name="sortBy" value="price">Giá</button>
-                    <button type="submit" name="sortBy" value="area">Diện tích</button>
-                    <button type="submit" name="sortBy" value="date">Ngày đăng</button>
-                    <select name="sortOrder">
-                        <option value="up">Thấp đến cao</option>
-                        <option value="down">Cao đến thấp</option>
-                    </select>
-                </div>
-            </div>
-        </form>
-    </div>
-</div>
 
 <head>
     <style>

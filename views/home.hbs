@@ -178,97 +178,17 @@
     };
     document.addEventListener('DOMContentLoaded', init, false);
 </script>
-{{!-- get address script --}}
 <script>
-    const citySelect = document.getElementById('city-select');
-    const districtSelect = document.getElementById('district-select');
-    const wardSelect = document.getElementById('ward-select');
-
-
-    $(document).ready(function () {
-        $.ajax({
-            url: "https://provinces.open-api.vn/api/p",
-            type: "get",
-            dateType: "json",
-
-            success: function (result) {
-                console.log(result)
-                $.each(result, function (key, value) {
-                    const valueName = value.name;
-                    let item = $(`<option key='${value.code}' value='${valueName}'>${valueName}</option>`);
-                    $("#city-select").append(item);
-                });
-            }
-        });
-    });
-    $("#city-select").change(function () {
-        let selectedVal = $("#city-select option:selected").attr('key');
-        $("#district-select").empty();
-        let item = $("<option key='' class='text-center' value=''>--Chọn Quận/Huyện--</option>");
-        $("#district-select").append(item);
-        $("#ward-select").empty();
-        item = $("<option key='' class='text-center' value=''>--Chọn Phường/Xã--</option>");
-        $("#ward-select").append(item);
-        if (selectedVal == "") {
-            $('#note1').show()
-        }
-        else {
-            $('#note1').hide()
-            $.ajax({
-                url: "https://provinces.open-api.vn/api/d/",
-                type: "get",
-                dateType: "json",
-                success: function (result) {
-                    console.log(result)
-                    $.each(result, function (key, value) {
-                        if (value.province_code == selectedVal) {
-                            const valueName = value.name;
-                            item = $(`<option key='${value.code}' value='${valueName}'>${valueName}</option>`);
-                            $("#district-select").append(item);
-                        }
-                    });
-                }
-            });
-        }
-
-    })
-    $("#district-select").change(function () {
-        let selectedVal = $("#district-select option:selected").attr('key');
-        $("#ward-select").empty();
-        let item = $("<option key='' class='text-center' value=''>--Chọn Phường/Xã--</option>");
-        $("#ward-select").append(item);
-        if (selectedVal == "") {
-            $('#note2').show()
-        }
-        else {
-            $('#note2').hide()
-            $.ajax({
-                url: "https://provinces.open-api.vn/api/w/",
-                type: "get",
-                dateType: "json",
-                success: function (result) {
-                    console.log(result)
-                    $.each(result, function (key, value) {
-                        if (value.district_code == selectedVal) {
-                            const valueName = value.name;
-                            item = $(`<option key='${value.code}' value='${valueName}'>${valueName}</option>`);
-                            $("#ward-select").append(item);
-                        }
-                    });
-                }
-            });
+    $("#sort-select").change(function () {
+        let selectedVal = $("#sort-select option:selected").val();
+        if (selectedVal != "") {
+            const currentUrl = new URL(window.location.href);
+            currentUrl.searchParams.set('sort', selectedVal);
+            const updatedUrl = currentUrl.toString();
+            window.location.href = updatedUrl;
         }
     })
-    $("#ward-select").change(function (e) {
-        let selectedVal = $("#district-select option:selected").attr('key');
-        if (selectedVal == "") {
-            $('#note3').show()
-        }
-        else {
-            $('#note3').hide()
 
-        }
-    })
 </script>
 {{/section}}
 

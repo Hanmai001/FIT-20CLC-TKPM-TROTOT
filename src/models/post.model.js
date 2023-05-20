@@ -21,7 +21,7 @@ const addHouseModel = async (idUser, data) => {
 }
 const updateHouseModel = async (idHouse, data) => {
     const { cities, districts, wards, type_house, status, detailed_address, title, description, utilities, area, num_people, price, water, electricity } = data;
-    
+
     await db('tindangtro').where('TinID', '=', idHouse).update(
         {
             Ten: title,
@@ -91,7 +91,7 @@ const findAll = async (filter) => {
         else if (filter === "Cũ nhất")
             result = result.orderBy('NgayDang', 'asc');
         else if (filter === "Mới nhất")
-            result = result.orderBy('NgayDang', 'desc')    
+            result = result.orderBy('NgayDang', 'desc')
     }
     result = await result;
     return { houses: result, pages: Math.ceil(result.length / 5) };
@@ -179,16 +179,60 @@ const getPostInfo = async (postID) => {
 
     return post[0];
 }
-const getAllPostInfo = async () => {
-    const post = await db('tindangtro as post')
+const getAllPostInfo = async (sort, type, status, area, price) => {
+    let post = [];
+
+    const query = db('tindangtro as post')
         .select('post.TinID', 'post.Ten', 'post.DiaChi', 'post.DienTich', 'post.Gia', 'post.NgayDang', 'nguoidung.HoTen', 'nguoidung.SDT', 'post.SoNguoi', 'post.LoaiTro')
         .select(db.raw('SUBSTRING_INDEX(GROUP_CONCAT(hinh_anh.ChiTietHinhAnh SEPARATOR ","), ",", 1) as Hinhanh'))
         .innerJoin('hinhanh_tindangtro as hinhanh_tindangtro', 'post.TinID', 'hinhanh_tindangtro.TinID')
         .innerJoin('hinh_anh', 'hinhanh_tindangtro.HinhAnhID', 'hinh_anh.HinhAnhID')
         .innerJoin('nguoidung', 'post.NguoiDangTin', 'nguoidung.NguoiDungID')
         .groupBy('post.TinID', 'post.Ten', 'post.DiaChi', 'post.DienTich', 'post.Gia', 'post.NgayDang', 'nguoidung.HoTen', 'nguoidung.SDT');
-    return { post: post, pages: Math.ceil(post.length / 5) };
+
+    if (sort === 'price-down') {
+        query.orderBy('post.Gia', 'desc');
+    } else if (sort === 'price-up') {
+        query.orderBy('post.Gia', 'asc');
+    } else if (sort === 'newest') {
+        query.orderBy('post.NgayDang', 'desc');
+    }
+
+    if (type) {
+        query.where('post.LoaiTro', type);
+    }
+
+    if (status) {
+        query.where('post.TrangThaiPhong', status);
+    }
+
+    if (area) {
+        if (area === '20-40') {
+            query.whereBetween('post.DienTich', [20, 40]);
+        } else if (area === '40-60') {
+            query.whereBetween('post.DienTich', [40, 60]);
+        } else if (area === '60-100') {
+            query.whereBetween('post.DienTich', [60, 100]);
+        }
+    }
+    if (price) {
+        if (price === '2000000-4000000') {
+            query.whereBetween('post.Gia', [2000000, 4000000]);
+        } else if (price === '4000000-6000000') {
+            query.whereBetween('post.Gia', [4000000, 6000000]);
+        } else if (price === '6000000-10000000') {
+            query.whereBetween('post.Gia', [6000000, 10000000]);
+        } else if (price === '>10000000') {
+            query.where('post.Gia', '>', 10000000);
+        }
+
+    }
+    post = await query;
+
+    const pages = Math.ceil(post.length / 5);
+    return { post, pages };
 }
+
 const getRelatePostInfo = async () => {
     const post = await db('tindangtro as post')
         .select('post.TinID', 'post.Ten', 'post.DiaChi', 'post.DienTich', 'post.Gia', 'post.NgayDang', 'nguoidung.HoTen', 'nguoidung.SDT', 'post.SoNguoi', 'post.LoaiTro')
@@ -229,30 +273,49 @@ const getImageInfo = async (postID) => {
         .where('hinhanh_tindangtro.TinID', '=', postID);
     return image;
 }
-const performFullTextSearch = async (keyword) => {
-    const results = await db('tindangtro')
+const performFullTextSearch = async (keyword, sort, type, status, area, price) => {
+    let query = db('tindangtro')
         .select('*')
         .join('hinhanh_tindangtro', 'hinhanh_tindangtro.TinID', '=', 'tindangtro.TinID')
         .join('hinh_anh', 'hinh_anh.HinhAnhID', '=', 'hinhanh_tindangtro.HinhAnhID')
         .whereRaw(`MATCH(Ten) AGAINST(? IN BOOLEAN MODE)`, [keyword])
-        .groupBy('tindangtro.TinID')
+        .groupBy('tindangtro.TinID');
 
-    return { results: results, pages: Math.ceil(results.length / 8) };
-};
-const performFullTextSearchModel = async (keyword, limit, offset) => {
-    const results = await db('tindangtro')
-        .limit(limit)
-        .offset(offset)
-        .select('*')
-        .join('hinhanh_tindangtro', 'hinhanh_tindangtro.TinID', '=', 'tindangtro.TinID')
-        .join('hinh_anh', 'hinh_anh.HinhAnhID', '=', 'hinhanh_tindangtro.HinhAnhID')
-        .whereRaw(`MATCH(Ten) AGAINST(? IN BOOLEAN MODE)`, [keyword])
-        .groupBy('tindangtro.TinID')
+    if (sort) {
+        if (sort === 'price-down') {
+            query.orderBy('Gia', 'desc');
+        } else if (sort === 'price-up') {
+            query.orderBy('Gia', 'asc');
+        } else if (sort === 'newest') {
+            query.orderBy('NgayDang', 'desc');
+        }
+    }
+    if (type) {
+        query = query.where('LoaiTro', type);
+    }
 
+    if (status) {
+        query = query.where('TrangThaiPhong', status);
+    }
+
+    if (area) {
+        const [minArea, maxArea] = area.split('-');
+        query = query.whereBetween('DienTich', [minArea, maxArea]);
+    }
+
+    if (price) {
+        if (price === '>10000000') {
+            query = query.where('Gia', '>', 10000000);
+        } else {
+            const [minPrice, maxPrice] = price.split('-');
+            query = query.whereBetween('Gia', [minPrice, maxPrice]);
+        }
+    }
+
+    const results = await query;
     return { results: results, pages: Math.ceil(results.length / 8) };
 };
 //sorting
-// Hàm sắp xếp bài đăng
 const sortPosts = async (posts, sortBy, sortOrder) => {
     if (sortBy === 'price') {
         posts.sort((a, b) => {
@@ -301,7 +364,6 @@ export {
     getAllPostInfo,
     findAll, findByPage,
     performFullTextSearch,
-    performFullTextSearchModel,
     getRelatePostInfo,
     sortPosts
 }

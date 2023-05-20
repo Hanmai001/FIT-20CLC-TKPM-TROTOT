@@ -20,12 +20,9 @@ export default function (app) {
 
   app.get('/', async (req, res, next) => {
     try {
-      let { page, sortBy, sortOrder } = req.query;
+      let { page, sort, type, status, area, price } = req.query;
       if (!page) page = 1;
-
-      const { post, pages } = await getAllPostInfo();
-
-      sortPosts(post, sortBy, sortOrder);
+      const { post } = await getAllPostInfo(sort, type, status, area, price);
 
       const perPage = 5;
       const startIdx = (page - 1) * perPage;

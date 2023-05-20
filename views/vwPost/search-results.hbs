@@ -177,77 +177,6 @@
     };
     document.addEventListener('DOMContentLoaded', init, false);
 </script>
-{{!-- api address --}}
-<script>
-    // Lấy đối tượng các menu select và các giá trị mặc định
-    var citySelect = document.getElementById("city-select");
-    var districtSelect = document.getElementById("district-select");
-    var wardSelect = document.getElementById("ward-select");
-    var defaultCityOption = citySelect.querySelector("option[value='']");
-    var defaultDistrictOption = districtSelect.querySelector("option[value='']");
-    var defaultWardOption = wardSelect.querySelector("option[value='']");
-
-    // Lấy dữ liệu các tỉnh/thành phố, quận/huyện và phường/xã từ API
-    fetch("https://provinces.open-api.vn/api/p/")
-        .then(response => response.json())
-        .then(data => {
-            // Thêm các tỉnh/thành phố vào menu select
-            data.forEach(city => {
-                var option = document.createElement("option");
-                option.text = city.name;
-                option.value = city.code;
-                citySelect.add(option);
-            });
-        });
-
-    // Lấy danh sách các quận/huyện khi tỉnh/thành phố được chọn
-    citySelect.addEventListener("change", function () {
-        // Xóa các quận/huyện và phường/xã đã chọn trước đó
-        districtSelect.innerHTML = "";
-        wardSelect.innerHTML = "";
-        districtSelect.add(defaultDistrictOption);
-        wardSelect.add(defaultWardOption);
-
-        // Lấy mã tỉnh/thành phố được chọn
-        var cityCode = this.value;
-
-        // Lấy dữ liệu các quận/huyện của tỉnh/thành phố được chọn từ API
-        fetch(`https://provinces.open-api.vn/api/p/${cityCode}?depth=2`)
-            .then(response => response.json())
-            .then(data => {
-                // Thêm các quận/huyện vào menu select
-                data.districts.forEach(district => {
-                    var option = document.createElement("option");
-                    option.text = district.name;
-                    option.value = district.code;
-                    districtSelect.add(option);
-                });
-            });
-    });
-
-    // Lấy danh sách các phường/xã khi quận/huyện được chọn
-    districtSelect.addEventListener("change", function () {
-        // Xóa các phường/xã đã chọn trước đó
-        wardSelect.innerHTML = "";
-        wardSelect.add(defaultWardOption);
-
-        // Lấy mã quận/huyện được chọn
-        var districtCode = this.value;
-
-        // Lấy dữ liệu các phường/xã của quận/huyện được chọn từ API
-        fetch(`https://provinces.open-api.vn/api/d/${districtCode}?depth=2`)
-            .then(response => response.json())
-            .then(data => {
-                // Thêm các phường/xã vào menu select
-                data.wards.forEach(ward => {
-                    var option = document.createElement("option");
-                    option.text = ward.name;
-                    option.value = ward.code;
-                    wardSelect.add(option);
-                });
-            });
-    });
-</script>
 {{!-- script css --}}
 <script>
     document.addEventListener("DOMContentLoaded", function () {
@@ -259,6 +188,33 @@
         });
     });
 </script>
+<script>
+    const filterForm = document.querySelector('.filter-container');
+    filterForm.addEventListener('submit', (event) => {
+        event.preventDefault(); // Ngăn chặn gửi form mặc định
+
+        const searchParams = new URLSearchParams(window.location.search); // Lấy thông tin tham số tìm kiếm từ URL hiện tại
+        const formParams = new FormData(filterForm); // Lấy thông tin từ form
+
+        for (const [key, value] of formParams.entries()) {
+            searchParams.set(key, value); // Cập nhật hoặc thêm tham số tìm kiếm từ form vào URL
+        }
+
+        const searchURL = `http://localhost:3000/post/search-results?${searchParams.toString()}`;
+        window.location.href = searchURL; // Chuyển hướng đến URL mới đã cập nhật
+    });
+</script>
+<script>
+    $("#sort-select").change(function () {
+        let selectedVal = $("#sort-select option:selected").val();
+        if (selectedVal != "") {
+            const currentUrl = new URL(window.location.href);
+            currentUrl.searchParams.set('sort', selectedVal);
+            const updatedUrl = currentUrl.toString();
+            window.location.href = updatedUrl;
+        }
+    })
+</script>z
 {{/section}}
 {{#if user}}
 {{#ifEqualString user.LoaiNguoiDung "Người chủ trọ"}}
