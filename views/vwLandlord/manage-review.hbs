@@ -178,7 +178,7 @@
             <div>Xem tất cả các đánh giá của mọi người đối với tin đăng của bạn</div>
 
         </div>
-        
+
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -189,6 +189,7 @@
                 </tr>
             </thead>
             <tbody>
+                {{#if reviews}}
                 {{#each reviews}}
                 <tr>
                     <td>
@@ -205,6 +206,9 @@
                             Xem chi tiết</a></td>
                 </tr>
                 {{/each}}
+                {{else}}
+                <div class="content__message">Bạn chưa có đánh giá nào từ người dùng:(</div>
+                {{/if}}
             </tbody>
         </table>
     </div>

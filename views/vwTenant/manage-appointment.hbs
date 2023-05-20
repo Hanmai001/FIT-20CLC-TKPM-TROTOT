@@ -275,6 +275,8 @@
                 </div>
             </div>
         </div>
+
+        {{#if houses}}
         {{#each houses}}
         <div class="item border-bottom js-item">
             <div class="modal">
@@ -345,6 +347,10 @@
 
         </div>
         {{/each}}
+
+        {{else}}
+        <div class="content__message">Bạn chưa có lịch hẹn nào:(</div>
+        {{/if}}
 
 
     </div>

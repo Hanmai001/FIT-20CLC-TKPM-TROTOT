@@ -209,6 +209,8 @@
             <h5>DANH SÁCH YÊU THÍCH</h5>
 
         </div>
+        {{#if houses}}
+        
         {{#each houses}}
         <div class="item border-bottom js-item">
             <div class="modal" id="favourite-btns">
@@ -257,6 +259,12 @@
 
         </div>
         {{/each}}
+
+        {{else}}
+
+        <div class="content__message">Bạn chưa có tin yêu thích nào:(</div>
+
+        {{/if}}
 
 
     </div>

@@ -75,7 +75,13 @@ h5 {
 .side-bar-first {
     color: #002ffe;
 }
-
+.content__message {
+    margin: 100px 0;
+    text-align: center;
+    color: #878787;
+    opacity: 0.6;
+    font-size: 24px;
+}
 #pagination {
     display: inline-block;
     vertical-align: middle;

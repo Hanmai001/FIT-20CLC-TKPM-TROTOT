@@ -245,6 +245,7 @@
 
         </div>
 
+        {{#if houses}}
         {{#each houses}}
         <div class="item border-bottom js-item">
             <div class="row">'
@@ -297,6 +298,9 @@
 
         </div>
         {{/each}}
+        {{else}}
+        <div class="content__message">Bạn chưa có bài đăng nào:(</div>
+        {{/if}}
 
         <div class="modal-cancel-confirm">
             <div class="modal__container d-flex flex-column justify-content-between">
