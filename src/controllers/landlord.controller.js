@@ -122,10 +122,9 @@ const deleteAppointment = async (req, res) => {
 }
 const checkCurrentPassword = async (req, res) => {
     const password = req.body.password;
-    console.log(req.body)
     const username = res.locals.user.username;
     const user = await checkUserCredential(username, password);
-    console.log(user)
+    
     if (user)
         return res.status(200).json({ ok: true });
     req.flash('errorChangePass', 'Mật khẩu không đúng');

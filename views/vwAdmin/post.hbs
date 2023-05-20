@@ -307,17 +307,17 @@
                             {{this.Ten}}
                         </div>
                         {{#ifEqualString this.TrangThaiKiemDuyet "Bị từ chối"}}
-                        <div class="col-6 text-end text-danger item__name-last" style="padding-right: 5%;">
+                        <div class="col-6 text-end text-danger item__name-last">
                             {{this.TrangThaiKiemDuyet}}
                         </div>
                         {{/ifEqualString}}
                         {{#ifEqualString this.TrangThaiKiemDuyet "Đã duyệt"}}
-                        <div class="col-6 text-end item__name-last" style="padding-right: 5%; color: #28a745;">
+                        <div class="col-6 text-end item__name-last" style="color: #28a745;">
                             {{this.TrangThaiKiemDuyet}}
                         </div>
                         {{/ifEqualString}}
                         {{#ifEqualString this.TrangThaiKiemDuyet "Chờ xác nhận"}}
-                        <div class="col-6 text-end text-danger item__name-last" style="padding-right: 5%; color: #ffc107;">
+                        <div class="col-6 text-end item__name-last" style="color: #ffc107;">
                             {{this.TrangThaiKiemDuyet}}
                         </div>
                         {{/ifEqualString}}
