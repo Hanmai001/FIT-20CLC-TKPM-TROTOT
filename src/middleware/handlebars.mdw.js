@@ -79,6 +79,43 @@ export default function (app) {
                         return opts.inverse(this);
                     }
                 },
+                isEven: function (index) {
+                    return index % 2 === 0;
+                },
+                getIconClass: function (ten) {
+                    // Ánh xạ từ tên tiện ích sang tên lớp CSS hoặc lớp biểu tượng tương ứng
+                    if (ten === 'Bãi xe') {
+                        return 'fa-solid fa-car';
+                    } else if (ten === 'Thú cưng') {
+                        return 'fa-solid fa-dog';
+                    } else if (ten === 'Wifi') {
+                        return 'fa-solid fa-wifi';
+                    } else if (ten === 'Tivi') {
+                        return 'fa-solid fa-tv-retro';
+                    } else if (ten === 'Tủ lạnh') {
+                        return 'fa-solid fa-refrigerator';
+                    } else if (ten === 'Chủ riêng') {
+                        return 'fa-solid fa-person fa-lg';
+                    } else if (ten === 'Giờ giấc tự do') {
+                        return 'fa-solid fa-timer';
+                    } else if (ten === 'Ban công') {
+                        return 'fa-solid fa-house-user';
+                    } else if (ten === 'Bếp') {
+                        return 'fa-solid fa-knife-kitchen';
+                    }
+                    // Thêm các trường hợp khác tương ứng với biểu tượng
+                    //...
+                    else {
+                        return 'fas fa-default-icon'; // Biểu tượng mặc định nếu không tìm thấy ánh xạ
+                    }
+                },
+                getIconSizeClass: function (ten) {
+                    if (ten === 'Tủ lạnh') {
+                        return 'icon-lg'; // Chỉnh kích thước tùy ý bằng lớp CSS 'icon-lg'
+                    } else {
+                        return 'icon-sm'; // Lớp CSS mặc định cho các biểu tượng khác
+                    }
+                },
                 star: function (numberRate) {
                     let tagStar = "";
                     for (let i = 1; i <= 5; i++) {

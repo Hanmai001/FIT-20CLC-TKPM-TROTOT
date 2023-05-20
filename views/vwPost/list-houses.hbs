@@ -253,6 +253,27 @@
             element.textContent = truncatedText;
         });
     });
+
+    document.addEventListener("DOMContentLoaded", function () {
+        var pElements = document.querySelectorAll(".inline.truncate");
+        pElements.forEach(function (element) {
+            var text = element.textContent;
+            var truncatedText = text.length > 30 ? text.substring(0, 30) + "..." : text;
+            element.textContent = truncatedText;
+        });
+    });
+
+    document.addEventListener("DOMContentLoaded", function () {
+        var pElements = document.querySelectorAll(".inline.truncate");
+        pElements.forEach(function (element) {
+            var hasOverflow = element.clientWidth < element.scrollWidth;
+            if (hasOverflow) {
+                element.classList.add("truncate");
+            } else {
+                element.classList.remove("truncate");
+            }
+        });
+    });
 </script>
 <script>
     $("#sort-select").change(function () {
@@ -310,10 +331,10 @@
                         style="width:13px; height:13px; margin-top:6.5px">
                     <p class="inline" style="color:rgb(139, 139, 139)">{{formatDate this.NgayDang}}</p>
                 </div>
-                <div>
+                <div class="location">
                     <img src="../../public/assets/pictures/location.png" alt=""
                         style="width:13px; height:13px; margin-top:6.5px">
-                    <p class="inline truncate">{{this.DiaChi}}</p>
+                    <p class="truncate">{{this.DiaChi}}</p>
                 </div>
             </a>
             {{/each}}
@@ -323,3 +344,16 @@
         <div id="pagination"></div>
     </div>
 </div>
+
+<head>
+    <style>
+        .location {
+            display: flex;
+            align-items: center;
+        }
+
+        .location img {
+            margin-right: 4%;
+        }
+    </style>
+</head>

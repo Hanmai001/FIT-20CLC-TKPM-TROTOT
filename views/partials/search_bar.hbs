@@ -1,152 +1,141 @@
-<div class="container" style="margin-top: 10px;">
+<div class="box" style="background-color: rgb(255, 255, 255);">
     <div class="d-flex align-items-center justify-content-center">
-        <div class="col-md-11" style="margin-left: 4px;">
-            <form class="search-container" method="GET" action="/post/search-results">
-                <div class="input-group">
-                    <input class="form-control" type="text" placeholder="Tìm kiếm &#x1F50D;" aria-label="Tìm kiếm"
-                        name="q">
-                    <button class="btn btn-primary" type="submit">Tìm kiếm</button>
-                </div>
-            </form>
-
-        </div>
+        <form class="search-container" method="GET" action="/post/search-results">
+            <div class="input-group">
+                <input class="form-control" type="text" placeholder="Tìm kiếm &#x1F50D;" aria-label="Tìm kiếm" name="q">
+                <button class="btn btn-primary" type="submit">Tìm kiếm</button>
+            </div>
+        </form>
     </div>
-    <div class="d-flex align-items-center row justify-content-center" style="">
-        <div class="container-fluid text-center d-flex justify-content-start">
-            <form class="filter-container d-flex" method="GET" action="" style="margin-bottom: 7px;
-        margin-left: 70px;">
-                <button class="btn btn-outline-secondary me-1" type="submit">
-                    <i class="fas fa-filter"></i> Lọc
-                </button>
-                <div class="type me-2">
-                    <select class="form-select" name="type" id="type-select">
-                        <option class="" value="">--Chọn loại trọ--</option>
-                        <option value="Homestay">Homestay</option>
-                        <option value="Nhà nguyên căn">Nhà nguyên căn</option>
-                        <option value="Căn hộ">Căn hộ</option>
-                        <option value="Kí túc xá">Kí túc xá</option>
-                        <option value="Phòng trọ">Phòng trọ</option>
-                    </select>
-                </div>
-                <div class="status me-2">
-                    <select class="form-select" name="status" id="status-select">
-                        <option value="">--Chọn trạng thái phòng--</option>
-                        <option value="Còn phòng">Còn phòng</option>
-                        <option value="Hết phòng">Hết phòng</option>
-                    </select>
-                </div>
-                <div class="area me-2">
-                    <select class="form-select" name="area" id="area-select">
-                        <option value="">--Chọn khoảng diện tích--</option>
-                        <option value="20-40">Từ 20m2 - 40m2</option>
-                        <option value="40-60">Từ 40m2 - 60m2</option>
-                        <option value="60-100">Từ 60m2 - 100m2</option>
-                    </select>
-                </div>
-                <div class="price me-2">
-                    <select class="form-select" name="price" id="price-select">
-                        <option value="">--Chọn khoảng giá--</option>
-                        <option value="2000000-4000000">Từ 2 triệu - 4 triệu</option>
-                        <option value="4000000-6000000">Từ 4 triệu - 6 triệu</option>
-                        <option value="6000000-10000000">Từ 6 triệu - 10 triệu</option>
-                        <option value=">10000000">Trên 10 triệu</option>
-                    </select>
-                </div>
-            </form>
-            <div class="sort me-2">
-                <select required class="form-select" name="sort" id="sort-select">
-                    <option class="text-center" value="">--Sắp xếp theo--</option>
-                    <option value="price-down">Giá cao đến thấp</option>
-                    <option value="price-up">Giá thấp đến cao</option>
-                    <option value="newest">Đăng gần đây</option>
+    <div class="d-flex align-items-center justify-content-center">
+        <form class="filter-container d-flex" method="GET" action="" style="margin-bottom: 1.5%">
+            <button class="btn btn-outline-secondary me-1" type="submit"
+                style="background-color: white; color: rgb(104, 104, 104); font-size: 92%">
+                <i class="fas fa-filter"></i>&nbspLọc&nbsp
+            </button>
+            <div class="type me-2">
+                <select class="form-select" name="type" id="type-select">
+                    <option class="" value="">--Chọn loại trọ--</option>
+                    <option value="Homestay">Homestay</option>
+                    <option value="Nhà nguyên căn">Nhà nguyên căn</option>
+                    <option value="Căn hộ">Căn hộ</option>
+                    <option value="Kí túc xá">Kí túc xá</option>
+                    <option value="Phòng trọ">Phòng trọ</option>
                 </select>
             </div>
+            <div class="status me-2">
+                <select class="form-select" name="status" id="status-select">
+                    <option value="">--Chọn trạng thái phòng--</option>
+                    <option value="Còn phòng">Còn phòng</option>
+                    <option value="Hết phòng">Hết phòng</option>
+                </select>
+            </div>
+            <div class="area me-2">
+                <select class="form-select" name="area" id="area-select">
+                    <option value="">--Chọn khoảng diện tích--</option>
+                    <option value="20-40">Từ 20m2 - 40m2</option>
+                    <option value="40-60">Từ 40m2 - 60m2</option>
+                    <option value="60-100">Từ 60m2 - 100m2</option>
+                </select>
+            </div>
+            <div class="price me-2">
+                <select class="form-select" name="price" id="price-select">
+                    <option value="">--Chọn khoảng giá--</option>
+                    <option value="2000000-4000000">Từ 2 triệu - 4 triệu</option>
+                    <option value="4000000-6000000">Từ 4 triệu - 6 triệu</option>
+                    <option value="6000000-10000000">Từ 6 triệu - 10 triệu</option>
+                    <option value=">10000000">Trên 10 triệu</option>
+                </select>
+            </div>
+        </form>
+        <div class="sort me-2" style="margin-bottom: 1.55%; font-size: 90%">
+            <select required class="form-select" name="sort" id="sort-select">
+                <option class="text-center" value="">--Sắp xếp theo--</option>
+                <option value="price-down">Giá cao đến thấp</option>
+                <option value="price-up">Giá thấp đến cao</option>
+                <option value="newest">Đăng gần đây</option>
+            </select>
         </div>
-
     </div>
 </div>
-<hr>
 
 <head>
     <style>
+        .input-group input.form-control {
+            width: 100%;
+            /* Chiếm toàn bộ chiều ngang của input-group */
+        }
+
+        @media (min-width: 576px) {
+            .input-group input.form-control {
+                width: 960px;
+                /* Kích thước dài của form control trên các màn hình có chiều rộng từ 576px trở lên */
+            }
+        }
+
         .form-select {
-            font-size: 15px;
-            /* Kích thước phông chữ */
-            padding: 5px 27.5px;
-            /* Kích thước padding */
-            height: 45px;
-            /* Kích thước chiều cao */
+            font-size: 93%;
         }
 
-        .container {
-            margin-top: 10px;
+        .d-flex.align-items-center.justify-content-center {
+            flex-wrap: wrap;
         }
 
-        .row {
-            display: flex;
-            justify-content: start;
-            align-items: center;
-        }
-
-        .col-md-11 {
-            margin-left: 42px;
+        .col-md-9 {
+            margin-left: -25px;
+            flex: 0 0 100%;
+            max-width: 100%;
         }
 
         .search-container {
+            margin-right: 0.5%;
+            margin-top: 1.5%;
             display: flex;
             align-items: center;
-        }
-
-        .search-container .form-control {
-            flex: 1;
-        }
-
-        .align-items-center {
-            display: flex;
-            align-items: center;
-        }
-
-        .container-fluid {
-            display: flex;
-            justify-content: flex-start;
-            align-items: center;
-        }
-
-        .container-fluid .d-flex {
-            display: flex;
-            flex-wrap: wrap;
             margin-bottom: 7px;
-            margin-left: 70px;
         }
 
-        .container-fluid .d-flex .form-select {
-            margin-right: 5px;
-        }
-
-        /* CSS for responsive design */
+        /* Responsive */
         @media (max-width: 768px) {
-            .col-md-11 {
+            .col-md-9 {
                 margin-left: 0;
             }
+        }
 
-            .search-container {
-                flex-direction: column;
-                align-items: stretch;
+
+        .container-fluid.text-center.d-flex.justify-content-center {
+            flex-wrap: wrap;
+
+        }
+
+        .filter-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1%;
+        }
+
+        .type,
+        .status,
+        .area,
+        .price,
+        .sort {
+            margin-right: 0.5rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .filter-container {
+                flex-wrap: wrap;
+                justify-content: center;
             }
 
-            .search-container .form-control {
-                margin-top: 10px;
-            }
-
-            .container-fluid .d-flex {
-                flex-direction: column;
-                align-items: flex-start;
-                margin-left: 0;
-            }
-
-            .container-fluid .d-flex .form-select {
+            .type,
+            .status,
+            .area,
+            .price,
+            .sort {
+                margin-bottom: 0.5rem;
                 margin-right: 0;
-                margin-bottom: 5px;
             }
         }
     </style>

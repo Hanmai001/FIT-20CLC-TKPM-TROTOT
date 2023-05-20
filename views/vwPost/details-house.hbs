@@ -61,7 +61,7 @@
             body: JSON.stringify({ idPost })
         })
             .then((response) => {
-                divAddFavourite.innerHTML = '<button id="btn-add-favourite" class="like-btn" onClick="delPost()"><i class="fa-solid fa-heart" style = "color: #ffffff;"></i > Xóa khỏi danh sách yêu thích</button > ';
+                divAddFavourite.innerHTML = '<button id="btn-add-favourite" class="like-btn" onClick="delPost()"><i class="fa-solid fa-heart" style = "color: #EE0000;"></i > Yêu thích</button > ';
                 // Handle the response from the server
                 console.log('Response:', response);
             })
@@ -150,6 +150,7 @@
         });
     });
 
+
 </script>
 <script async defer
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAeOS7IcZeQdZrFqQOWnddYHwki4xDCCBI&callback=initMap"></script>
@@ -227,14 +228,12 @@
                     <div class="image" style="height: 300px; width:100%;">
                         <img src="{{ image.[0].ChiTietHinhAnh }}" alt="" style="">
                     </div>
-
-                    <div class="extra-pics mt-2">
-                        <i class="fa-solid fa-angle-left"></i>
+                    <div class="extra-pics mt-2" style="height: 110px; width:100%;">
                         {{#each image}}
                         <img src="{{ this.ChiTietHinhAnh}}" alt="">
                         {{/each}}
-                        <i class="fa-solid fa-angle-right"></i>
                     </div>
+
                 </div>
             </div>
             {{!-- landllord info --}}
@@ -243,7 +242,7 @@
                     <figure class="author-avatar"><img src="{{ author.avatar }}"></figure>
                     <span class="author-post">Được đăng bởi</span>
                     <span class="author-name">{{ author.HoTen }}</span> <!-- Hiển thị tên người đăng -->
-                    <a class="btn author-phone" style="font-weight:400;">{{ author.SDT }}</a>
+                    <span class="btn author-phone" style="font-weight:400;">{{ author.SDT }}</span>
 
                 </div>
                 <div>
@@ -271,8 +270,6 @@
                             <i class="fa-solid fa-flag" style="color: #ffffff;"></i> Báo cáo</button>
 
                         </button>
-
-
                         <div id="add-favourite">
 
                             {{#if user}}
@@ -316,11 +313,29 @@
             <li><strong>Tiền điện:</strong> {{post.TienDien}} VNĐ/kWh</li>
         </ul>
         <h2>Tiện ích</h2>
-        <ul>
-            {{#each utilities}}
-            <li>{{this.Ten}}</li>
-            {{/each}}
-        </ul>
+        <div class="column">
+            <ul>
+                {{#each utilities}}
+                {{#if (isEven @index)}}
+                <li>
+                    <i class="{{getIconClass this.Ten}} icon common-icon"></i> {{this.Ten}}
+                </li>
+                {{/if}}
+                {{/each}}
+            </ul>
+        </div>
+        <div class="column">
+            <ul>
+                {{#each utilities}}
+                {{#unless (isEven @index)}}
+                <li>
+                    <i class="{{getIconClass this.Ten}} icon common-icon"></i> {{this.Ten}}
+                </li>
+                {{/unless}}
+                {{/each}}
+            </ul>
+        </div>
+
         <h2>Bản đồ vị trí</h2>
         <div id="map"></div>
     </div>
@@ -354,10 +369,10 @@
                         style="width:13px; height:13px; margin-top:6.5px">
                     <p class="inline" style="color:rgb(139, 139, 139)">{{formatDate this.NgayDang}}</p>
                 </div>
-                <div>
+                <div class="location">
                     <img src="../../public/assets/pictures/location.png" alt=""
                         style="width:13px; height:13px; margin-top:6.5px">
-                    <p class="inline truncate">{{this.DiaChi}}</p>
+                    <p class="truncate">{{this.DiaChi}}</p>
                 </div>
                 </a>
                 {{/ifCond}}
@@ -387,3 +402,76 @@
     </div>
 </div>
 <br>
+
+<head>
+    <style>
+        .location {
+            display: flex;
+            align-items: center;
+        }
+
+        .location img {
+            margin-right: 4%;
+        }
+
+        h2 {
+            clear: both;
+            margin-top: 0;
+        }
+
+        .column {
+            float: left;
+            width: 50%;
+        }
+
+        .author-aside {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .author-avatar img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+        }
+
+        .author-name {
+            overflow: hidden;
+            /* Ẩn phần vượt quá kích thước của phần tử */
+            /* Ngăn chặn chữ xuống dòng */
+            text-overflow: ellipsis;
+            /* Hiển thị dấu ba chấm khi chữ bị tràn ra */
+            max-width: 110%;
+            /* Giới hạn kích thước tối đa của phần tử */
+        }
+
+
+        .author-phone {
+            font-weight: 400;
+            font-size: 14px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        @media (max-width: 768px) {
+            .author-phone {
+                font-size: 12px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .author-avatar img {
+                width: 80px;
+                height: 80px;
+            }
+        }
+
+        .column {
+            float: left;
+            width: 50%;
+        }
+    </style>
+</head>

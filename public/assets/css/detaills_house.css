@@ -1,12 +1,10 @@
 body {
     font-family: Arial, sans-serif;
     margin: 0;
-    padding-top: 100px;
-
+    padding-top: 6%;
 }
 
 .content {
-    padding: 20px;
     background-color: #ffffff;
 }
 
@@ -57,15 +55,21 @@ p {
 
 }
 
+.extra-pics {
+    display: flex;
+}
+
 .extra-pics img {
-    width: 147.18px;
-    height: 125px;
-    margin: 0.3rem 0;
+    flex: 1;
+    width: 10%;
+    height: auto;
     object-fit: cover;
     cursor: pointer;
     opacity: 0.5;
     transition: opacity 0.3s ease-in-out;
 }
+
+
 
 .extra-pics img:hover {
     opacity: 1;
@@ -130,18 +134,18 @@ a {
 /* author tab */
 .author-aside {
     border: 1px solid #f0f0f0;
-    padding: 15px;
+    padding: 5%;
     border-radius: 5px;
-    margin-bottom: 20px;
+    margin-bottom: 2%;
     background-color: #f0f0f0;
 }
 
 .author-aside .author-avatar {
-    width: 80px;
-    height: 80px;
+    width: 80%;
+    height: 80%;
     border-radius: 50%;
     overflow: hidden;
-    margin: 0 auto 10px;
+    margin: 0 auto 5%;
 }
 
 figure img {
@@ -293,6 +297,7 @@ span.btn.favorite {
 }
 
 /* 2 button */
+/* 2 button */
 .action-buttons {
     display: flex;
     justify-content: start;
@@ -304,7 +309,7 @@ span.btn.favorite {
     padding: 10px;
     border: none;
     border-radius: 5px;
-    font-size: 14px;
+    font-size: 100%;
     font-weight: bold;
     cursor: pointer;
     transition: background-color 0.2s ease-in-out;
@@ -330,6 +335,7 @@ span.btn.favorite {
 .like-btn:hover {
     background-color: #ccc;
 }
+
 
 /* đặt lịch */
 .btn-booking {
@@ -460,5 +466,27 @@ span.btn.favorite {
     p {
         font-size: 12px;
         margin: 0;
+    }
+}
+
+@media (max-width: 768px) {
+    .review {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .review .col-2 {
+        margin-bottom: 10px;
+    }
+
+    .review .col-10 {
+        margin-left: 0;
+    }
+}
+
+@media (max-width: 576px) {
+    .review img {
+        width: 100%;
+        height: auto;
     }
 }
