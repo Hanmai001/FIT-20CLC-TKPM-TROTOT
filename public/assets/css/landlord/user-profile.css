@@ -1,0 +1,92 @@
+.content {
+    margin-top: 120px;
+    margin-left: 280px;
+    margin-right: 50px;
+}
+
+h5 {
+    color: #002ffe;
+}
+
+.content__header>div {
+    font-size: 14px;
+    color: #002ffe;
+    font-style: italic;
+}
+
+/* CARD PROFILE */
+.content .card-profile {
+    background-color: #fff;
+}
+
+.content .card-profile .header-card h6 {
+    font-weight: 400;
+}
+
+.content .card-profile .body-card .avatar img {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    border: 4px double #92a5fa;
+    overflow: hidden;
+    margin: auto;
+}
+
+.content .card-profile .body-card .avatar label {
+    border: 1px solid #d5d5d5;
+    width: 120px;
+    padding: 10px 0;
+    color: rgb(124, 138, 154);
+}
+
+.content .card-profile .body-card .avatar label:hover {
+    cursor: pointer;
+}
+
+.card-profile .body-card .details label {
+    color: rgb(124, 138, 154);
+    width: 120px;
+    text-align: right;
+    margin-right: 1rem;
+}
+
+.card-profile .body-card .details input,
+.card-profile .body-card .details textarea,
+#city-select {
+    padding: 0.5rem;
+    width: 75%;
+    border: 1px solid #d5d5d5;
+}
+
+.card-profile .body-card .details input:focus,
+.card-profile .body-card .details textarea:focus {
+    outline: none;
+}
+
+.card-profile .body-card .details .sex-profile input {
+    width: 20px;
+}
+
+.card-profile .body-card .details .sex-profile label {
+    width: 50px;
+    color: #000;
+}
+
+.card-profile .body-card .details .sex-profile label:first-child {
+    width: 120px;
+    color: rgb(124, 138, 154);
+}
+
+.card-profile .body-card input[type="submit"] {
+    color: #ffff;
+    border: none;
+    background-color: #002ffe;
+    border-radius: 3px;
+}
+
+#username-profile {
+    color: #454545;
+}
+.side-bar-fourth {
+    color: #002ffe;
+}

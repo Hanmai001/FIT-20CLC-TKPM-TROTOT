@@ -66,10 +66,10 @@ const checkCurrentPassword = async (req, res) => {
     if (user)
         return res.status(200).json({ ok: true });
     req.flash('errorChangePass', 'Mật khẩu không đúng');
-    res.status(201).json({ok: false});
+    res.status(201).json({ ok: false });
 }
 const updatePassword = async (req, res) => {
-    const {newPass} = req.body;
+    const { newPass } = req.body;
     const idUser = res.locals.user.id;
     await updatePasswordModel(idUser, newPass);
     res.redirect("/tenant/profile");

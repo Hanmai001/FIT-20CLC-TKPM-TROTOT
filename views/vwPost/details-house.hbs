@@ -65,7 +65,7 @@
             body: JSON.stringify({ idPost })
         })
             .then((response) => {
-                divAddFavourite.innerHTML = '<button id="btn-add-favourite" class="like-btn "><i class="fa-solid fa-heart" style = "color: #ffffff;" onClick="delPost()"></i > Xóa khỏi danh sách yêu thích</button > ';
+                divAddFavourite.innerHTML = '<button id="btn-add-favourite" class="like-btn" onClick="delPost()"><i class="fa-solid fa-heart" style = "color: #ffffff;"></i > Xóa khỏi danh sách yêu thích</button > ';
                 // Handle the response from the server
                 console.log('Response:', response);
             })
@@ -83,7 +83,7 @@
 
         })
             .then((response) => {
-                divAddFavourite.innerHTML = '<button id="btn-add-favourite" class="like-btn "><i class="fa-solid fa-heart" style = "color: #ffffff;" onClick="addPost()"></i > Yêu thích</button > ';
+                divAddFavourite.innerHTML = '<button id="btn-add-favourite" class="like-btn" onClick="addPost()"><i class="fa-solid fa-heart" style = "color: #ffffff;"></i > Yêu thích</button > ';
                 // Handle the response from the server
                 console.log('Response:', response);
             })
@@ -184,22 +184,6 @@
                 </div>
             </div>
             <div class="modal__input-item">
-                <label class="d-block mb-2" for="fullname">Họ tên<span style="color:red">*</span></label>
-                <input type="text" id="fullname" name="fullname" placeholder="Nhập họ tên người đặt hẹn" value=""
-                    required>
-                <div class="text-danger content__note" id="fullname-note">
-                    Vui lòng nhập họ tên
-                </div>
-            </div>
-            <div class="modal__input-item">
-                <label class="d-block mb-2" for="phone">Số điện thoại<span style="color:red">*</span></label>
-                <input type="text" id="phone" name="phone" placeholder="Nhập số điện thoại người đặt hẹn" value=""
-                    required>
-                <div class="text-danger content__note" id="phone-note">
-                    Vui lòng nhập số điện thoại
-                </div>
-            </div>
-            <div class="modal__input-item">
                 <label class="d-block mb-2" for="date">Ngày hẹn gặp<span style="color:red">*</span></label>
                 <input type="date" id="date" name="date" value="" required>
                 <div class="text-danger content__note" id="date-note">
@@ -291,14 +275,17 @@
                         <div id="add-favourite">
 
                             {{#if user}}
-                            <button id="btn-add-favourite" class="like-btn "><i class="fa-solid fa-heart"
-                                    style="color: #ffffff;"></i>
+                            
                                 {{#if checkFavourite}}
+                                <button id="btn-add-favourite" class="like-btn" onClick="delPost()"><i class="fa-solid fa-heart" style="color: #ffffff;"></i>
                                 Xóa khỏi danh sách yêu thích
+                                </button>
                                 {{else}}
-                                Yêu thích
+                                <button id="btn-add-favourite" class="like-btn" onClick="addPost()"><i class="fa-solid fa-heart" style="color: #ffffff;"></i>
+                                   Yêu thích
+                                </button>
                                 {{/if}}
-                            </button>
+                            
                             {{else}}
                             <button class="like-btn "><i class="fa-solid fa-heart" style="color: #ffffff;"></i>
                                 <a href="/account/login"> Yêu thích</a>

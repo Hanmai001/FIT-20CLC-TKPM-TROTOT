@@ -36,12 +36,14 @@ h5 {
 .item {
     position: relative;
 }
+
 .item .item__photo img {
     width: 150px;
     height: 120px;
     overflow: hidden;
     margin: auto;
 }
+
 .item .item__price {
     color: #002ffe;
 }
@@ -84,6 +86,7 @@ h5 {
     display: inline-block;
     margin-right: 5px;
 }
+
 .item .show-btn a {
     text-decoration: none;
     color: #fff;
@@ -205,4 +208,8 @@ h5 {
 
 .modal-cancel-confirm .modal__container-btns button:first-child {
     background-color: #fe0000;
+}
+
+.side-bar-third {
+    color: #002ffe;
 }

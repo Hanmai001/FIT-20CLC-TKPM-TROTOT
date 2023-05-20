@@ -84,7 +84,7 @@
 }
 
 .header .btn-post-house button {
-    width: 95%;
+    width: 120px;
     border-radius: 5px;
     background-color: #002ffe;
     border: none;
@@ -93,5 +93,5 @@
 }
 
 .header .btn-post-house i {
-    margin-left: 3px;
+    margin-left: 5px;
 }

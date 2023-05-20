@@ -80,3 +80,7 @@
     background-image: -o-linear-gradient(top, #D0D0D0, #EBEBEB);
     background-image: linear-gradient(top, #D0D0D0, #EBEBEB); */
 }
+
+.side-bar-third {
+    color: #002ffe;
+}
