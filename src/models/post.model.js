@@ -183,13 +183,13 @@ const getAllPostInfo = async (sort, type, status, area, price) => {
     let post = [];
 
     const query = db('tindangtro as post')
-        .select('post.TinID', 'post.Ten', 'post.DiaChi', 'post.DienTich', 'post.Gia', 'post.NgayDang', 'nguoidung.HoTen', 'nguoidung.SDT', 'post.SoNguoi', 'post.LoaiTro')
+        .select('post.TinID', 'post.Ten', 'post.TrangThaiKiemDuyet', 'post.DiaChi', 'post.DienTich', 'post.Gia', 'post.NgayDang', 'nguoidung.HoTen', 'nguoidung.SDT', 'post.SoNguoi', 'post.LoaiTro')
         .select(db.raw('SUBSTRING_INDEX(GROUP_CONCAT(hinh_anh.ChiTietHinhAnh SEPARATOR ","), ",", 1) as Hinhanh'))
         .innerJoin('hinhanh_tindangtro as hinhanh_tindangtro', 'post.TinID', 'hinhanh_tindangtro.TinID')
         .innerJoin('hinh_anh', 'hinhanh_tindangtro.HinhAnhID', 'hinh_anh.HinhAnhID')
         .innerJoin('nguoidung', 'post.NguoiDangTin', 'nguoidung.NguoiDungID')
+        .where('post.TrangThaiKiemDuyet', '=', 'Đã duyệt')
         .groupBy('post.TinID', 'post.Ten', 'post.DiaChi', 'post.DienTich', 'post.Gia', 'post.NgayDang', 'nguoidung.HoTen', 'nguoidung.SDT');
-
     if (sort === 'price-down') {
         query.orderBy('post.Gia', 'desc');
     } else if (sort === 'price-up') {
@@ -279,6 +279,7 @@ const performFullTextSearch = async (keyword, sort, type, status, area, price) =
         .join('hinhanh_tindangtro', 'hinhanh_tindangtro.TinID', '=', 'tindangtro.TinID')
         .join('hinh_anh', 'hinh_anh.HinhAnhID', '=', 'hinhanh_tindangtro.HinhAnhID')
         .whereRaw(`MATCH(Ten) AGAINST(? IN BOOLEAN MODE)`, [keyword])
+        .where('tindangtro.TrangThaiKiemDuyet', '=', 'Đã duyệt')
         .groupBy('tindangtro.TinID');
 
     if (sort) {

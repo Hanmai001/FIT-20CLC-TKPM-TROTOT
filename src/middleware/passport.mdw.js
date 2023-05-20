@@ -12,6 +12,9 @@ passport.use(new LocalStrategy(
     },
     async function (TaiKhoan, MatKhau, done) {
         const user = await checkUserCredential(TaiKhoan, MatKhau);
+        if (user == 1) {
+            return done(null, false, { message: "Tài khoản của bạn đã bị khóa!!" });
+        }
         if (!user) {
             return done(null, false, { message: "Sai tài khoản hoặc mật khẩu!!" });
         }

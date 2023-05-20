@@ -118,7 +118,8 @@ const checkRegister = async (req, res) => {
         username,
         phone,
         hashedPassword,
-        "Người thuê trọ"
+        "Người thuê trọ",
+        "Hoạt động"
     );
     if (!result) {
         req.flash('error', 'Đã có lỗi xảy ra. Vui lòng thử lại sau!');

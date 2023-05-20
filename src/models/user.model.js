@@ -15,14 +15,14 @@ const getUserByPhone = async (phone) => {
   return user;
 };
 
-const addUser = async (username, phone, password, type) => {
-  console.log(addUser)
+const addUser = async (username, phone, password, type, status) => {
   try {
     await db('nguoidung').insert({
       SDT: phone,
       TaiKhoan: username,
       MatKhau: password,
       LoaiNguoiDung: type,
+      TrangThai: status
     });
     return true;
   } catch (error) {
@@ -37,6 +37,8 @@ const checkUserCredential = async (TaiKhoan, MatKhau) => {
   if (!user) {
     return null;
   }
+  if (user.TrangThai == "Bị khóa")
+    return 1;
   const isMatch = await bcrypt.compare(MatKhau, user.MatKhau);
   if (isMatch) {
     return user;

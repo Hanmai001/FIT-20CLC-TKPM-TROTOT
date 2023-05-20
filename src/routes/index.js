@@ -23,7 +23,7 @@ export default function (app) {
       let { page, sort, type, status, area, price } = req.query;
       if (!page) page = 1;
       const { post } = await getAllPostInfo(sort, type, status, area, price);
-
+      console.log(post)
       const perPage = 5;
       const startIdx = (page - 1) * perPage;
       const paginatedPosts = post.slice(startIdx, startIdx + perPage);
