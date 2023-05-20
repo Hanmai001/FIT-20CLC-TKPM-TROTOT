@@ -172,7 +172,7 @@ const getTenantHouseAppointmentListModel = async (idUser, limit, offset, filter)
 }
 const getIDLandlordOfAHouseModel = async (idHouse) => {
     const res = await db('tindangtro').where('TinID', '=', idHouse).select('NguoiDangTin');
-    return res[0];
+    return res[0].NguoiDangTin;
 }
 const getPostInfo = async (postID) => {
     const post = await db('tindangtro').where('TinID', '=', postID).select('*');

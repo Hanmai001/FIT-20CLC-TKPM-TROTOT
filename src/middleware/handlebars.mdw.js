@@ -24,6 +24,13 @@ export default function (app) {
                 isEmpty: function (value) {
                     return value === "";
                 },
+                extractName: function (fullName) {
+                    if (fullName) {
+                        var nameParts = fullName.split(' ');
+                        return nameParts[nameParts.length - 1];
+                    }
+                    return '';
+                },
                 isFree: function (value) {
                     return value === 0;
                 },
@@ -37,24 +44,24 @@ export default function (app) {
                         return opts.inverse(this);
                     }
                 },
-                ifCond: function(v1, operator, v2, options) {
+                ifCond: function (v1, operator, v2, options) {
                     switch (operator) {
-                      case '<':
-                        return (v1 < v2) ? options.fn(this) : options.inverse(this);
-                      case '>':
-                        return (v1 > v2) ? options.fn(this) : options.inverse(this);
-                      case '<=':
-                        return (v1 <= v2) ? options.fn(this) : options.inverse(this);
-                      case '>=':
-                        return (v1 >= v2) ? options.fn(this) : options.inverse(this);
-                      case '==':
-                        return (v1 == v2) ? options.fn(this) : options.inverse(this);
-                      case '!=':
-                        return (v1 != v2) ? options.fn(this) : options.inverse(this);
-                      default:
-                        return options.inverse(this);
+                        case '<':
+                            return (v1 < v2) ? options.fn(this) : options.inverse(this);
+                        case '>':
+                            return (v1 > v2) ? options.fn(this) : options.inverse(this);
+                        case '<=':
+                            return (v1 <= v2) ? options.fn(this) : options.inverse(this);
+                        case '>=':
+                            return (v1 >= v2) ? options.fn(this) : options.inverse(this);
+                        case '==':
+                            return (v1 == v2) ? options.fn(this) : options.inverse(this);
+                        case '!=':
+                            return (v1 != v2) ? options.fn(this) : options.inverse(this);
+                        default:
+                            return options.inverse(this);
                     }
-                  },
+                },
                 formatDate: function (timestamp) {
                     var date = new Date(timestamp);
                     var day = date.getDate();

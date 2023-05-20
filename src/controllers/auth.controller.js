@@ -1,5 +1,5 @@
 import bcrypt from 'bcrypt';
-import { addUser, getUserByEmail, getUserByUsername } from '../models/user.model';
+import { addUser, getUserByPhone, getUserByUsername } from '../models/user.model';
 
 
 const isLoggedCustomer = async (req, res, next) => {
@@ -69,7 +69,7 @@ const checkPasswordValidity = (password) => {
 const checkRegister = async (req, res) => {
     const {
         username,
-        email,
+        phone,
         password,
         confirm_password,
     } = req.body;
@@ -77,7 +77,7 @@ const checkRegister = async (req, res) => {
     // Kiểm tra các trường dữ liệu có được điền đầy đủ
     if (
         !username ||
-        !email ||
+        !phone ||
         !password ||
         !confirm_password
     ) {
@@ -97,10 +97,10 @@ const checkRegister = async (req, res) => {
         req.flash('error', 'Tài khoản đã được sử dụng. Vui lòng chọn tài khoản khác!');
         return res.redirect('/account/register');
     }
-    // Kiểm tra email đã được đăng ký trước đó chưa
-    const user = await getUserByEmail(email);
+    // Kiểm tra số điện thoại đã được đăng ký trước đó chưa
+    const user = await getUserByPhone(phone);
     if (user) {
-        req.flash('error', 'Email đã được sử dụng. Vui lòng chọn email khác!');
+        req.flash('error', 'Số điện thoại đã được sử dụng. Vui lòng chọn số điện thoại khác!');
         return res.redirect('/account/register');
     }
 
@@ -116,7 +116,7 @@ const checkRegister = async (req, res) => {
     // Lưu thông tin tài khoản vào cơ sở dữ liệu
     const result = await addUser(
         username,
-        email,
+        phone,
         hashedPassword,
         "Người thuê trọ"
     );

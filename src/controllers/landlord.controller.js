@@ -8,7 +8,7 @@ import {
 import { findUtilitiesOfHouse } from "../models/utility.model";
 import { findPhotosOfHouse } from "../models/photo.model";
 import { findVideosOfHouse } from "../models/video.model";
-import { getInfoProfileLandlord, updateProfileLandlordModel, getInfoProfileTenant } from "../models/user.model";
+import { getInfoProfileLandlord, updateProfileLandlordModel, getInfoProfileTenant, getListReviewPageModel, getAllListReviewModel } from "../models/user.model";
 import { confirmAppointmenLandlord, cancelAppointmentModel } from "../models/appointment.model";
 const getPostHousePage = async (req, res) => {
     res.render("vwLandlord/post-house")
@@ -136,6 +136,18 @@ const updatePassword = async (req, res) => {
     await updatePasswordModel(idUser, newPass);
     res.redirect("/tenant/profile");
 }
+const getListReviewPage = async (req, res) => {
+    const idUser = res.locals.user.id;
+    let { page } = req.query;
+    if (!page) page = 1;
+    //console.log(filter, page)
+   
+    const { reviews, pages} = await getAllListReviewModel(idUser);
+    const result = await getListReviewPageModel(idUser, 5, (page - 1) * 5);
+    console.log(result, page, pages)
+
+    res.render('vwLandlord/manage-review', { page, pages, reviews: result });
+}
 export {
     getPostHousePage,
     getHouseManagementPage,
@@ -147,5 +159,6 @@ export {
     deleteAppointment,
     getEditHousePage,
     checkCurrentPassword,
-    updatePassword
+    updatePassword,
+    getListReviewPage
 }
