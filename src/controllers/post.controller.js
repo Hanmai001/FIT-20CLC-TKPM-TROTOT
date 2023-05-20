@@ -163,7 +163,7 @@ const getDetailsPage = async (req, res) => {
     if (res.locals.user) {
         idUser = res.locals.user.id;
         checkFavourite = await checkFavouritePostModel(postID, idUser);
-        checkAppointment = await checkAppointmentModel(postID, idUser)
+        checkAppointment = await checkAppointmentModel(postID, idUser);
     }
     //console.log(postID)
     const post = await getPostInfo(postID);

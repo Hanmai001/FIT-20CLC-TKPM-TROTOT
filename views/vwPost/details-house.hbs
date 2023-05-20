@@ -61,7 +61,7 @@
             body: JSON.stringify({ idPost })
         })
             .then((response) => {
-                divAddFavourite.innerHTML = '<button id="btn-add-favourite" class="like-btn" onClick="delPost()"><i class="fa-solid fa-heart" style = "color: #EE0000;"></i > Yêu thích</button > ';
+                divAddFavourite.innerHTML = '<button id="btn-add-favourite" class="like-btn" onClick="delPost()"><i class="fa-solid fa-heart" style = "color: #ffffff;"></i > Yêu thích</button > ';
                 // Handle the response from the server
                 console.log('Response:', response);
             })
@@ -79,7 +79,7 @@
 
         })
             .then((response) => {
-                divAddFavourite.innerHTML = '<button id="btn-add-favourite" class="like-btn" onClick="addPost()"><i class="fa-solid fa-heart" style = "color: #ffffff;"></i > Yêu thích</button > ';
+                divAddFavourite.innerHTML = '<button id="btn-add-favourite" class="like-btn" onClick="addPost()"><i class="fa-solid fa-heart" style = "color: #ffffff;"></i> Xóa khỏi yêu thích</button > ';
                 // Handle the response from the server
                 console.log('Response:', response);
             })

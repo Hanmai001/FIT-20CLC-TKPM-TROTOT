@@ -23,9 +23,15 @@ const checkAppointmentModel = async (idPost, idUser) => {
     const appointment = await db('dondathen')
         .where('TinID', idPost)
         .where('NguoiDatHen', idUser)
-        .first();
-
-    return appointment !== undefined;
+        .orderBy('NgayDatHen', 'desc')
+        .first()
+    console.log(appointment)
+    if (appointment) {
+        if (appointment.TrangThaiLichHen != "Đã hủy")
+            return appointment;
+        else
+            return undefined;
+    }
 };
 
 export { confirmAppointmenLandlord, cancelAppointmentModel, addAppointmentModel, checkAppointmentModel }
