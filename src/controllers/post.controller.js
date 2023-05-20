@@ -6,6 +6,7 @@ import { addPhotoModel, deletePhotoModel, findPhotoOfHouse, deletePhotosByArrayM
 import { addUtilityHouseModel, deleteUtilityModel, findUtilitiesOfHouse, findUtilityOfHouse, deleteOneUtilityModel } from "../models/utility.model";
 import { addVideoModel, deleteVideoModel, findVideoOfHouse, deleteVideosByArrayModel } from "../models/video.model";
 import { checkFavouritePostModel } from "../models/favourite_list.model";
+import { checkAppointmentModel } from "../models/appointment.model";
 
 const addHouse = async (req, res) => {
     const { utilities } = req.body;
@@ -158,10 +159,11 @@ const getResultPage = async (req, res) => {
 
 const getDetailsPage = async (req, res) => {
     const postID = req.params.id;
-    let idUser, checkFavourite;
+    let idUser, checkFavourite, checkAppointment;
     if (res.locals.user) {
         idUser = res.locals.user.id;
         checkFavourite = await checkFavouritePostModel(postID, idUser);
+        checkAppointment = await checkAppointmentModel(postID, idUser)
     }
     //console.log(postID)
     const post = await getPostInfo(postID);
@@ -189,7 +191,7 @@ const getDetailsPage = async (req, res) => {
         result = str + result;
         house.Gia = result;
     }
-    res.render("vwPost/details-house", { post, author, review, utilities, image, relate: relate, checkFavourite });
+    res.render("vwPost/details-house", { post, author, review, utilities, image, relate: relate, checkFavourite, checkAppointment });
 };
 
 

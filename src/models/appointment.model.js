@@ -19,5 +19,13 @@ const addAppointmentModel = async (idTenant, idLandlord, idPost, data) => {
         TrangThaiLichHen: 'Chưa xác nhận'
     })
 }
+const checkAppointmentModel = async (idPost, idUser) => {
+    const appointment = await db('dondathen')
+        .where('TinID', idPost)
+        .where('NguoiDatHen', idUser)
+        .first();
 
-export { confirmAppointmenLandlord, cancelAppointmentModel, addAppointmentModel }
+    return appointment !== undefined;
+};
+
+export { confirmAppointmenLandlord, cancelAppointmentModel, addAppointmentModel, checkAppointmentModel }
