@@ -70,7 +70,7 @@ const getLandlordHouseAppointmentListModel = async (idUser, limit, offset, filte
 const getAllHousesOfLandlord = async (idUser, filter) => {
     let result = db('tindangtro').where('NguoiDangTin', '=', idUser).select('*');
     if (filter) {
-        if (filter === "Chờ xác nhận" || filter === "Đã duyệt")
+        if (filter === "Chờ xác nhận" || filter === "Đã duyệt" || filter === "Bị từ chối")
             result = result.where('TrangThaiKiemDuyet', filter);
         else if (filter === "Cũ nhất")
             result = result.orderBy('NgayDang', 'asc');
@@ -86,7 +86,7 @@ const findAll = async (filter) => {
     let result = db('tindangtro').select('*');
 
     if (filter) {
-        if (filter === "Chờ xác nhận" || filter === "Đã duyệt")
+        if (filter === "Chờ xác nhận" || filter === "Đã duyệt" || filter === "Bị từ chối")
             result = result.where('TrangThaiKiemDuyet', filter);
         else if (filter === "Cũ nhất")
             result = result.orderBy('NgayDang', 'asc');
@@ -104,7 +104,7 @@ const findByPage = async (limit, offset, filter) => {
         .offset(offset);
 
     if (filter) {
-        if (filter === "Chờ xác nhận" || filter === "Đã duyệt")
+        if (filter === "Chờ xác nhận" || filter === "Đã duyệt" || filter === "Bị từ chối")
             result = result.where('TrangThaiKiemDuyet', filter);
         else if (filter === "Cũ nhất")
             result = result.orderBy('NgayDang', 'asc');
@@ -121,7 +121,7 @@ const getLandlordHouseListModel = async (idUser, limit, offset, filter) => {
         .limit(limit)
         .offset(offset);
     if (filter) {
-        if (filter === "Chờ xác nhận" || filter === "Đã duyệt")
+        if (filter === "Chờ xác nhận" || filter === "Đã duyệt" || filter === "Bị từ chối")
             result = result.where('TrangThaiKiemDuyet', filter);
         else if (filter === "Cũ nhất")
             result = result.orderBy('NgayDang', 'asc');
