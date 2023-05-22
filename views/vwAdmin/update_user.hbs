@@ -42,17 +42,16 @@
             <div class="img-profile">
               <img
                 class="rounded-circle img-thumbnail img-avt"
-                {{!-- {{#if (isEmpty this.user.image) }}
-                src="../../public/assets/images/no_avt_male.png"
+                {{#if (isEmpty user.avatar) }}
+                src="../../public/assets/pictures/no_avatar.png"
                 {{else}}
-                src="../../public/assets/images/{{this.user.image}}"
-                {{/if}} --}}
-                src="../../public/assets/pictures/no-avt.jpg"
+                src="{{user.avatar}}"
+                {{/if}}
                 alt="avatar"
               />
             </div>
             <div>
-              <p class="h6 img-name">{{this.user.firstName}} {{this.user.lastName}}</p>
+              <p class="h6 img-name">{{user.HoTen}}</p>
             </div>
           </li>
           <li class="nav-item">
@@ -85,13 +84,26 @@
               Đánh giá
             </a>
           </li>
+          <li class="nav-item ">
+            <a class="nav-link" href="/admin/reports">
+              <i class="fa fa-flag" aria-hidden="true"></i>
+              Báo cáo
+            </a>
+          </li>
+          <li class="nav-item ">
+            <a class="nav-link" href="/admin/logout">
+              <i class="fa fa-sign-out" aria-hidden="true"></i>
+              Đăng xuất
+            </a>
+          </li>
         </ul>
     </nav>
     
     <div class="col-10 h-100">
         <div class="card">
-          <div class="card-header">
-            <h4>Chỉnh sửa thông tin người dùng</h4>
+          <div class="card-header d-flex" style="justify-content: space-between;">
+            <h4>Chỉnh sửa người dùng</h4>
+            <a class="btn btn-danger" href="/admin/users/{{user.NguoiDungID}}/delete">Xóa người dùng</a>
           </div>
           <div class="card-body m-5">
             <form method="post" id="form-1">
@@ -207,8 +219,10 @@
                 </div>
               </div>
               <button class="btn btn-primary font-weight-bold mt-5" type="submit" style="width:100px; display:flex; margin:auto; justify-content: center;">LƯU</button>
-            
-              <div class="modal fade" id="passwordModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            </div>
+              </div>
+            </form>
+             <div class="modal fade" id="passwordModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
               <div class="modal-dialog" style="margin-top: 11%;">
                 <div class="modal-content">
                   <div class="modal-header">
@@ -217,6 +231,7 @@
                       <span aria-hidden="true">&times;</span>
                     </button>
                   </div>
+                  
                   <form method="post" action="/admin/users/{{user.NguoiDungID}}/password" id="form-2">
                     <div class="modal-body">
                       <div class="input-group">
@@ -239,10 +254,6 @@
                     </div>
                   </form>
               </div>
-            </div>
-            
-              </div>
-            </form>
           </div>
         </div>
       </div>

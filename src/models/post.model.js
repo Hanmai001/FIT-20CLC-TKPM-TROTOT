@@ -81,6 +81,9 @@ const getAllHousesOfLandlord = async (idUser, filter) => {
     return { houses: result, pages: Math.ceil(result.length / 5) };
 }
 
+const findAllPostsID = async () => {
+    return await db('tindangtro').select('TinID', 'Ten');
+}
 
 const findAll = async (filter) => {
     let result = db('tindangtro').select('*');
@@ -344,8 +347,18 @@ const sortPosts = async (posts, sortBy, sortOrder) => {
         });
     }
 }
+
+const findPostByID = async (id) => {
+    return await db('tindangtro').where('TinID', id);
+}
+
+const deletePostByID = async (id) => {
+    await db('tindangtro').where('TinID', id).del();
+}
 //
 export {
+    deletePostByID,
+    findPostByID,
     addHouseModel,
     getAllHousesOfLandlord,
     getLandlordHouseListModel,
@@ -366,5 +379,6 @@ export {
     findAll, findByPage,
     performFullTextSearch,
     getRelatePostInfo,
-    sortPosts
+    sortPosts,
+    findAllPostsID,
 }

@@ -22,7 +22,7 @@ export default function (app) {
                     }[operator];
                 },
                 isEmpty: function (value) {
-                    return value === "";
+                    return !value;
                 },
                 extractName: function (fullName) {
                     if (fullName) {

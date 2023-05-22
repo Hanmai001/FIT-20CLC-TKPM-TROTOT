@@ -16,7 +16,7 @@
         let selectedVal = $("#filter-select option:selected").val();
         if (selectedVal != "") {
             const currentUrl = new URL(window.location.href);
-            currentUrl.searchParams.set('role', selectedVal);
+            currentUrl.searchParams.set('filter', selectedVal);
             const updatedUrl = currentUrl.toString();
             window.location.href = updatedUrl;
         }
@@ -40,7 +40,8 @@
               />
             </div>
             <div>
-              <p class="h6 img-name">{{user.HoTen}}</p>
+               <p class="h6 img-name">{{user.HoTen}}</p>
+
             </div>
           </li>
           <li class="nav-item">
@@ -50,7 +51,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link active" href="/admin/users">
+            <a class="nav-link" href="/admin/users">
               <i class="fa fa-user" aria-hidden="true"></i>
               Người dùng
             </a>
@@ -74,7 +75,7 @@
             </a>
           </li>
           <li class="nav-item ">
-            <a class="nav-link" href="/admin/reports">
+            <a class="nav-link active" href="/admin/reports">
               <i class="fa fa-flag" aria-hidden="true"></i>
               Báo cáo
             </a>
@@ -84,80 +85,51 @@
               <i class="fa fa-sign-out" aria-hidden="true"></i>
               Đăng xuất
             </a>
-          </li> 
+          </li>
         </ul>
     </nav>
     <div class="col-sm-10">
       <div class="card">
         <div class="card-header row pt-2" style="display:flex;justify-content: space-between;">
-          <h4 class="col-6">Quản lí người dùng</h4>
+          <h4 class="col-6">Quản lí báo cáo</h4>
           <div class="col-4">
             <select required name="filter" id="filter-select" onfocus='this.size=5;' onblur='this.size=1;'
               onchange='this.size=1; this.blur();' style="position:absolute;padding: 5px;margin-left: 40%;">
-              <option class="text-center" value="">--Loại người dùng--</option>
-              <option value="All">All</option>
-              <option value="1">Người thuê trọ</option>
-              <option value="2">Chủ trọ</option>
-              <option value="3">Admin</option>
+              <option class="text-center" value="">--Sắp xếp theo--</option>
+              <option value="All">Tất cả</option>
+              <option value="Cũ nhất">Cũ nhất</option>
+              <option value="Mới nhất">Mới nhất</option>
           </select>
           </div>
-          
-          <a class="btn btn-primary font-weight-bold col-2" href="/admin/users/new">Thêm</a>
         </div>
         {{#if this.empty}}
           <div class="card-body text-muted">
-            Empty Data!!!
+            kHÔNG CÓ DỮ LIỆU !
           </div>
         {{else}}
           <table class="table table-hover">
             <thead>
               <tr>
                 <th scope="col">#</th>
-                <th scope="col">Họ tên</th>
-                <th style="width: 20%;" scope="col">Địa chỉ</th>
-                <th scope="col">SĐT</th>
-                <th scope="col">Role</th>
-                <th scope="col">Trạng thái</th>
+                <th scope="col">Tin ID</th>
+                <th scope="col">Người báo cáo</th>
+                <th scope="col" style="width: 30%;">Nội dung báo cáo</th>
+                <th scope="col">Ngày báo cáo</th>
                 <th class="text-center" scope="col">Hành động</th>
               </tr>
             </thead>
             <tbody>
-              {{#each users}}
+              {{#each list}}
                   <tr>
                     <th scope="row">{{math @index "+" 1}}</th>
-                    <td>{{this.HoTen}}</td>
-                    <td>{{this.DiaChi}}</td>
-                    <td>{{this.SDT}}</td>
-                    <td>{{this.LoaiNguoiDung}}</td>
-                    {{#ifEqualString this.TrangThai "Hoạt động"}}
-                      <td class="text-success">{{this.TrangThai}}</td>
-                      <td class="text-center">
-                        <a
-                          class="btn btn-sm btn-danger"
-                          href="/admin/users?id={{this.NguoiDungID}}&block=true"
-                          role="button"
-                          title="Khóa tài khoản"
-                        >
-                        <i class="fa fa-lock" aria-hidden="true"></i>
-                        </a>
-                        
-                    {{else}}
-                      <td class="text-danger">{{this.TrangThai}}</td>
-                      <td class="text-center">
-                        <a
-                          class="btn btn-sm btn-success"
-                          role="button"
-                          title="Mở tài khoản"
-                          href="/admin/users?id={{this.NguoiDungID}}&block=false"
-                        >
-                         <i class="fa fa-unlock-alt" aria-hidden="true"></i>
-                        </a>
-                    
-                    {{/ifEqualString}}
-                        </>
+                    <td>{{this.TinID}}</td>
+                    <td>{{this.NguoiBaoCao}}</td>
+                    <td>{{this.LiDoChiTiet}}</td>
+                    <td>{{this.NgayBaoCao}}</td>
+                    <td class="text-center">
                         <a
                           class="btn btn-sm btn-secondary"
-                          href="/admin/users/{{this.NguoiDungID}}"
+                          href="/admin/appointments/{{this.DdhID}}"
                           role="button"
                           title="Chỉnh sửa"
                         >

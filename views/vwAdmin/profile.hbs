@@ -53,7 +53,11 @@
             <div class="img-profile">
               <img
                 class="rounded-circle img-thumbnail img-avt"
-                src="../../public/assets/pictures/no-avt.jpg"
+                {{#if (isEmpty user.avatar) }}
+                src="../../public/assets/pictures/no_avatar.png"
+                {{else}}
+                src="{{user.avatar}}"
+                {{/if}}
                 alt="avatar"
               />
             </div>
@@ -89,6 +93,18 @@
             <a class="nav-link" href="/admin/reviews">
               <i class="fa fa-comments" aria-hidden="true"></i>
               Đánh giá
+            </a>
+          </li>
+          <li class="nav-item ">
+            <a class="nav-link" href="/admin/reports">
+              <i class="fa fa-flag" aria-hidden="true"></i>
+              Báo cáo
+            </a>
+          </li>
+          <li class="nav-item ">
+            <a class="nav-link" href="/admin/logout">
+              <i class="fa fa-sign-out" aria-hidden="true"></i>
+              Đăng xuất
             </a>
           </li>
         </ul>
@@ -185,7 +201,7 @@
                       <span aria-hidden="true">&times;</span>
                     </button>
                   </div>
-                  <form method="post" action="/admin/users/{{user.NguoiDungID}}/password" id="form-2">
+                  <form method="post" action="/admin/profile/password" id="form-2">
                     <div class="modal-body">
                       <div class="input-group">
                         <div class="form-group input-group form-error" style="display: flex; flex-direction: column;">
@@ -194,6 +210,7 @@
                             type="password"
                             class="form-control w-100"
                             placeholder="Nhập mật khẩu hiện tại"
+                            name="MatKhauHienTai"
                           />
                           <span class="form-message"></span>
                         </div>
@@ -204,6 +221,7 @@
                             type="password"
                             class="form-control w-100"
                             placeholder="Nhập mật khẩu mới"
+                             name="MatKhauMoi"
                           />
                           <span class="form-message"></span>
                         </div>
@@ -218,9 +236,6 @@
                           />
                           <span class="form-message"></span>
                         </div>
-                      
-                      
-                    
                       </div>
                     </div>
                     <div class="modal-footer">

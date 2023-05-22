@@ -17,10 +17,12 @@ const getUserByPhone = async (phone) => {
 
 const addUser = async (username, phone, password, type, status) => {
   try {
+    const MatKhau = await bcrypt.hash(password, 10);
+    
     await db('nguoidung').insert({
       SDT: phone,
       TaiKhoan: username,
-      MatKhau: password,
+      MatKhau,
       LoaiNguoiDung: type,
       TrangThai: status
     });
@@ -48,6 +50,7 @@ const checkUserCredential = async (TaiKhoan, MatKhau) => {
 };
 const updatePasswordModel = async (idUser, newPass) => {
   const hashedPassword = await bcrypt.hash(newPass, 10);
+
   await db('nguoidung').where('NguoiDungID', '=', idUser).update({
     MatKhau: hashedPassword
   })
@@ -68,8 +71,10 @@ export default {
     return user;
   },
 
-  add(user) {
+  async add(user) {
     delete user.id;
+    user.MatKhau = await bcrypt.hash(user.MatKhau, 10);
+
     return db('nguoidung').insert(user);
   },
 

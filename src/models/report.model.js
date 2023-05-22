@@ -8,5 +8,9 @@ const addingReport = async (idTenant, idPost, data) => {
     })
 }
 
+const findAllReports = async () => {
+    return await db('baocao').select('*');
+}
 
-export { addingReport }
+
+export { addingReport, findAllReports }

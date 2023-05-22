@@ -1,0 +1,174 @@
+{{#section "css"}}
+  <link
+    rel="stylesheet"
+    type="text/css"
+    href="../../public/assets/css/admin/admin_profile.css"
+  />
+  <link rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css">
+  <link rel="stylesheet" type="text/css" href="../../public/assets/css/admin/form.css"/>  
+{{/section}}
+{{#section 'js'}}
+<script
+  src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
+
+<script src="../../public/assets/js/validator.js"></script>
+<script>
+  $('#NgayGap').datetimepicker({
+    timepicker: false,
+    format: 'Y/m/d',
+    mask: true,
+  });
+
+  Validator({
+        form: '#form-1',
+        rules: [
+            Validator.isRequired('#TinID', "Vui lòng nhập tin ID"),
+            Validator.isRequired('#NguoiDatHen', "Vui lòng nhập người đặt hẹn ID"),
+            Validator.isRequired('#ChuTro', "Vui lòng nhập chủ trọ ID"),
+            Validator.isRequired('#NgayGap', "Vui lòng nhập ngày xem phòng"),
+        ]
+    });
+</script>
+{{/section}}
+
+<div class="container-fluid">
+  <div class="row" style="margin-bottom:16px">
+    <nav class="col-2 bg-light sidebar">
+        <ul class="nav flex-column">
+          <li>
+            <div class="img-profile">
+              <img
+                class="rounded-circle img-thumbnail img-avt"
+                {{#if (isEmpty user.avatar) }}
+                src="../../public/assets/pictures/no_avatar.png"
+                {{else}}
+                src="{{user.avatar}}"
+                {{/if}}
+                alt="avatar"
+              />
+            </div>
+            <div>
+              <p class="h6 img-name">{{user.HoTen}}</p>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/admin/profile">
+              <i class="fa fa-cog" aria-hidden="true"></i>
+              Hồ sơ cá nhân
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/admin/users">
+              <i class="fa fa-user" aria-hidden="true"></i>
+              Người dùng
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/admin/posts">
+              <i class="fa fa-user" aria-hidden="true"></i>
+              Tin đăng trọ
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" href="/admin/appointments">
+              <i class="fa fa-user" aria-hidden="true"></i>
+              Lịch hẹn
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/admin/reviews">
+              <i class="fa fa-comments" aria-hidden="true"></i>
+              Đánh giá
+            </a>
+          </li>
+          <li class="nav-item ">
+            <a class="nav-link" href="/admin/reports">
+              <i class="fa fa-flag" aria-hidden="true"></i>
+              Báo cáo
+            </a>
+          </li>
+          <li class="nav-item ">
+            <a class="nav-link" href="/admin/logout">
+              <i class="fa fa-sign-out" aria-hidden="true"></i>
+              Đăng xuất
+            </a>
+          </li>
+        </ul>
+    </nav>
+    
+    <div class="col-10 h-100">
+        <div class="card">
+          <div class="card-header d-flex" style="justify-content: space-between;">
+            <h4>Chỉnh sửa lịch hẹn</h4>
+            <a class="btn btn-danger" href="/admin/appointments/{{apm.DdhID}}/delete">Xóa lịch hẹn</a>
+          </div>
+          <div class="card-body m-5">
+            <form method="post" id="form-1">
+              <div class="form-group row">
+                <label for="username" class="col-sm-3 col-form-label">Tin ID </label>
+    
+                <div class="col-sm-8 form-error">
+                  <input name="TinID" type="text" class="form-control" id="TinID" value="{{apm.TinID}}">
+                  <span class="form-message"></span>
+                  <a style="float:right" href="/admin/posts/{{apm.TinID}}">Xem chi tiết</a>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="username" class="col-sm-3 col-form-label">Chủ trọ ID</label>
+                <div class="col-sm-8 form-error">
+                  <input name="ChuTro" type="text" class="form-control" id="ChuTro" value="{{apm.ChuTro}}">
+                  <span class="form-message"></span>
+                  <a style="float:right" href="/admin/users/{{apm.ChuTro}}">Xem chi tiết</a>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="username" class="col-sm-3 col-form-label">Người đặt hẹn ID</label>
+                <div class="col-sm-8 form-error">
+                  <input name="NguoiDatHen" type="text" class="form-control" id="NguoiDatHen" value="{{apm.NguoiDatHen}}">
+                  <span class="form-message"></span>
+                  <a style="float:right" href="/admin/users/{{apm.NguoiDatHen}}">Xem chi tiết</a>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="username" class="col-sm-3 col-form-label">Ngày đặt hẹn</label>
+                <div class="col-sm-8 form-error">
+                  <input readonly name="NgayDatHen" type="text" class="form-control" id="username" value="{{apm.NgayDatHen}}">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="username" class="col-sm-3 col-form-label">Ngày xem phòng</label>
+                <div class="col-sm-8 form-error">
+                  <input name="NgayGap" type="text" class="form-control" id="NgayGap" value="{{apm.NgayGap}}">
+                </div>
+              </div>
+               <div class="form-group row">
+                <label for="role" class="col-sm-3 col-form-label">Trạng thái lịch hẹn</label>
+                <div class="col-sm-8">
+                  <select name="TrangThaiLichHen" class="custom-select mr-sm-2" id="role">
+                    {{#ifEqualString apm.TrangThaiLichHen "Đã hủy"}}
+                    <option value="Đã hủy" selected>Đã hủy</option>
+                    {{else}}
+                     <option value="Đã hủy">Đã hủy</option>
+                    {{/ifEqualString}}
+                    {{#ifEqualString apm.TrangThaiLichHen "Chưa xác nhận"}}
+                    <option value="Chưa xác nhận" selected>Chưa xác nhận</option>
+                    {{else}}
+                     <option value="Chưa xác nhận">Chưa xác nhận</option>
+                    {{/ifEqualString}}
+                    {{#ifEqualString apm.TrangThaiLichHen "Đã xác nhận"}}
+                    <option value="Đã xác nhận" selected>Đã xác nhận</option>
+                    {{else}}
+                     <option value="Đã xác nhận">Đã xác nhận</option>
+                    {{/ifEqualString}}
+                  </select>
+                </div>
+              </div>
+              <button class="btn btn-primary font-weight-bold mt-5" type="submit" style="width:100px; display:flex; margin:auto; justify-content: center;">LƯU</button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+  </div>
+</div>
