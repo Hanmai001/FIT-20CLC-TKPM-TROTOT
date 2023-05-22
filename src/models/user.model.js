@@ -4,6 +4,7 @@ import bcrypt from "bcrypt"
 
 const getUserByUsername = async (username) => {
   const user = await db('nguoidung').where('TaiKhoan', username).first();
+  console.log(user)
   return user;
 };
 const getUserByEmail = async (email) => {
@@ -17,12 +18,10 @@ const getUserByPhone = async (phone) => {
 
 const addUser = async (username, phone, password, type, status) => {
   try {
-    const MatKhau = await bcrypt.hash(password, 10);
-    
     await db('nguoidung').insert({
       SDT: phone,
       TaiKhoan: username,
-      MatKhau,
+      MatKhau: password,
       LoaiNguoiDung: type,
       TrangThai: status
     });

@@ -8,7 +8,6 @@ passport.use(new LocalStrategy(
         passwordField: 'MatKhau',
         iduserField: 'NguoiDungID',
         typeuserField: 'LoaiNguoiDung',
-        passwordField: 'MatKhau'
     },
     async function (TaiKhoan, MatKhau, done) {
         const user = await checkUserCredential(TaiKhoan, MatKhau);
