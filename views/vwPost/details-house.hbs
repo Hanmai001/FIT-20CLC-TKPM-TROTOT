@@ -132,6 +132,11 @@
 </script>
 <script async defer
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAeOS7IcZeQdZrFqQOWnddYHwki4xDCCBI&callback=initMap"></script>
+<script>
+    function changeMainImage(imageUrl) {
+        document.getElementById('main-image').src = imageUrl;
+    }
+</script>
 {{/section}}
 {{#if user}}
 {{#ifEqualString user.LoaiNguoiDung "Người chủ trọ"}}
@@ -202,17 +207,18 @@
         <div class="row">
             <div class="col-9 picture">
                 {{!-- image --}}
-                <div class="col pic-product p-3 " style="display: flex; flex-direction: column; align-items: center;">
-                    <div class="image" style="height: 300px; width:100%;">
-                        <img src="{{ image.[0].ChiTietHinhAnh }}" alt="" style="">
+                <div class="col pic-product p-3" style="display: flex; flex-direction: column; align-items: center;">
+                    <div class="image" style="height: 300px; width: 100%;">
+                        <img id="main-image" src="{{ image.[0].ChiTietHinhAnh }}" alt="" style="">
                     </div>
-                    <div class="extra-pics mt-2" style="height: 110px; width:100%;">
+                    <div class="extra-pics mt-2" style="height: 110px; width: 100%;">
                         {{#each image}}
-                        <img src="{{ this.ChiTietHinhAnh}}" alt="">
+                        <img src="{{ this.ChiTietHinhAnh }}" alt=""
+                            onclick="changeMainImage('{{ this.ChiTietHinhAnh }}')">
                         {{/each}}
                     </div>
-
                 </div>
+
             </div>
             {{!-- landllord info --}}
             <div class="col-3" style="margin-top:15px;">
@@ -243,11 +249,18 @@
 
                     {{/if}}
                     <div class="action-buttons">
+                        {{#if user}}
                         <button class="report-btn" id="btn-report-form"
                             style="background-color:rgba(204, 50, 50, 0.795)">
                             <i class="fa-solid fa-flag" style="color: #ffffff;"></i> Báo cáo</button>
-
                         </button>
+                        {{else}}
+                        <button class="report-btn" style="background-color:rgba(204, 50, 50, 0.795)">
+                            <i class="fa-solid fa-flag" style="color: #ffffff;"></i>
+                            <a href="/account/login" style="color: white; text-decoration:none"> Báo cáo</a>
+                        </button>
+                        </button>
+                        {{/if}}
                         <div id="add-favourite">
 
                             {{#if user}}

@@ -44,16 +44,16 @@
             <div class="img-profile">
               <img
                 class="rounded-circle img-thumbnail img-avt"
-                {{#if (isEmpty this.user.image) }}
-                src="../../public/assets/images/no_avt_male.png"
+                {{#if (isEmpty user.avatar) }}
+                src="../../public/assets/pictures/no_avatar.png"
                 {{else}}
-                src="../../public/assets/images/{{this.user.image}}"
+                src="{{user.avatar}}"
                 {{/if}}
                 alt="avatar"
               />
             </div>
             <div>
-              <p class="h6 img-name">{{this.user.firstName}} {{this.user.lastName}}</p>
+              <p class="h6 img-name">{{user.HoTen}}</p>
             </div>
           </li>
           <li class="nav-item">
@@ -67,24 +67,6 @@
               <i class="fa fa-user" aria-hidden="true"></i>
               Người dùng
             </a>
-            <ul class="list-group">
-              <li class="d-flex justify-content-between align-items-center pl-5 pr-4">
-                <a class="sub-nav" href="/admin/users?role=1">
-                  Người thuê trọ
-                </a>
-              </li>
-              <li class=" d-flex justify-content-between align-items-center pl-5 pr-4">
-                <a class="sub-nav" href="/admin/users?role=2">
-                   Người chủ trọ
-                </a>
-              </li>
-              <li class=" d-flex justify-content-between align-items-center pl-5 pr-4">
-                <a class="sub-nav" href="/admin/users?role=3">
-                   Admin
-                </a>
-              </li>
-            </ul>
-            
           </li>
           <li class="nav-item">
             <a class="nav-link" href="/admin/posts">
@@ -102,6 +84,18 @@
             <a class="nav-link" href="/admin/reviews">
               <i class="fa fa-comments" aria-hidden="true"></i>
               Đánh giá
+            </a>
+          </li>
+          <li class="nav-item ">
+            <a class="nav-link" href="/admin/reports">
+              <i class="fa fa-flag" aria-hidden="true"></i>
+              Báo cáo
+            </a>
+          </li>
+          <li class="nav-item ">
+            <a class="nav-link" href="/admin/logout">
+              <i class="fa fa-sign-out" aria-hidden="true"></i>
+              Đăng xuất
             </a>
           </li>
         </ul>

@@ -229,7 +229,11 @@
             <div class="img-profile">
               <img
                 class="rounded-circle img-thumbnail img-avt"
-                src="../../public/assets/pictures/no-avt.jpg"
+                {{#if (isEmpty user.avatar) }}
+                src="../../public/assets/pictures/no_avatar.png"
+                {{else}}
+                src="{{user.avatar}}"
+                {{/if}}
                 alt="avatar"
               />
             </div>
@@ -265,6 +269,18 @@
             <a class="nav-link" href="/admin/reviews">
               <i class="fa fa-comments" aria-hidden="true"></i>
               Đánh giá
+            </a>
+          </li>
+          <li class="nav-item ">
+            <a class="nav-link" href="/admin/reports">
+              <i class="fa fa-flag" aria-hidden="true"></i>
+              Báo cáo
+            </a>
+          </li>
+          <li class="nav-item ">
+            <a class="nav-link" href="/admin/logout">
+              <i class="fa fa-sign-out" aria-hidden="true"></i>
+              Đăng xuất
             </a>
           </li>
         </ul>
