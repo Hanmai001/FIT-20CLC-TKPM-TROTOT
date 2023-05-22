@@ -29,9 +29,7 @@
     padding: 20px;
 }
 
-.container-pagination {
-    margin-left: 280px;
-}
+.container-pagination {}
 
 #pagination {
     display: inline-block;
