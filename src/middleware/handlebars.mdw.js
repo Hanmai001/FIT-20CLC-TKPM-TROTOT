@@ -101,7 +101,7 @@ export default function (app) {
                     } else if (ten === 'Ban công') {
                         return 'fa-solid fa-house-user';
                     } else if (ten === 'Bếp') {
-                        return 'fa-solid fa-knife-kitchen';
+                        return 'fas fa-utensils';
                     }
                     // Thêm các trường hợp khác tương ứng với biểu tượng
                     //...
