@@ -96,28 +96,6 @@
         let modal = document.querySelector(".modal-appointment-confirm");
         modal.style.display = 'none';
     }
-    fullname.addEventListener('change', function (event) {
-        const val = fullname.value;
-        if (val == "") {
-            let note = document.getElementById('fullname-note');
-            note.style.display = 'block';
-        }
-        else {
-            let note = document.getElementById('fullname-note');
-            note.style.display = 'none';
-        }
-    })
-    phone.addEventListener('change', function (event) {
-        const val = phone.value;
-        if (val == "") {
-            let note = document.getElementById('phone-note');
-            note.style.display = 'block';
-        }
-        else {
-            let note = document.getElementById('phone-note');
-            note.style.display = 'none';
-        }
-    })
     date.addEventListener('change', function (event) {
         const val = date.value;
         if (val == "") {
