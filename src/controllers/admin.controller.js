@@ -1,14 +1,19 @@
-import userModel from '../models/user.model';
+import userModel, { findUserById, updatePasswordModel } from '../models/user.model';
 import bcrypt from "bcryptjs";
 import {
     getDetailedHouseModel,
     findAll, findByPage,
     updateHouseModel,
     addHouseModel, 
+    findAllPostsID,
+    findPostByID, deletePostByID,
 } from "../models/post.model";
 import { addPhotoModel, deletePhotoModel, findPhotoOfHouse, deletePhotosByArrayModel, findPhotosOfHouse } from "../models/photo.model";
 import { addUtilityHouseModel, deleteUtilityModel, findUtilitiesOfHouse, findUtilityOfHouse, deleteOneUtilityModel } from "../models/utility.model";
 import { addVideoModel, deleteVideoModel, findVideoOfHouse, deleteVideosByArrayModel, findVideosOfHouse } from "../models/video.model";
+import { findAllAppointments, findApmByID, updateApm, addApm, addAppointmentModel, deleteApmByID } from '../models/appointment.model';
+import { findAllReports }  from '../models/report.model';
+import rvModel from '../models/review.model';
 
 const getDate = (date) => {
     var d = new Date(date),
@@ -83,21 +88,9 @@ const updateUser = async (req, res, next) => {
 const updateProfile = async (req, res, next) => {
     try {   
         const user = req.body;
-        user.id = "1";
+        user.id = res.locals.user.id;
 
         await userModel.patchProfile(user);
-
-        res.redirect('/admin/profile');
-    } catch (err) {
-        next(err);
-    }
-}
-const updateUserPassword = async (req, res, next) => {
-    try {   
-        const user = req.body;
-        user.id = req.params.id;
-
-        await userModel.patchPassword(user);
 
         res.redirect('/admin/profile');
     } catch (err) {
@@ -122,7 +115,7 @@ const addUser = async (req, res, next) => {
     try { 
         await userModel.add(req.body);
 
-        res.redirect('back');
+        res.redirect('/admin/users');
     } catch (err) {
         next(err);
     }
@@ -141,7 +134,7 @@ const checkUsername = async (req, res, next) => {
 }
 const getInfoProfile = async (req, res, next) => {
     try {
-        const user = await userModel.findById("1");
+        const user = await findUserById(res.locals.user.id);
         user.NgaySinh = getDate(user.NgaySinh);
 
         res.render('vwAdmin/profile', {user});
@@ -259,7 +252,6 @@ const getNewPost = async (req, res, next) => {
 
 const addPost = async (req, res, next) => {
     try {
-        console.log(req.body);
         const { utilities } = req.body;
         const id = await addHouseModel(req.body.NguoiDangTin, req.body);
         for (let file of req.files) {
@@ -281,9 +273,196 @@ const addPost = async (req, res, next) => {
     }
 }
 
+const getAllAppointments = async (req, res, next) => {
+    try {
+        const {filter} = req.query;
+
+        const list = (await findAllAppointments(filter))
+        .map((a) => {
+            a.NgayDatHen = getDate(a.NgayDatHen);
+            a.NgayGap = getDate(a.NgayGap);
+
+            return a;
+        });
+    
+
+        res.render('vwAdmin/appointment', {
+            list
+        });
+    } catch (err) { 
+        next(err) 
+    }
+}
+
+const getAppointment = async (req, res, next) => {
+    try {
+        const apm = await findApmByID(req.params.id);
+        apm.NgayDatHen = getDate(apm.NgayDatHen);
+        apm.NgayGap = getDate(apm.NgayGap);
+
+        res.render('vwAdmin/update_apm', { apm });
+    } catch (err) {
+        next(err);
+    }
+}
+
+const updateAppointment = async (req, res, next) => {
+    try {
+        const apm = req.body;
+        const id = req.params.id;
+
+        await updateApm(id, apm);
+        res.redirect('/admin/appointments');
+    } catch (err) {
+        next(err);
+    }
+}
+
+const getAllPostsID = async (req, res, next) => {
+    try {
+        const posts = await findAllPostsID();
+        res.status(200).json(posts);
+    } catch (err) {
+        next(err);
+    }
+}
+
+const getNewApm = async (req, res, next) => {
+    try {
+        res.render('vwAdmin/add_apm', {
+            NgayDatHen: getDate(new Date()),
+        });
+    } catch (err) {
+        next(err)
+    }
+}
+
+const addNewApm = async (req, res, next) => {
+    try {
+        const post = await findPostByID(req.body.TinID);
+
+        const apm = req.body;
+        apm.ChuTro = post[0].NguoiDangTin;
+
+        await addApm(apm);
+
+        res.redirect('/admin/appointments');
+    } catch (err) {
+        next(err);
+    }
+}
+
+const deleteApm = async (req, res, next) => {
+    try {
+        await deleteApmByID(req.params.id);
+
+        res.redirect('/admin/appointments');
+    } catch (err) {
+        next(err);
+    }
+}
+
+const deleteUser = async (req, res, next) => {
+    try {
+        await userModel.del(req.params.id);
+
+        res.redirect('/admin/users');
+    } catch (err) {
+        next(err);
+    }
+}
+
+const deletePost = async (req, res, next) => {
+    try {
+        await deletePostByID(req.params.id);
+
+        res.redirect('/admin/posts');
+    } catch (err) {
+        next(err);
+    }
+}
+
+const updatePassword = async (req, res, next) => {
+    try {
+        const { MatKhau } = req.body;
+        const id = res.locals.user.id;
+        await updatePasswordModel(id, MatKhau);
+
+        res.redirect("/admin/profile");
+    } catch (err) {
+        next(err);
+    }
+}
+
+const updateUserPassword = async (req, res, next) => {
+    try {   
+        const { MatKhau } = req.body;
+        const id = req.params.id;
+        console.log(MatKhau)
+        await updatePasswordModel(id, MatKhau);
+
+        res.redirect(`/admin/users/${id}`);
+    } catch (err) {
+        next(err);
+    }
+}
+
+const getAllReviews = async (req, res, next) => {
+    try {
+        const list = (await rvModel.findAll())
+        .map(rv => { rv.NgayDang = getDate(rv.NgayDang); return rv;});
+
+        res.render('vwAdmin/review', { list });
+    } catch (err) {
+        next(err);
+    }
+}
+
+const updateVisibility = async (req, res, next) => {
+    try {
+        const { block } = req.query;
+        const id = req.params.id;
+        if (block === "true") {
+            await rvModel.block(id);
+        } else {
+            await rvModel.unblock(id);
+        }
+
+        res.redirect('/admin/reviews');
+
+    } catch (err) {
+        next(err)
+    }
+}
+
+const getAllReports = async (req, res, next) => {
+    try {
+        const list = (await findAllReports())
+        .map(rp => { rp.NgayBaoCao = getDate(rp.NgayBaoCao); return rp;});
+
+        res.render('vwAdmin/report', { list });
+    } catch (err) {
+        next(err);
+    }
+}
+const logout = async (req, res, next) => {
+    try {
+        req.session.destroy((err) => {
+            if (err) {
+                throw err;
+            }
+            res.redirect('/');
+        });
+    } catch (err) {
+        next(err);
+    }
+};
 
 export {    getAllUsers, getDetailedUser, updateUser, 
             countUserByRole, getNewUser, addUser, checkUsername,
             getInfoProfile, updateProfile, updateUserPassword, getAllPosts,   
-            getPost, updatePost, getNewPost, addPost, getAllUsersID
+            getPost, updatePost, getNewPost, addPost, getAllUsersID, getAllAppointments,
+            getAppointment, updateAppointment, getAllPostsID, getNewApm, addNewApm, 
+            deleteApm, deleteUser, deletePost, updatePassword, getAllReviews, updateVisibility,
+            getAllReports, logout
 }
