@@ -93,6 +93,7 @@
         modal.style.display = 'flex';
     }
     function closeConfirm(e) {
+        e.preventDefault();
         let modal = document.querySelector(".modal-appointment-confirm");
         modal.style.display = 'none';
     }
@@ -265,22 +266,22 @@
 
                             {{#if user}}
 
-                                {{#if checkFavourite}}
-                                    <button id="btn-add-favourite" class="like-btn" onClick="delPost()"><i
-                                            class="fa-solid fa-heart" style="color: #ffffff;"></i>
-                                        Xóa khỏi danh sách yêu thích
-                                    </button>
-                                {{else}}
-                                    <button id="btn-add-favourite" class="like-btn" onClick="addPost()"><i
-                                            class="fa-solid fa-heart" style="color: #ffffff;"></i>
-                                        Yêu thích
-                                    </button>
-                                {{/if}}
+                            {{#if checkFavourite}}
+                            <button id="btn-add-favourite" class="like-btn" onClick="delPost()"><i
+                                    class="fa-solid fa-heart" style="color: #ffffff;"></i>
+                                Xóa khỏi danh sách yêu thích
+                            </button>
+                            {{else}}
+                            <button id="btn-add-favourite" class="like-btn" onClick="addPost()"><i
+                                    class="fa-solid fa-heart" style="color: #ffffff;"></i>
+                                Yêu thích
+                            </button>
+                            {{/if}}
 
                             {{else}}
-                                <button class="like-btn "><i class="fa-solid fa-heart" style="color: #ffffff;"></i>
-                                    <a href="/account/login"> Yêu thích</a>
-                                </button>
+                            <button class="like-btn "><i class="fa-solid fa-heart" style="color: #ffffff;"></i>
+                                <a href="/account/login"> Yêu thích</a>
+                            </button>
                             {{/if}}
                         </div>
                     </div>
