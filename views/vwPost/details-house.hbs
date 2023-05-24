@@ -152,7 +152,7 @@
 {{else}}
 {{>header_default}}
 {{/if}}
-<div class="content" style="margin-right: 14.3%; margin-left:14.3%;">
+<div class="content" style="margin-right: 8%; margin-left:8%;;">
     {{!-- forms --}}
     {{!-- form appointment --}}
     <form action="/tenant/add-appointment/{{post.TinID}}" method="post" id="post-appointment"
@@ -186,18 +186,23 @@
     </form>
     {{!-- form report --}}
     <div id="report-form" style="display: none;">
-        <h2>Báo cáo vi phạm</h2>
+        <h4>Báo cáo vi phạm</h4>
         <form action="/tenant/add-report/{{post.TinID}}" method="post">
             <label for="violation-description">Mô tả chi tiết:</label>
             <textarea id="violation-description" name="description" required></textarea>
             <br>
-            {{#if user}}
-            <button type="submit">Gửi báo cáo</button>
-            {{else}}
-            <a href="/account/login">Gửi báo cáo</a>
-            {{/if}}
-
-            <button type="button" id="cancel-report" style="margin-left:10px; background-color: #002ffe">Hủy</button>
+            <div class="row">
+                {{#if user}}
+                <button type="submit" class="btn btn-primary" style="margin-bottom: 3%;
+    background: grey;
+    color: white;">Gửi báo cáo</button>
+                {{else}}
+                <a href="/account/login" class="btn btn-primary" style="margin-bottom: 3%;
+    background: grey;
+    color: white;">Gửi báo cáo</a>
+                {{/if}}
+                <button id="cancel-report" style="padding: 1%;">Hủy</button>
+            </div>
         </form>
     </div>
     <div class="infor"
@@ -292,7 +297,7 @@
     {{!-- info --}}
     <br>
     <div class="description" style="background-color:white; padding:20px; box-shadow:4px 2px 10px rgba(0, 0, 0, 0.2);">
-        <h2>Thông tin chung</h2>
+        <h4>Thông tin chung</h4>
         <ul>
             <li><strong>Địa chỉ:</strong> {{post.DiaChi}}</li>
             <li><strong>Diện tích:</strong> {{post.DienTich}}m²</li>
@@ -304,37 +309,25 @@
             <li><strong>Tiền nước:</strong> {{post.TienNuoc}} VNĐ/m3</li>
             <li><strong>Tiền điện:</strong> {{post.TienDien}} VNĐ/kWh</li>
         </ul>
-        <h2>Tiện ích</h2>
-        <div class="column">
-            <ul>
-                {{#each utilities}}
-                {{#if (isEven @index)}}
-                <li>
-                    <i class="{{getIconClass this.Ten}} icon common-icon"></i> {{this.Ten}}
-                </li>
-                {{/if}}
-                {{/each}}
-            </ul>
+        <div class="d-flex ">
+            <h4>Tiện ích</h4>
+            <div class="column">
+                <ul style="list-style: none;">
+                    {{#each utilities}}
+                    <li>
+                        <i class="{{getIconClass this.Ten}} icon common-icon"></i> {{this.Ten}}
+                    </li>
+                    {{/each}}
+                </ul>
+            </div>
         </div>
-        <div class="column">
-            <ul>
-                {{#each utilities}}
-                {{#unless (isEven @index)}}
-                <li>
-                    <i class="{{getIconClass this.Ten}} icon common-icon"></i> {{this.Ten}}
-                </li>
-                {{/unless}}
-                {{/each}}
-            </ul>
-        </div>
-
-        <h2>Bản đồ vị trí</h2>
+        <h4>Bản đồ vị trí</h4>
         <div id="map"></div>
     </div>
     {{!-- related --}}
     <br>
     <div class="relate" style="background-color:white; padding:20px; box-shadow:4px 2px 10px rgba(0, 0, 0, 0.2);">
-        <h2>Các phòng trọ liên quan</h2>
+        <h4>Các phòng trọ liên quan</h4>
         <div class="related-rooms">
             {{#each relate}}
             {{#ifCond @index '<' 3}} <a href="/post/details/{{this.TinID}}" class="room"
@@ -375,7 +368,7 @@
 
     <br>
     <div class="description" style="background-color:white; padding:20px; box-shadow:4px 2px 10px rgba(0, 0, 0, 0.2);">
-        <h2>Đánh giá</h2>
+        <h4>Đánh giá</h4>
         <div class="list-review">
             {{#each review}}
             <div class="review row py-4 border-bottom">
@@ -406,7 +399,7 @@
             margin-right: 4%;
         }
 
-        h2 {
+        h4 {
             clear: both;
             margin-top: 0;
         }
