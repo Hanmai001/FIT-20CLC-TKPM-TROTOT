@@ -269,6 +269,15 @@ const getReviewInfo = async (postID) => {
 
     return review;
 }
+const addReview = async (TinID, reviewText, rating, idUser) => {
+    const review = await db('danhgia').insert({
+        NguoiDanhGia: idUser,
+        TinID: TinID,
+        ChiTietDanhGia: reviewText,
+        DiemDanhGia: rating
+    });
+    return review;
+}
 const getImageInfo = async (postID) => {
     const image = await db.select('*')
         .from('hinh_anh')
@@ -381,4 +390,5 @@ export {
     getRelatePostInfo,
     sortPosts,
     findAllPostsID,
+    addReview
 }

@@ -129,7 +129,17 @@
         });
     });
 
+    function validateForm() {
+        var reviewInput = document.getElementById("review-input");
+        var ratingSelect = document.getElementById("rating-select");
 
+        if (reviewInput.value.trim() === "" || ratingSelect.value === "") {
+            alert("Vui lòng nhập đánh giá và chọn điểm đánh giá.");
+            return false;
+        }
+
+        return true;
+    }
 </script>
 <script async defer
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAeOS7IcZeQdZrFqQOWnddYHwki4xDCCBI&callback=initMap"></script>
@@ -369,6 +379,37 @@
     <br>
     <div class="description" style="background-color:white; padding:20px; box-shadow:4px 2px 10px rgba(0, 0, 0, 0.2);">
         <h4>Đánh giá</h4>
+        {{#if messages.error}}
+        <div class="alert alert-danger">{{messages.error}}</div>
+        {{/if}}
+        {{#if messages.success}}
+        <div class="alert alert-success">{{messages.success}}</div>
+        {{/if}}
+        <form action="/post/submit-review/{{post.TinID}}" method="post" onsubmit="return validateForm()">
+            <div class="review-input mt-2">
+                <input type="text" name="review" id="review-input" placeholder="Nhập đánh giá...">
+                <select name="rating" id="rating-select">
+                    <option value="">-- Điểm --</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                </select>
+                {{#if user}}
+                <button type="submit" id="submit-button">Gửi đánh giá</button>
+                {{else}}
+                <button>
+                    <a href="/account/login" style="color:white; text-decoration:none"> Gửi đánh giá</a>
+                </button>
+                {{/if}}
+            </div>
+        </form>
         <div class="list-review">
             {{#each review}}
             <div class="review row py-4 border-bottom">
@@ -379,7 +420,6 @@
                     <span class="name">{{this.HoTen}}</span>
                     <p>Điểm đánh giá: {{this.DiemDanhGia}}/10 - Ngày đánh giá:{{formatDate this.NgayDang}}</p>
                     <p class="comment">{{this.ChiTietDanhGia}}</p>
-
                 </div>
             </div>
             {{/each}}
@@ -432,6 +472,58 @@
             /* Giới hạn kích thước tối đa của phần tử */
         }
 
+        #rating-select {
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            width: 120px;
+            height: 100%;
+            margin-left: 5px;
+        }
+
+        button[type="submit"] {
+            padding: 8px 16px;
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        button[type="submit"]:focus {
+            outline: none;
+        }
+
+        .review-input {
+            width: 100%;
+            display: flex;
+            align-items: center;
+        }
+
+        .review-input input[type="text"] {
+            flex-grow: 1;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .review-input button {
+            padding: 10px 20px;
+            margin-left: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .review-input button:hover {
+            background-color: #0056b3;
+        }
 
         .author-phone {
             font-weight: 400;

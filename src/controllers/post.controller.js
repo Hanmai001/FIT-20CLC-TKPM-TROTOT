@@ -1,6 +1,6 @@
 import {
     addHouseModel, deleteLandlordHouseModel, getPostInfo, getAuthorInfo, getReviewInfo, getutilitiesInfo,
-    getImageInfo, getAllPostInfo, performFullTextSearch, getRelatePostInfo
+    getImageInfo, getAllPostInfo, performFullTextSearch, getRelatePostInfo, addReview
 } from "../models/post.model";
 import { addPhotoModel, deletePhotoModel, findPhotoOfHouse, deletePhotosByArrayModel } from "../models/photo.model";
 import { addUtilityHouseModel, deleteUtilityModel, findUtilitiesOfHouse, findUtilityOfHouse, deleteOneUtilityModel } from "../models/utility.model";
@@ -193,7 +193,23 @@ const getDetailsPage = async (req, res) => {
     }
     res.render("vwPost/details-house", { post, author, review, utilities, image, relate: relate, checkFavourite, checkAppointment });
 };
+const postReview = async (req, res) => {
+    try {
+        const TinID = req.params.id;
+        const reviewText = req.body.review;
+        const rating = req.body.rating
+        const idUser = res.locals.user.id;
+        await addReview(TinID, reviewText, rating, idUser);
+
+        req.flash('success', 'Đánh giá đã được gửi thành công!');
+        res.redirect(`/post/details/${TinID}`);
+    } catch (error) {
+        console.error(error);
+        req.flash('error', 'Đã xảy ra lỗi trong quá trình gửi đánh giá.');
+        res.redirect(`/post/details/${TinID}`);
+    }
+}
 
 
 
-export { addHouse, deleteLandlordHouse, updateHouse, getListPage, getDetailsPage, getResultPage }
+export { addHouse, deleteLandlordHouse, updateHouse, getListPage, getDetailsPage, getResultPage, postReview }
