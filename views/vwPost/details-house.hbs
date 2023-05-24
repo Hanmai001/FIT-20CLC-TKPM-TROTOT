@@ -414,9 +414,11 @@
             {{#each review}}
             <div class="review row py-4 border-bottom">
                 <div class="col-2 text-center">
-                    <img src="{{this.avatar}}" alt="" class="" style="width: 50%;height: 100%;">
+                    <img src="{{this.avatar}}" alt=""
+                        onerror="this.src='https://cdn-icons-png.flaticon.com/512/1946/1946429.png'"
+                        style="width: 50%;height: 100%;">
                 </div>
-                <div class="col-10 text-start" style="margin-left: -40px;">
+                <div class=" col-10 text-start" style="margin-left: -40px;">
                     <span class="name">{{this.HoTen}}</span>
                     <p>Điểm đánh giá: {{this.DiemDanhGia}}/10 - Ngày đánh giá:{{formatDate this.NgayDang}}</p>
                     <p class="comment">{{this.ChiTietDanhGia}}</p>
